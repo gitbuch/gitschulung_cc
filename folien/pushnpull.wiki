@@ -18,3 +18,21 @@ _blue_2._ \de{Änderungen veröffentlichen}{Publish changes}
 % ** @git pull@
 % ** @git push@
 [columns]>
+
+==== Push'n'pull Workflow \de{Resultat}{Results}====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/push-n-pull-result.pdf, scale=0.25>>>
+[center]>
+[[[ 7cm ]]]
+* \de{Vorteile}{Advantages}
+** \de{Leicht für Anfänger}{Easy for beginners}
+** \de{Nur weniger Kommandos}{Only a few commands}
+--1cm--
+* \de{Nachteile}{Disadvantages}
+** \de{Es entstehen Merge-Commits}{Merge-Commits}
+** \de{»Aber wir arbeiten doch alle auf @master@?\!«}{«We are all working on ** ** @master@?\!»}
+** Rebase \de{ist eine Option (für Anfänger?)}{is an Option (for beginners?)}
+[columns]>
