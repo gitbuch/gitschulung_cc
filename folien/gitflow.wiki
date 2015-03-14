@@ -1,0 +1,52 @@
+==== Branch-Modell ====
+
+<[columns]
+[[[ 5cm ]]]
+<[center]
+<<<bilder/gitflow-annotated.pdf, scale=0.1>>>
+[center]>
+[[[ 5.5cm ]]]
+* Angelehnt an \href{http://nvie.com/posts/a-successful-git-branching-model/}{gitflow}
+
+--1cm--
+
+* Branches
+** @master@ --> Stabil
+** @next@ --> Vorbereitung
+** @feature@ --> Feature-Entwicklung
+** @release@ --> Letzte Releasearbeiten
+** @hotfix@ --> Hotfixes
+[columns]>
+
+
+==== Beschreibung ====
+
+\begin{enumerate}
+\item Der Next-Branch wird von dem letzten stabilen Release abgezweigt.
+\item Die Entwicklung beginnt, Feature-Branches werden von dem Next-Branch abgezweigt.
+\item Triviale Commits könnten auf dem Next-Branch eingespielt werden.
+\item Feature-Branches werden nach Fertigstellung im Next-Branch gesammelt und ggf. getagged.
+\item  Hotfixes werden im Hotfix-Branch eingespielt und ggf. getagged.
+\end{enumerate}
+
+==== Beschreibung (cont) ====
+
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item Hotfixes werden in den Master-Branch gemergt und auf jeden Fall getagged.
+\item Der Master-Branch wird nach einem Hotfix-Release auch wieder in den Next-Branch gemergt.
+\item Feature-Branches werden ggf. per Rebase aktualisiert.
+\item Neue Feature-Branches können jederzeit wieder vom Next-Branch abgezweigt werden.
+\item Sind alle Feature-Branches für das Release im Next-Branch angekommen wird der Release-Branch abgezweigt. Dort findet dann die Release-Vorbereitung Statt.
+\end{enumerate}
+
+==== Beschreibung (cont) ====
+
+\begin{enumerate}
+\setcounter{enumi}{10}
+\item Release-Candidates können von hier aus getagged und deployed werden.
+\item Kritische Bug-Fixes die für Feature-Branches wichtig sind können jederzeit wieder in den Next-Branch gemergt werden.
+\item Während der Release-Vorbereitung können trotzdem weiter neue Feature-Branches für das nächste Release abgezweigt werden.
+\item Ist der Release fertig, wird der Release-Branch in den Master-Branch gemergt, getagged und in die Produktion deployed.
+\item Der Master-Branch wird zuletzt noch in den Next-Branch gemergt um alle Änderungen aus dem Release-Branch dort verfügbar zu machen und damit das Tag ``v0.2.0`` von dem Next-Branch aus erreichbar ist.
+\end{enumerate}
