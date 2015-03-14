@@ -44,3 +44,20 @@
 \end{enumerate}
 [columns]>
 
+==== Rebase 'n' Force-Merge \de{Resultat}{Results}====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/rebase-n-force-result.pdf, scale=0.17>>>
+[center]>
+[[[ 7cm ]]]
+* \de{Vorteile}{Advantages}
+** \de{Saubere history}{Clean history}
+** Feature-Branches
+** \de{Merges sinnvoll}{Merges useful}
+--1cm--
+* \de{Nachteile}{Disadvantages}
+** \de{Verständnis von Git gebraucht}{Understanding of Git needed}
+** \de{Meherer Kommandos nötig}{Needs a few more commands}
+[columns]>
