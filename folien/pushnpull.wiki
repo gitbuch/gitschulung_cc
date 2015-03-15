@@ -36,3 +36,19 @@ _blue_2._ \de{Änderungen veröffentlichen}{Publish changes}
 ** \de{»Aber wir arbeiten doch alle auf @master@?\!«}{«We are all working on ** ** @master@?\!»}
 ** Rebase \de{ist eine Option (für Anfänger?)}{is an Option (for beginners?)}
 [columns]>
+
+==== Push'n'pull Workflow \de{Resultat mit @-{}-rebase@}{Results with @-{}-rebase@}====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/push-n-pull-rebase-result.pdf, scale=0.25>>>
+[center]>
+[[[ 7cm ]]]
+* \de{Vorteile}{Advantages}
+** \de{Keine Merge-Commits}{No merge-commits}
+--1cm--
+* \de{Nachteile}{Disadvantages}
+** \de{»Sinnloses« Linearisieren}{Useless linearisation}
+** \de{Feature-Commits in zufälliger Reihenfolge}{Feature-commits in random order}
+[columns]>
