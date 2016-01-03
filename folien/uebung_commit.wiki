@@ -1,0 +1,6 @@
+==== \de{'''Übung:'''  Commits erstellen}{'''Exercise:''' Creating Commits} ====
+
+# \de{Erstellen Sie mit den Dateien ein paar Commits}{Create a couple of commits}
+# \de{Machen Sie sich hierbei mit @git commit -m 'message'@ und @git commit -a@ vertraut}{Familiarize yourself with @git commit -m 'message'@ and @git commit -a@}
+# \de{Versuchen Sie, einen Commit im Nachhinein zu modifizieren, benutzen Sie hierfür @git commit -{}-amend@}{Attempt to modify a commit using @git commit -{}-amend@}
+# \de{Erstellen Sie einen leeren Commit mit @git commit -{}-allow-empty@}{Create an empty commit using @git commit -{}-allow-empty@}

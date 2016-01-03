@@ -1,0 +1,33 @@
+==== \de{Merge-Commit Forcieren}{Forcing a Merge-Commit} ====
+
+\de{Mit @git merge -{}-no-ff@ wird in jedem Fall ein Merge-Commit \
+    erstellt, auch wenn ein Fast-Forward möglich wäre.}\
+   {Using @git merge -{}-no-ff@ will force the creation of a merge commit \
+    even if a fast forward would have been possible.}
+
+--.5cm--
+
+\de{Das ist sehr sinnvoll}{This is useful in case of}:
+
+* \de{Die Integration eines Feature-Branches deutlich machen} \
+     {Make the integration of a feature branch explicit}
+* \de{In der Ansicht von @git log@ wird die Geschichte immer \
+      linear dargestellt}{@git log@ will always show a linear history}
+* \de{In der Baumansicht sieht man die Abzweigung und Zusammenführung} \
+      {When viewing the graph, bifurcations and merges will be shown}
+
+====  \de{Vor dem Force-Merge}{Before the Force-Merge} ====
+
+<[center]
+<<<bilder/ff-vorher.pdf,scale=0.12>>>
+[center]>
+
+* \de{In @master@ hat sich nichts getan, @topic@ ist fertig}{@master is unchanged@, @topic@ almost done}
+
+====  \de{Nach dem Force-Merge}{After the Force-Merge} ====
+
+<[center]
+<<<bilder/merge-no-ff-nachher.pdf,scale=0.12>>>
+[center]>
+
+* \de{Ein Merge-Commit wurde forceirt}{A merge-commit was forced}

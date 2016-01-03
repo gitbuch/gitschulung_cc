@@ -1,0 +1,9 @@
+==== \de{@gitk@: Das Repository untersuchen -- grafisch}{@gitk@: the Graphical Repository Browser} ====
+
+<[center]
+<<<bilder/gitk.png,scale=.25>>>
+
+--.5cm--
+
+@gitk -{}-all@
+[center]>

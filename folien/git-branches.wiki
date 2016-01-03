@@ -1,0 +1,32 @@
+==== Branches: Abzweigungen ====
+
+Wir arbeiten schon die ganze Zeit im @master@-Branch!
+--.5cm--
+
+Was genau sind Branches? -- Nichts anderes als Referenzen auf den jeweils
+obersten Commit einer Versionsgeschichte.
+--.5cm--
+
+Branches ...
+* erstellen: @git branch ''name''@
+* auschecken: @git checkout ''name''@
+* erstellen und direkt auschecken: @git checkout -b ''name''@
+* auflisten: @git branch -v@
+* löschen: @git branch -d ''name''@
+
+--.5cm--
+Idealisierter Workflow: Ein Branch pro neuem Feature oder Bugfix.
+
+==== Beispiel: Zwei Branches ====
+
+Zwei Branches erstellen, und auf jedem einen Commit machen. Dann das
+Resultat in @gitk@ anschauen.
+
+* @git branch apfel@
+* @git checkout apfel@
+* Commit machen
+* @git checkout master@
+* @git checkout -b birne@
+* Commit machen
+* @gitk -{}-all@
+

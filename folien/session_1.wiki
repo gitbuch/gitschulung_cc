@@ -1,0 +1,78 @@
+>>>deckblatt.wiki<<<
+
+== Session 1: \de{Einführung}{Introduction} ==
+
+>>>ablauf.wiki<<<
+
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection]
+
+=== \de{Grundlegendes zu verteilter Versionskontrolle}{Basic introduction to distributed version control} ===
+
+>>>distributed-vs-centralized.wiki<<<
+
+% >>>gui-vs-shell.wiki<<<
+
+=== \de{Starten}{Getting started} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>begriffe.wiki<<<
+
+>>>config.wiki<<<
+
+>>>uebung_config.wiki<<<
+
+=== Git Basics ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>init.wiki<<<
+
+>>>typischer-arbeitsablauf.wiki<<<
+
+>>>uebung_repo-init.wiki<<<
+
+>>>index.wiki<<<
+
+>>>uebung_index.wiki<<<
+
+>>>commit.wiki<<<
+
+>>>uebung_commit.wiki<<<
+
+>>>commit-msg.wiki<<<
+
+>>>log-simple.wiki<<<
+
+>>>uebung_log.wiki<<<
+
+=== \de{Git Interna}{Git Internals} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>interna.wiki<<<
+
+=== \de{Repository verwalten}{Managing a repository} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>remove.wiki<<<
+
+>>>move.wiki<<<
+
+>>>uebung_mv-rm.wiki<<<
+
+=== \de{Einführung Branches}{Introduction to Branches} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>branches.wiki<<<
+
+>>>gitk.wiki<<<
+
+>>>tag.wiki<<<
+
+>>>uebung_branches-simple.wiki<<<
+
+>>>stash.wiki<<<

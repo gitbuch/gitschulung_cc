@@ -1,0 +1,5 @@
+==== \de{'''Übung:''' Konflikte lösen}{'''Exercise:''' Resolving Conflicts} ====
+
+# \de{Erstellen Sie auf zwei verschiedenen Branches konfliktierende Änderungen, um den Konflikt dann nach einem @merge@ zu lösen}{Create conflicting changes on different branches and resolve them with a @merge@}
+# \de{Definieren Sie ein Mergetool und lösen Sie damit einen Konflikt}{Define a mergetool and uses that to resolve a conflict}
+# \de{Lösen Sie einen Merge-Konflikt mit der Strategie-Option ''ours'' oder ''theirs''}{Resolve a conflict using the strategy option ''ours'' and/or ''theirs''}

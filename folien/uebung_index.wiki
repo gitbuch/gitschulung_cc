@@ -1,0 +1,9 @@
+==== \de{'''Übung:''' Machen Sie sich mit dem Index vertraut}{'''Exercise:''' Familiarize Yourself with the Index} ====
+
+# \de{Erstellen Sie eine weitere Datei, und betrachten Sie anschließend die Ausgabe von @git status@}{Create another file and view the output of @git status@}
+# \de{Verändern Sie beide Dateien, am besten sowohl am Anfang als auch am Ende der jeweiligen Datei}{Change both files, preferably at the beginning and the end}
+# \de{Sehen Sie sich die Ausgabe von @git diff@ an}{View the output of @git diff@}
+# \de{Probieren Sie @git add -p@ aus!}{Attempt to use @git add -p@}
+# \de{Sehen Sie sich die Ausgabe von @git diff -{}-staged@ an}{View the output of @git diff -{}-staged@}
+# \de{Bringen Sie den Index mit @git reset@ in seine Ausgangsstellung zurück}{Reset the index using @git reset@}
+# \de{Betrachten Sie nun die Ausgabe von @git status@}{View the output of @git status@ again}

@@ -1,0 +1,59 @@
+==== Merge ====
+
+\de{@git merge@ fügt zwei oder mehr Branches zusammen}{@git merge@ merges two or more branches}
+%% TODO Beispielaufruf?
+
+--.5cm--
+
+* \de{''Fast-Forward'': Es existieren keine Abzweigungen, und der Branch wird einfach »weitergerückt«}{''Fast-Forward'': No bifurcations exists, the branch can be «moved forward»}
+* \de{Sonst wird ein ''Merge-Commit'' erstellt, der beide Branches als »Parents« referenziert}{Otherwise, a ''merge commit'' is created which contains both branches as parents}
+** \de{Treten Konflikte auf, werden diese in dem Merge-Commit behoben}{Conflicts are resolved as part of the merge commit}
+** \de{Andernfalls ist der Merge-Commit »leer«}{Otherwise the merge commit is «empty»}
+* \de{Die weitere Entwicklung basiert auf den Commits ''beider'' Branches}{Future development will be based on the commits of ''both'' branches}
+** \de{Die Branches können also nicht wieder entkoppelt werden}{Thus, the branches can not be decoupled anymore}
+
+====  \de{Vor dem Fast-Forward}{Before the Fast-Forward} ====
+
+<[center]
+<<<bilder/ff-vorher.pdf,scale=0.12>>>
+[center]>
+
+* \de{In @master@ hat sich nichts getan, @topic@ ist fertig}{@master is unchanged@, @topic@ almost done}
+
+====  \de{Nach dem Fast-Forward}{Afer the Fast-Forward} ====
+
+<[center]
+<<<bilder/ff-nachher.pdf,scale=0.12>>>
+[center]>
+
+* \de{@master@ wird »weitergerückt«, bzw. »vorgespult«}{@master@ is fast-forwarded}
+
+==== \de{Vor dem Merge}{Before the Merge} ====
+
+<[center]
+<<<bilder/merge-vorher.pdf,scale=0.12>>>
+[center]>
+
+* \de{@topic@ ist fertig und soll in @master@ integriert werden}{@topic@ is almost ready, and should be integrated into @master@}
+
+==== \de{Nach dem Merge}{After the Merge} ====
+
+<[center]
+<<<bilder/merge-nachher.pdf,scale=0.12>>>
+[center]>
+
+* \de{Im @master@ ausführen: @git merge topic@}{Execute in @master@: @git merge topic@}
+
+==== Merge-Commit ====
+
+* \de{Konfliktlos: Merge-Commit enthält keine Änderungen}{No conflicts: merge commit does not introduce changes}
+** \de{Allerdings werden zwei oder mehr Branches als »Parent« referenziert}{But it has two or more «parents»}
+
+* \de{Beschreibung wird automatisch erstellt}{Description is created automatically}
+** \de{Falls andere Beschreibung gewünscht:\\ @git merge -m ''nachricht'' ...@}{Alternative commit messages can be supplied with \\ @git merge -m ''message'' ...@}
+
+--.5cm--
+
+<[block]{\de{Zusammenfassung aller Commits in Merge-Nachricht schreiben}{Include a summary of all commits bt default}}
+@git config -{}-global merge.log true@
+[block]>

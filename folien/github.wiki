@@ -1,0 +1,55 @@
+==== Github ====
+
+<[center]
+<<<bilder/octocat.pdf>>>
+[center]>
+
+==== Github Concepts ====
+
+* Github is '''developer centric'''
+* ... but there are '''organizations''' too
+
+* '''Fork''': your own clone on Github
+** Can be considered a public developer repository
+* '''Pull-Request (PR)''': used to contribute changes back
+** Including online code-review
+
+* Social features:
+** '''follow''' others and be '''followed'''
+** '''star''' and '''watch''' repositories
+
+==== Github Features ====
+
+* Repositories can be equipped with
+** '''issue-tracker'''
+** '''wiki'''
+** '''RSS feeds'''
+
+* Various analytical tools incl. graphs:
+** Contributors over time
+** Commit activity
+** Code frequency
+
+
+==== The Github Workflow ====
+
+<[center]
+<<<bilder/github-workflow-en.pdf, scale=0.28>>>
+[center]>
+
+<[columns]
+[[[ 5.75cm ]]]
+'''Contributor''': \\
+_cyan_1._ .. '''forks''' a repository \\
+_cyan_2._ .. '''clones''' the repository and makes some changes \\
+_cyan_3._ .. '''pushes''' the changes to his fork \\
+_cyan_4._ .. Issues a '''pull-request''' \\
+[[[ 6cm ]]]
+'''Author''': \\
+_cyan_5._ .. '''pulls''' changes from contributor's fork, reviews the changes and merges them \\
+_cyan_6._ .. '''pushes''' to his public repository \\
+[columns]>
+--0.4cm--
+<[center]
+_cyan_7._ Contributor updates his clone (and fork) \\
+[center]>

@@ -1,0 +1,27 @@
+==== Git: Eigene Kommandos ====
+
+* Git überprüft bei unbekannten Sub-Kommandos, ob sie existieren
+** @git foobar@ --> Git sucht nach @git-foobar@
+* Einfach, Git zu erweitern
+** Alle Parameter werden unverändert weitergegeben
+** Exit-Code signalisiert den Erfolgs-Status
+
+==== Git-Kommandos: Beispiel ====[containsverbatim]
+
+<[block]{@\~{}/bin/git-release@}
+\texttt{\#!/bin/bash} % YES, wiki2beamer parsing :-)
+<[verbatim]
+[ $# -ne 2 ] && {
+    echo "Usage: git release <name> <tag>" >&2
+    exit 1;
+}
+
+ar="./${1}-${2#v}.tar.gz"
+git archive --format=tar "$2" | gzip > "$ar"
+scp "$ar" user@host:/var/www/...
+[verbatim]>
+[block]>
+
+* @git release foobar v0.4.2-rc2@
+** Stand von @v0.4.2-rc2@ wird als @foobar-0.4.2-rc2.tar.gz@ gespeichert
+** Das Archiv wird anschließend hochgeladen

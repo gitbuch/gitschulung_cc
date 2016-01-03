@@ -1,0 +1,46 @@
+==== Rebase 'n' Force-Merge Workflow ====
+
+<[center]
+<<<bilder/rebase-force.pdf, scale=0.17>>>
+[center]>
+
+==== \de{Beschreibung der Schritte}{Steps in Detail} ====
+
+<[columns]
+[[[ 6.5cm ]]]
+\begin{enumerate}
+\item '''\de{Repsoitory clonen}{Clone repsoitory}:'''\\
+    @git clone <url>@
+\item '''\de{Feature-Branch anlegen}{Create feature-branch}:'''\\
+    @git checkout -b feature@
+\item '''\de{Arbeiten}{Do work}:'''\\
+    @vim \de{file}{datei}@\\
+    @git add@\\
+    @git commit@
+\item '''\de{Getaene Arbeit hochladen}{Save work}:'''\\
+    @\#\de{beim ersten Mal}{the first time}@\\
+    @git push origin -u feature@\\
+    @git push@
+\item '''\de{Lokalen @master@ aktualisieren}{Bring local @master@ up-to-date}:'''\\
+    @git checkout master@\\
+    @git pull@
+\end{enumerate}
+[[[ 6.5cm ]]]
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item '''\de{Rebase @feature@ auf @master@}{Rebase @feature@ onto @master@}:'''\\
+    @git checkout feature@\\
+    @git rebase master@
+\item '''\de{Forcierter Merge von @feature@}{Force-Merge @feature@}:'''\\
+    @git checkout master@\\
+    @git merge -{}-no-ff feature@
+\item '''\de{@master@  Hochladen}{Push @master@}:'''\\
+    @git push@
+\item '''\de{Fehlschlag: Merge rückgängig}{Failure: reset merge}:'''\\
+    @git reset -{}-hard HEAD\^@\\
+\item '''\de{Erfolg: @feature@ löschen,\\lokal und remote}{Success: delete @feature@,\\ local and remote}:'''\\
+    @git branch -d feature@\\
+    @git push origin :feature@
+\end{enumerate}
+[columns]>
+

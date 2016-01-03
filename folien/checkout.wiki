@@ -1,0 +1,48 @@
+==== \de{Checkout}{Checkout} ====
+
+<[block]{\de{Version 1.0 auschecken}{check-out version 1.0}}
+@git checkout v1.0@
+[block]>
+
+%% TODO tags noch nicht eingeführt
+
+<[block]{\de{Wie sah der @master@ vor einer Woche aus?}
+        {What state was @master@ in a week ago?}}
+@git checkout 'master\@\{one week ago\}'@
+[block]>
+
+--.5cm--
+
+* »Detached @HEAD@«: @HEAD@ \
+  \de{zeigt direkt auf einen Commit und nicht auf einen Branch} \
+     {points directly to a commit and not to a branch}
+** \de{Änderungen können verloren gehen, wenn der @HEAD@ wieder \
+       verändert wird} \
+      {Changes may be lost when the @HEAD@ is changed}
+
+==== \de{Checkout (cont.)}{Checkout (cont.)} ====
+
+<[block]{\de{Datei aus dem Repository wiederherstellen}
+            {Restore a file from the repository}}
+@git checkout -{}- ''\de{datei}{file}''@
+[block]>
+
+<[block]{\de{@master@ auschecken}{check out @master@}}
+@git checkout -f master@
+[block]>
+
+* \de{Beide Kommandos sind möglicherweise destruktiv} \
+     {Both commands are potentially destructive}
+* \de{Getätigte Änderungen werden überschrieben\!}\
+     {Uncommited changes will be overwritten\!}
+
+==== \de{Neuen Branch erstellen}{Creating a new Branch} ====
+
+<[block]{\de{Branch von @master@ erstellen und direkt auschecken} \
+            {Create a branch based on @master@ and check it out}}
+@git checkout -b ''\de{neues-feature}{new-feature}'' master@
+[block]>
+
+%% TODO wurde schon bei branches erwähnt
+
+%%% TODO: mehr folgt

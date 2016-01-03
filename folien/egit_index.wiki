@@ -1,0 +1,11 @@
+==== Egit: Index ====
+
+* \de{Icons in der Java-Perspektive}\
+     {Icons in the java perspective}
+
+* ''Git Staging View''
+* ''Comprare Editor''
+
+* ''Java Perspective'': ''File'' --> ''Team''
+** ''Add to index''
+** ''Remove from index''

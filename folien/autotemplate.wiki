@@ -1,0 +1,31 @@
+<[autotemplate]
+documentclass={beamer}
+usecolortheme={default}
+
+setbeamertemplate={navigation symbols}{}
+setbeamertemplate={blocks}[rounded][shadow=true]
+setbeamercolor={block title}{bg=blue!20!white}
+setbeamercolor={block body}{bg=blue!5!white}
+
+usepackage=[utf8]{inputenc}
+usepackage=[T1]{fontenc}
+usepackage={graphicx}
+usepackage={lmodern}
+usepackage={dirtree}
+titleframe=False
+usepackage={etoolbox}
+usepackage={pifont}
+[autotemplate]>
+\lstset{
+  literate={ö}{{\"o}}1
+           {ä}{{\"a}}1
+           {ü}{{\"u}}1
+           {Ö}{{\"O}}1
+           {Ä}{{\"A}}1
+           {Ü}{{\"U}}1
+           {ß}{{\ss}}1
+}
+
+\newtoggle{de}
+\newcommand{\de}[2]{\iftoggle{de}{#1}{#2}}
+\hypersetup{colorlinks=true, linkcolor=cyan, urlcolor=magenta}

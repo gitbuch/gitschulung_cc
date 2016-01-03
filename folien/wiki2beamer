@@ -1,0 +1,1122 @@
+#!/usr/bin/env python
+
+# wiki2beamer
+#
+# (c) 2007-2008 Michael Rentzsch (http://www.repc.de)
+# (c) 2009-2011 Michael Rentzsch (http://www.repc.de)
+#               Kai Dietrich (mail@cleeus.de)
+#
+# Create latex beamer sources for multiple frames from a wiki-like code.
+#
+#
+#     This file is part of wiki2beamer.
+# wiki2beamer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# wiki2beamer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with wiki2beamer.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Additional commits by:
+#     Valentin Haenel <valentin.haenel@gmx.de>
+#     Julius Plenz <julius@plenz.com>
+
+
+import sys
+import os
+import re
+import random
+import optparse
+
+
+VERSIONTAG = "0.9.5"
+__version__= VERSIONTAG
+__author__= "Michael Rentzsch, Kai Dietrich and others"
+
+#python 2.4 compatability
+if sys.version_info >= (2, 5):
+    import hashlib
+else:
+    import md5
+#python 2.4 compatability
+def md5hex(string):
+    if sys.version_info >= (2, 5):
+        return hashlib.md5(string).hexdigest()
+    else:
+        dg = md5.md5()
+        dg.update(string)
+        return dg.hexdigest()
+
+_redirected_stdout = None
+_redirected_stderr = None
+def pprint(string, file=sys.stdout, eol=True):
+    ''' portable version of print which directly writes into the given stream '''
+    if file == sys.stdout and _redirected_stdout is not None:
+        file = _redirected_stdout
+    if file == sys.stderr and _redirected_stderr is not None:
+        file = _redirected_stderr
+
+    file.write(string)
+    if eol:
+        file.write(os.linesep)
+    file.flush()
+
+def mydebug(message):
+    """ print debug message to stderr """
+    pprint(message, file=sys.stderr)
+
+def syntax_error(message, code):
+    pprint('syntax error: %s' % message, file=sys.stderr)
+    pprint('\tcode:\n%s' % code, file=sys.stderr)
+    sys.exit(-3)
+
+class IncludeLoopException(Exception):
+    pass
+
+lstbasicstyle=\
+r"""{basic}{
+    captionpos=t,%
+    basicstyle=\footnotesize\ttfamily,%
+    numberstyle=\tiny,%
+    numbers=left,%
+    stepnumber=1,%
+    frame=single,%
+    showspaces=false,%
+    showstringspaces=false,%
+    showtabs=false,%
+    %
+    keywordstyle=\color{blue},%
+    identifierstyle=,%
+    commentstyle=\color{gray},%
+    stringstyle=\color{magenta}%
+}"""
+
+autotemplate = [
+    ('documentclass', '{beamer}'),
+    ('usepackage', '{listings}'),
+    ('usepackage', '{wasysym}'),
+    ('usepackage', '{graphicx}'),
+    ('date', '{\\today}'),
+    ('lstdefinestyle', lstbasicstyle),
+    ('titleframe', 'True'),
+]
+
+nowikistartre = re.compile(r'^<\[\s*nowiki\s*\]')
+nowikiendre = re.compile(r'^\[\s*nowiki\s*\]>')
+codestartre = re.compile(r'^<\[\s*code\s*\]')
+codeendre = re.compile(r'^\[\s*code\s*\]>')
+
+# lazy initialisation cache for file content
+_file_cache = {}
+
+def add_lines_to_cache(filename, lines):
+    if not filename in _file_cache:
+        _file_cache[filename] = lines
+
+def get_lines_from_cache(filename):
+    if filename in _file_cache:
+        return _file_cache[filename]
+    else:
+        lines = read_file_to_lines(filename)
+        _file_cache[filename] = lines
+        return lines
+
+def clear_file_cache():
+    _file_cache.clear()
+
+try:
+    from collections import OrderedDict as maybe_odict
+except ImportError:
+    maybe_odict = dict
+
+class w2bstate:
+    def __init__(self):
+        self.frame_opened = False
+        self.enum_item_level = ''
+        self.frame_header = ''
+        self.frame_footer = ''
+        self.next_frame_footer = ''
+        self.next_frame_header = ''
+        self.current_line = 0
+        self.autotemplate_opened = False
+        self.defverbs = maybe_odict()
+        self.code_pos = 0
+        return
+
+    def switch_to_next_frame(self):
+        self.frame_header = self.next_frame_header
+        self.frame_footer = self.next_frame_footer
+        return
+
+def escape_resub(string):
+    p = re.compile(r"\\")
+    return p.sub(r"\\\\", string)
+
+
+def transform_itemenums(string, state):
+    """handle itemizations/enumerations"""
+    preamble = ""   # for enumeration/itemize environment commands
+
+    # handle itemizing/enumerations
+    p = re.compile("^([\*\#]+).*$")
+    m = p.match(string)
+    if m is None:
+        my_enum_item_level = ""
+    else:
+        my_enum_item_level = m.group(1)
+
+    # trivial: old level = new level
+    if my_enum_item_level == state.enum_item_level:
+        pass
+    else:
+        # find common part
+        common = -1
+        while (len(state.enum_item_level) > common + 1) and \
+                (len(my_enum_item_level) > common + 1) and \
+                (state.enum_item_level[common+1] == my_enum_item_level[common+1]):
+            common = common + 1
+
+        # close enum_item_level environments from back to front
+        for i in range(len(state.enum_item_level)-1, common, -1):
+            if state.enum_item_level[i] == "*":
+                preamble = preamble + "\\end{itemize}\n"
+            elif state.enum_item_level[i] == "#":
+                preamble = preamble + "\\end{enumerate}\n"
+
+        # open my_enum_item_level environments from front to back
+        for i in range(common+1, len(my_enum_item_level)):
+            if my_enum_item_level[i] == "*":
+                preamble = preamble + "\\begin{itemize}\n"
+            elif my_enum_item_level[i] == "#":
+                preamble = preamble + "\\begin{enumerate}\n"
+    state.enum_item_level = my_enum_item_level
+
+    # now, substitute item markers
+    p = re.compile("^([\*\#]+)\s*(.*)$")
+    _string = p.sub(r"  \\item \2", string)
+    string = preamble + _string
+
+    return string
+
+def transform_define_foothead(string, state):
+    """ header and footer definitions"""
+    p = re.compile("^@FRAMEHEADER=(.*)$", re.VERBOSE)
+    m = p.match(string)
+    if m is not None:
+        state.next_frame_header = m.group(1)
+        string = ""
+    p = re.compile("^@FRAMEFOOTER=(.*)$", re.VERBOSE)
+    m = p.match(string)
+    if m is not None:
+        state.next_frame_footer = m.group(1)
+        string = ""
+    return string
+
+def transform_detect_manual_frameclose(string, state):
+    """ detect manual closing of frames """
+    p = re.compile(r"\[\s*frame\s*\]>")
+    if state.frame_opened:
+        if p.match(string) is not None:
+            state.frame_opened = False
+    return string
+
+def get_frame_closing(state):
+    return " %s \n\\end{frame}\n" % state.frame_footer
+
+def transform_h4_to_frame(string, state):
+    """headings (3) to frames"""
+    frame_opening = r"\\begin{frame}\2\n \\frametitle{\1}\n %s \n" % escape_resub(state.next_frame_header)
+    frame_closing = escape_resub(get_frame_closing(state))
+
+    p = re.compile("^!?====\s*(.*?)\s*====(.*)", re.VERBOSE)
+    if not state.frame_opened:
+        _string = p.sub(frame_opening, string)
+    else:
+        _string = p.sub(frame_closing + frame_opening, string)
+
+    if string != _string:
+        state.frame_opened = True
+        state.switch_to_next_frame()
+
+    return _string
+
+def transform_h3_to_subsec(string, state):
+    """ headings (2) to subsections """
+    frame_closing = escape_resub(get_frame_closing(state))
+    subsec_opening = r"\n\\subsection\2{\1}\n\n"
+
+    p = re.compile("^===\s*(.*?)\s*===(.*)", re.VERBOSE)
+    if state.frame_opened:
+        _string = p.sub(frame_closing + subsec_opening, string)
+    else:
+        _string = p.sub(subsec_opening, string)
+    if string != _string:
+        state.frame_opened = False
+
+    return _string
+
+def transform_h2_to_sec(string, state):
+    """ headings (1) to sections """
+    frame_closing = escape_resub(get_frame_closing(state))
+    sec_opening = r"\n\\section\2{\1}\n\n"
+    p = re.compile("^==\s*(.*?)\s*==(.*)", re.VERBOSE)
+    if state.frame_opened:
+        _string = p.sub(frame_closing + sec_opening, string)
+    else:
+        _string = p.sub(sec_opening, string)
+    if string != _string:
+        state.frame_opened = False
+
+    return _string
+
+def transform_replace_headfoot(string, state):
+    string = string.replace("<---FRAMEHEADER--->", state.frame_header)
+    string = string.replace("<---FRAMEFOOTER--->", state.frame_footer)
+    return string
+
+def transform_environments(string):
+    """
+    latex environments, the users takes full responsibility
+    for closing ALL opened environments
+    exampe:
+    <[block]{block title}
+    message
+    [block]>
+    """
+    # -> open
+    p = re.compile("^<\[([^{}]*?)\]", re.VERBOSE)
+    string = p.sub(r"\\begin{\1}", string)
+    # -> close
+    p = re.compile("^\[([^{}]*?)\]>", re.VERBOSE)
+    string = p.sub(r"\\end{\1}", string)
+
+    return string
+
+def transform_columns(string):
+    """ columns """
+    p = re.compile("^\[\[\[(.*?)\]\]\]", re.VERBOSE)
+    string = p.sub(r"\\column{\1}", string)
+    return string
+
+def transform_boldfont(string):
+    """ bold font """
+    p = re.compile("'''(.*?)'''", re.VERBOSE)
+    string = p.sub(r"\\textbf{\1}", string)
+    return string
+
+def transform_italicfont(string):
+    """ italic font """
+    p = re.compile("''(.*?)''", re.VERBOSE)
+    string = p.sub(r"\\emph{\1}", string)
+    return string
+
+def _transform_mini_parser(character, replacement, string):
+    # implemented as a state-machine
+    output, typewriter = [], []
+    seen_at, seen_escape = False, False
+    for char in string:
+        if seen_escape:
+            if char == character:
+                output.append(character)
+            else:
+                output.append('\\' + char)
+            seen_escape = False
+        elif char == "\\":
+            seen_escape = True
+        elif char == character:
+            if seen_at:
+                seen_at = False
+                output, typewriter = typewriter, output
+                output.append('\\'+replacement+'{')
+                output += typewriter
+                output.append('}')
+                typewriter = []
+            else:
+                seen_at = True
+                output, typewriter = typewriter, output
+        else:
+            output.append(char)
+    if seen_at:
+        output, typewriter = typewriter, output
+        output.append(character)
+        output += typewriter
+    return "".join(output)
+
+def transform_typewriterfont(string):
+    """ typewriter font """
+    return _transform_mini_parser('@', 'texttt', string)
+
+def transform_alerts(string):
+    """ alerts """
+    return _transform_mini_parser('!', 'alert', string)
+
+def transform_colors(string):
+    """ colors """
+    def maybe_replace(m):
+        """ only replace if we are not within <<< >>> """
+        for g in graphics:
+            # found color is within a graphics token
+            if m.start() >= g.start() and m.end() <= g.end():
+                return m.string[m.start():m.end()]
+
+        return "\\textcolor{" + m.group(1) + "}{" + m.group(2) + "}"
+
+    p = re.compile("(\<\<\<)(.*?)\>\>\>", re.VERBOSE)
+    graphics = list(p.finditer(string))
+    p = re.compile("_([^_\\\\{}]*?)_([^_]*?[^_\\\\{}])_", re.VERBOSE)
+    string = p.sub(maybe_replace, string)
+    return string
+
+def transform_footnotes(string):
+    """ footnotes """
+    p = re.compile("\(\(\((.*?)\)\)\)", re.VERBOSE)
+    string = p.sub(r"\\footnote{\1}", string)
+    return string
+
+def transform_graphics(string):
+    """ figures/images """
+    p = re.compile("\<\<\<(.*?),(.*?)\>\>\>", re.VERBOSE)
+    string = p.sub(r"\\includegraphics[\2]{\1}", string)
+    p = re.compile("\<\<\<(.*?)\>\>\>", re.VERBOSE)
+    string = p.sub(r"\\includegraphics{\1}", string)
+    return string
+
+def transform_substitutions(string):
+    """ substitutions """
+    p = re.compile("(\s)-->(\s)", re.VERBOSE)
+    string = p.sub(r"\1$\\rightarrow$\2", string)
+    p = re.compile("(\s)<--(\s)", re.VERBOSE)
+    string = p.sub(r"\1$\\leftarrow$\2", string)
+    p = re.compile("(\s)==>(\s)", re.VERBOSE)
+    string = p.sub(r"\1$\\Rightarrow$\2", string)
+    p = re.compile("(\s)<==(\s)", re.VERBOSE)
+    string = p.sub(r"\1$\\Leftarrow$\2", string)
+    p = re.compile("(\s):-\)(\s)", re.VERBOSE)
+    string = p.sub(r"\1\\smiley\2", string)
+    p = re.compile("(\s):-\((\s)", re.VERBOSE)
+    string = p.sub(r"\1\\frownie\2", string)
+    return string
+
+def transform_vspace(string):
+    """vspace"""
+    p = re.compile("^\s*--(.*)--\s*$")
+    string = p.sub(r"\n\\vspace{\1}\n", string)
+    return string
+
+def transform_vspacestar(string):
+    """vspace*"""
+    p = re.compile("^\s*--\*(.*)--\s*$")
+    string = p.sub(r"\n\\vspace*{\1}\n", string)
+    return string
+
+def transform_uncover(string):
+    """uncover"""
+    p = re.compile("\+<(.*)>\s*{(.*)") # +<1-2>{.... -> \uncover<1-2>{....
+    string = p.sub(r"\uncover<\1>{\2", string)
+    return string
+
+def transform_only(string):
+    """only"""
+    p = re.compile("-<(.*)>\s*{(.*)") # -<1-2>{.... -> \only<1-2>{....
+    string = p.sub(r"\only<\1>{\2", string)
+    return string
+
+def transform(string, state):
+    """ convert/transform one line in context of state"""
+
+    #string = transform_itemenums(string, state)
+    string = transform_define_foothead(string, state)
+    string = transform_detect_manual_frameclose(string, state)
+    string = transform_h4_to_frame(string, state)
+    string = transform_h3_to_subsec(string, state)
+    string = transform_h2_to_sec(string, state)
+    string = transform_replace_headfoot(string, state)
+
+    string = transform_environments(string)
+    string = transform_columns(string)
+    string = transform_boldfont(string)
+    string = transform_italicfont(string)
+    string = transform_typewriterfont(string)
+    string = transform_alerts(string)
+    string = transform_colors(string)
+    string = transform_footnotes(string)
+    string = transform_graphics(string)
+    string = transform_substitutions(string)
+    string = transform_vspacestar(string)
+    string = transform_vspace(string)
+    string = transform_uncover(string)
+    string = transform_only(string)
+
+    string = transform_itemenums(string, state)
+
+    return string
+
+def expand_code_make_defverb(content, name):
+    return "\\defverbatim[colored]\\%s{\n%s\n}" % (name, content)
+
+def expand_code_make_lstlisting(content, options):
+    return "\\begin{lstlisting}%s%s\\end{lstlisting}" % (options, content)
+
+def expand_code_search_escape_sequences(code):
+    open = '1'
+    close = '2'
+    while code.find(open) != -1 or code.find(close) != -1:
+        open = open + chr(random.randint(48,57))
+        close = close + chr(random.randint(48,57))
+
+    return (open,close)
+
+def expand_code_tokenize_anims(code):
+    #escape
+    (esc_open, esc_close) = expand_code_search_escape_sequences(code)
+    code = code.replace('\\[', esc_open)
+    code = code.replace('\\]', esc_close)
+
+    p = re.compile(r'\[\[(?:.|\s)*?\]\]|\[(?:.|\s)*?\]')
+    non_anim = p.split(code)
+    anim = p.findall(code)
+
+    #unescape
+    anim = [s.replace(esc_open, '\\[').replace(esc_close, '\\]') for s in anim]
+    non_anim = [s.replace(esc_open, '[').replace(esc_close, ']') for s in non_anim]
+
+    return (anim, non_anim)
+
+def make_unique(seq):
+    '''remove duplicate elements in a list, does not preserve order'''
+    keys = {}
+    for elem in seq:
+        keys[elem] = 1
+    return list(keys.keys())
+
+def expand_code_parse_overlayspec(overlayspec):
+    overlays = []
+
+    groups = overlayspec.split(',')
+    for group in groups:
+        group = group.strip()
+        if group.find('-')!=-1:
+            nums = group.split('-')
+            if len(nums)<2:
+                syntax_error('overlay specs must be of the form <(%d-%d)|(%d), ...>', overlayspec)
+            else:
+                try:
+                    start = int(nums[0])
+                    stop = int(nums[1])
+                except ValueError:
+                    syntax_error('not an int, overlay specs must be of the form <(%d-%d)|(%d), ...>', overlayspec)
+
+                overlays.extend(list(range(start,stop+1)))
+        else:
+            try:
+                num = int(group)
+            except ValueError:
+                syntax_error('not an int, overlay specs must be of the form <(%d-%d)|(%d), ...>', overlayspec)
+            overlays.append(num)
+
+    #make unique
+    overlays = make_unique(overlays)
+    return overlays
+
+def expand_code_parse_simpleanimspec(animspec):
+    #escape
+    (esc_open, esc_close) = expand_code_search_escape_sequences(animspec)
+    animspec = animspec.replace('\\[', esc_open)
+    animspec = animspec.replace('\\]', esc_close)
+
+    p = re.compile(r'^\[<([0-9,\-]+)>((?:.|\s)*)\]$')
+    m = p.match(animspec)
+    if m is not None:
+        overlays = expand_code_parse_overlayspec(m.group(1))
+        code = m.group(2)
+    else:
+        syntax_error('specification does not match [<%d>%s]', animspec)
+
+    #unescape code
+    code = code.replace(esc_open, '[').replace(esc_close, ']')
+
+    return [(overlay, code) for overlay in overlays]
+
+
+def expand_code_parse_animspec(animspec):
+    if len(animspec)<4 or not animspec.startswith('[['):
+        return ('simple', expand_code_parse_simpleanimspec(animspec))
+
+    #escape
+    (esc_open, esc_close) = expand_code_search_escape_sequences(animspec)
+    animspec = animspec.replace('\\[', esc_open)
+    animspec = animspec.replace('\\]', esc_close)
+
+    p = re.compile(r'\[|\]\[|\]')
+    simple_specs = ['[%s]'%s for s in [s for s in p.split(animspec) if len(s.strip())>0]]
+
+    #unescape
+    simple_specs = [s.replace(esc_open, '\\[').replace(esc_close, '\\]') for s in simple_specs]
+    parsed_simple_specs = list(map(expand_code_parse_simpleanimspec, simple_specs))
+    unified_pss = []
+    for pss in parsed_simple_specs:
+        unified_pss.extend(pss)
+    return ('double', unified_pss)
+
+
+def expand_code_getmaxoverlay(parsed_anims):
+    max_overlay = 0
+    for anim in parsed_anims:
+        for spec in anim:
+            if spec[0] > max_overlay:
+                max_overlay = spec[0]
+    return max_overlay
+
+def expand_code_getminoverlay(parsed_anims):
+    min_overlay = sys.maxsize
+    for anim in parsed_anims:
+        for spec in anim:
+            if spec[0] < min_overlay:
+                min_overlay = spec[0]
+    if min_overlay == sys.maxsize:
+        min_overlay = 0
+    return min_overlay
+
+
+def expand_code_genanims(parsed_animspec, minoverlay, maxoverlay, type):
+    #get maximum length of code
+    maxlen=0
+    if type=='double':
+        for simple_animspec in parsed_animspec:
+            if maxlen < len(simple_animspec[1]):
+                maxlen = len(simple_animspec[1])
+
+    out = []
+    fill = ''.join([' ' for i in range(0, maxlen)])
+    for x in range(minoverlay,maxoverlay+1):
+        out.append(fill[:])
+
+    for simple_animspec in parsed_animspec:
+        out[simple_animspec[0]-minoverlay] = simple_animspec[1]
+
+    return out
+
+def expand_code_getname(code):
+    hex2alpha_table = { '0':'a', '1':'b', '2':'c', '3':'d', \
+        '4':'e', '5':'f', '6':'g', '7':'h', '8':'i', '9':'j', \
+        'a':'k', 'b':'l', 'c':'m', 'd':'n', 'e':'o', 'f':'p' \
+    }
+    hexhash = md5hex(code.encode('utf8'))
+    alphahash = ''.join(hex2alpha_table[x] for x in hexhash)
+    return alphahash
+
+def expand_code_makeoverprint(names, minoverlay):
+    out = ['\\begin{overprint}\n']
+    for (index, name) in enumerate(names):
+        out.append('  \\onslide<%d>\\%s\n' % (index+minoverlay, name))
+    out.append('\\end{overprint}\n')
+
+    return ''.join(out)
+
+def expand_code_get_unique_name(defverbs, code, lstparams):
+    """generate a collision free entry in the defverbs-map and names-list"""
+    name = expand_code_getname(code)
+    expanded_code = expand_code_make_defverb(expand_code_make_lstlisting(code, lstparams), name)
+    rehash = ''
+    while name in defverbs and defverbs[name] != expanded_code:
+        rehash += chr(random.randint(65,90)) #append a character from A-Z to rehash value
+        name = expand_code_getname(code + rehash)
+        expanded_code = expand_code_make_defverb(expand_code_make_lstlisting(code, lstparams), name)
+
+    return (name, expanded_code)
+
+def make_sorted(seq):
+    '''replacement for sorted built-in'''
+    l = list(seq)
+    l.sort()
+    return l
+
+def expand_code_segment(result, codebuffer, state):
+    #treat first line as params for lstlistings
+    lstparams = codebuffer[0]
+    codebuffer[0] = ''
+
+    #join lines into one string
+    code = ''.join(codebuffer)
+
+    #tokenize code into anim and non_anim parts
+    (anim, non_anim) = expand_code_tokenize_anims(code)
+    if len(anim)>0:
+        #generate multiple versions of the anim parts
+        parsed_anims = list(map(expand_code_parse_animspec, anim))
+        max_overlay = expand_code_getmaxoverlay(x[1] for x in parsed_anims)
+        #if there is unanimated code, use 0 as the starting overlay
+        if len(list(non_anim))>0:
+            min_overlay = 1
+        else:
+            min_overlay = expand_code_getminoverlay(x[1] for x in parsed_anims)
+        gen_anims = [expand_code_genanims(x[1], min_overlay, max_overlay, x[0]) for x in parsed_anims]
+        anim_map = {}
+        for i in range(0,max_overlay-min_overlay+1):
+            anim_map[i+min_overlay] = [x[i] for x in gen_anims]
+
+        names = []
+        for overlay in make_sorted(anim_map.keys()):
+            #combine non_anim and anim parts
+            anim_map[overlay].append('')
+            zipped = zip(non_anim, anim_map[overlay])
+            code = ''.join(x[0] + x[1] for x in zipped)
+
+            #generate a collision free entry in the defverbs-map and names-list
+            (name, expanded_code) = expand_code_get_unique_name(state.defverbs, code, lstparams)
+
+            #now we have a collision free entry, append it
+            names.append(name)
+            state.defverbs[name] = expanded_code
+
+        #append overprint area to result
+        overprint = expand_code_makeoverprint(names, min_overlay)
+        result.append(overprint)
+    else:
+        #we have no animations and can just put the defverbatim in
+        #remove escapings
+        code = code.replace('\\[', '[').replace('\\]', ']')
+        (name, expanded_code) = expand_code_get_unique_name(state.defverbs, code, lstparams)
+        state.defverbs[name] = expanded_code
+        result.append('\n\\%s\n' % name)
+
+    return
+
+def expand_code_defverbs(result, state):
+    result[state.code_pos] = result[state.code_pos] + '\n'.join(list(state.defverbs.values())) + '\n'
+    state.defverbs.clear()
+
+def get_autotemplate_closing():
+    return '\n\end{document}\n'
+
+def parse_bool(string):
+    boolean = False
+
+    if string == 'True' or string == 'true' or string == '1':
+        boolean = True
+    elif string == 'False' or string == 'false' or string =='0':
+        boolean = False
+    else:
+        syntax_error('Boolean expected (True/true/1 or False/false/0)', string)
+
+    return boolean
+
+def parse_autotemplate(autotemplatebuffer):
+    """
+    @param autotemplatebuffer (list)
+        a list of lines found in the autotemplate section
+    @return (list)
+        a list of tuples of the form (string, string) with \command.parameters pairs
+    """
+    autotemplate = []
+
+    for line in autotemplatebuffer:
+        if len(line.lstrip())==0: #ignore empty lines
+            continue
+        if len(line.lstrip())>0 and line.lstrip().startswith('%'): #ignore lines starting with % as comments
+            continue
+
+        tokens = line.split('=', 1)
+        if len(tokens)<2:
+            syntax_error('lines in the autotemplate section have to be of the form key=value', line)
+
+        autotemplate.append((tokens[0], tokens[1]))
+
+    return autotemplate
+
+def parse_usepackage(usepackage):
+    """
+    @param usepackage (str)
+        the unparsed usepackage string in the form [options]{name}
+    @return (tuple)
+        (name(str), options(str))
+    """
+
+    p = re.compile(r'^\s*(\[.*\])?\s*\{(.*)\}\s*$')
+    m = p.match(usepackage)
+    g = m.groups()
+    if len(g)<2 or len(g)>2:
+        syntax_error('usepackage specifications have to be of the form [%s]{%s}', usepackage)
+    elif g[1]==None and g[1].strip()!='':
+        syntax_error('usepackage specifications have to be of the form [%s]{%s}', usepackage)
+    else:
+        options = g[0]
+        name = g[1].strip()
+        return (name, options)
+
+
+def unify_autotemplates(autotemplates):
+    usepackages = {} #packagename : options
+    documentclass = ''
+    titleframe = False
+
+    merged = []
+    for template in autotemplates:
+        for command in template:
+            if command[0] == 'usepackage':
+                (name, options) = parse_usepackage(command[1])
+                usepackages[name] = options
+            elif command[0] == 'titleframe':
+                titleframe = command[1]
+            elif command[0] == 'documentclass':
+                documentclass = command[1]
+            else:
+                merged.append(command)
+
+    autotemplate = []
+    autotemplate.append(('documentclass', documentclass))
+    for (name, options) in usepackages.items():
+        if options is not None and options.strip() != '':
+            string = '%s{%s}' % (options, name)
+        else:
+            string = '{%s}' % name
+        autotemplate.append(('usepackage', string))
+    autotemplate.append(('titleframe', titleframe))
+
+    autotemplate.extend(merged)
+
+    return autotemplate
+
+def expand_autotemplate_gen_opening(autotemplate):
+    """
+    @param autotemplate (list)
+        the specification of the autotemplate in the form of a list of tuples
+    @return (string)
+        the string the with generated latex code
+    """
+    titleframe = False
+    out = []
+    for item in autotemplate:
+        if item[0]!='titleframe':
+            out.append('\\%s%s' % item)
+        else:
+            titleframe = parse_bool(item[1])
+
+    out.append('\n\\begin{document}\n')
+    if titleframe:
+        out.append('\n\\frame{\\titlepage}\n')
+
+    return '\n'.join(out)
+
+
+def expand_autotemplate_opening(result, templatebuffer, state):
+    my_autotemplate = parse_autotemplate(templatebuffer)
+    the_autotemplate = unify_autotemplates([autotemplate, my_autotemplate])
+
+    opening = expand_autotemplate_gen_opening(the_autotemplate)
+
+    result.append(opening)
+    result.append('')
+    state.code_pos = len(result)
+    state.autotemplate_opened = True
+    return
+
+def get_autotemplatemode(line, autotemplatemode):
+    autotemplatestart = re.compile(r'^<\[\s*autotemplate\s*\]')
+    autotemplateend = re.compile(r'^\[\s*autotemplate\s*\]>')
+    if not autotemplatemode and autotemplatestart.match(line)!=None:
+        line = autotemplatestart.sub('', line)
+        return (line, True)
+    elif autotemplatemode and autotemplateend.match(line)!=None:
+        line = autotemplateend.sub('', line)
+        return (line, False)
+    else:
+        return (line, autotemplatemode)
+
+def get_nowikimode(line, nowikimode):
+
+    if not nowikimode and nowikistartre.match(line)!=None:
+        line = nowikistartre.sub('', line)
+        return (line, True)
+    elif nowikimode and nowikiendre.match(line)!=None:
+        line = nowikiendre.sub('', line)
+        return (line, False)
+    else:
+        return (line, nowikimode)
+
+def get_codemode(line, codemode):
+    if not codemode and codestartre.match(line)!=None:
+        line = codestartre.sub('', line)
+        return (line, True)
+    elif codemode and codeendre.match(line)!=None:
+        line = codeendre.sub('', line)
+        return (line, False)
+    else:
+        return (line, codemode)
+
+def joinLines(lines):
+    """ join lines ending with unescaped percent signs, unless inside codemode or nowiki mode """
+    nowikimode = False
+    codemode = False
+    r = []  # result array
+    s = ''  # new line
+    for _l in lines:
+        (_,nowikimode) = get_nowikimode(_l, nowikimode)
+        if not nowikimode:
+            (_,codemode) = get_codemode(_l, codemode)
+
+        if not codemode:
+            l = _l.rstrip()
+        else:
+            l = _l
+
+        if not (nowikimode or codemode) and (len(l) > 1) and (l[-1] == "%") and (l[-2] != "\\"):
+            s = s + l[:-1]
+        elif not (nowikimode or codemode) and (len(l) == 1) and (l[-1] == "%"):
+            s = s + l[:-1]
+        else:
+            s = s + l
+            r.append(s)
+            s = ''
+
+    return r
+
+def read_file_to_lines(filename):
+    """ read file """
+    try:
+        f = open(filename, "r")
+        lines = joinLines(f.readlines())
+        f.close()
+    except:
+        pprint("Cannot read file: %s" % filename, sys.stderr)
+        sys.exit(-2)
+
+    return lines
+
+
+def scan_for_selected_frames(lines):
+    """scans for frames that should be rendered exclusively, returns true if such frames have been found"""
+    p = re.compile("^!====\s*(.*?)\s*====(.*)", re.VERBOSE)
+    for line in lines:
+        mo = p.match(line)
+        if mo is not None:
+            return True
+    return False
+
+def line_opens_unselected_frame(line):
+    p = re.compile("^====\s*(.*?)\s*====(.*)", re.VERBOSE)
+    if p.match(line) is not None:
+        return True
+    return False
+
+def line_opens_selected_frame(line):
+    p = re.compile("^!====\s*(.*?)\s*====(.*)", re.VERBOSE)
+    if p.match(line) is not None:
+        return True
+    return False
+
+def line_closes_frame(line):
+    p = re.compile("^\s*\[\s*frame\s*\]>", re.VERBOSE)
+    if p.match(line) is not None:
+        return True
+    return False
+
+def filter_selected_lines(lines):
+    selected_lines = []
+
+    selected_frame_opened = False
+    frame_closed = True
+    frame_manually_closed = False
+    for line in lines:
+        if line_opens_selected_frame(line):
+            selected_frame_opened = True
+            frame_closed = False
+
+        if line_opens_unselected_frame(line):
+            selected_frame_opened = False
+            frame_closed = False
+
+        if line_closes_frame(line):
+            selected_frame_opened = False
+            frame_closed = True
+            frame_manually_closed = True
+
+        if selected_frame_opened or (frame_closed and not frame_manually_closed):
+            selected_lines.append(line)
+
+    return selected_lines
+
+def convert2beamer(lines):
+    out = ""
+    selectedframemode = scan_for_selected_frames(lines)
+    if selectedframemode:
+        out = convert2beamer_selected(lines)
+    else:
+        out = convert2beamer_full(lines)
+
+    return out
+
+def convert2beamer_selected(lines):
+    selected_lines = filter_selected_lines(lines)
+    out = convert2beamer_full(selected_lines)
+    return out
+
+def include_file(line):
+    """ Extract filename to include.
+
+    @param line string
+        a line that might include an inclusion
+    @return string or None
+        if the line contains an inclusion, return the filename,
+        otherwise return None
+    """
+    p = re.compile("\>\>\>(.*?)\<\<\<", re.VERBOSE)
+    if p.match(line):
+        filename = p.sub(r"\1", line)
+        return filename
+    else:
+        return None
+
+def include_file_recursive(base):
+    stack = []
+    output = []
+    def recurse(file_):
+        stack.append(file_)
+        nowikimode = False
+        codemode = False
+        for line in get_lines_from_cache(file_):
+            if nowikimode or codemode:
+                if nowikiendre.match(line):
+                    nowikimode = False
+                elif codeendre.match(line):
+                    codemode = False
+                output.append(line)
+            elif nowikistartre.match(line):
+                output.append(line)
+                nowikimode = True
+            elif codestartre.match(line):
+                output.append(line)
+                codemode = True
+            else:
+                include = include_file(line)
+                if include is not None:
+                    if include in stack:
+                        raise IncludeLoopException('Loop detected while trying '
+                                "to include: '%s'.\n" % include +
+                                'Stack: '+ "->".join(stack))
+                    else:
+                        recurse(include)
+                else:
+                    output.append(line)
+        stack.pop()
+    recurse(base)
+    return output
+
+def munge_input_lines(lines):
+    # join lines if they end with single \
+    munge = False
+    new_lines = []
+    for line in lines:
+        if munge is True:
+            if not line.endswith('\\') and not line.endswith('\\\\'):
+                munge = False
+            else:
+                line = line[:-1]
+            new_lines[-1] += line
+        else:
+            if line.endswith("\\") and not line.endswith('\\\\'):
+                munge = True
+                line = line[:-1]
+            new_lines.append(line)
+    return new_lines
+
+def convert2beamer_full(lines):
+    """ convert to LaTeX beamer"""
+    state = w2bstate()
+    result = [''] #start with one empty line as line 0
+    codebuffer = []
+    autotemplatebuffer = []
+
+    nowikimode = False
+    codemode = False
+    autotemplatemode = False
+
+    for line in lines:
+        (line, nowikimode) = get_nowikimode(line, nowikimode)
+        if nowikimode:
+            result.append(line)
+        else:
+            (line, _codemode) = get_codemode(line, codemode)
+            if _codemode and not codemode: #code mode was turned on
+                codebuffer = []
+            elif not _codemode and codemode: #code mode was turned off
+                expand_code_segment(result, codebuffer, state)
+            codemode = _codemode
+
+            if codemode:
+                codebuffer.append(line)
+            else:
+                (line, _autotemplatemode) = get_autotemplatemode(line, autotemplatemode)
+                if _autotemplatemode and not autotemplatemode: #autotemplate mode was turned on
+                    autotemplatebuffer = []
+                elif not _autotemplatemode and autotemplatemode: #autotemplate mode was turned off
+                    expand_autotemplate_opening(result, autotemplatebuffer, state)
+                autotemplatemode = _autotemplatemode
+
+                if autotemplatemode:
+                    autotemplatebuffer.append(line)
+                else:
+                    state.current_line = len(result)
+                    result.append(transform(line, state))
+
+    result.append(transform("", state))   # close open environments
+
+    if state.frame_opened:
+        result.append(get_frame_closing(state))
+    if state.autotemplate_opened:
+        result.append(get_autotemplate_closing())
+
+    #insert defverbs somewhere at the beginning
+    expand_code_defverbs(result, state)
+
+    return result
+
+def print_result(lines):
+    """ print result to stdout """
+    for l in lines:
+        pprint(l, file=sys.stdout)
+    return
+
+def redirect_stdout(outfilename):
+    global _redirected_stdout
+    outfile = open(outfilename, "wt")
+    _redirected_stdout = outfile
+
+def main(argv):
+    """ check parameters, start file processing """
+    usage = "%prog [options] [input1.txt [input2.txt ...]] > output.tex"
+    version = "%prog (http://wiki2beamer.sf.net), version: " + VERSIONTAG
+
+    parser = optparse.OptionParser(usage="\n  " + usage, version=version)
+    parser.add_option("-o", "--output", dest="output", metavar="FILE", help="write output to FILE instead of stdout")
+    opts, args = parser.parse_args()
+
+    if opts.output is not None:
+        redirect_stdout(opts.output)
+
+    input_files = []
+    if not sys.stdin.isatty():
+        _file_cache['stdin'] = joinLines(sys.stdin.readlines())
+        input_files.append('stdin')
+    elif len(args) == 0:
+        parser.error("You supplied no files to convert!")
+
+    input_files += args
+    lines = []
+    for file_ in input_files:
+        lines += include_file_recursive(file_)
+
+    lines = munge_input_lines(lines)
+
+    lines = convert2beamer(lines)
+    print_result(lines)
+
+
+if __name__ == "__main__":
+    main(sys.argv)

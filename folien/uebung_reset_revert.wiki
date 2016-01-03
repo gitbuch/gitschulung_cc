@@ -1,0 +1,26 @@
+==== \de {'''Übung:''' Reset und Revert}{'''Exercise:''' Reset and Revert} ====
+
+# \de{Machen Sie einen Commit. Setzen Sie den aktuellen @HEAD@ mit \
+      @git reset HEAD\^{}@ zurück. Was passiert mit den Veränderungen?} \
+     {Create a commit. Reset the @HEAD@ using @git reset HEAD\^{}@. \
+      What happens to your changes?}
+# \de{Wiederholen Sie den Commit. Setzen Sie diesmal den @HEAD@ mit \
+      @git reset -{}-soft HEAD\^{}@ zurück. Was ist diesmal anders?} \
+     {Repeat the commit. This time, reset @HEAD@ using @git reset \
+      -{}-soft HEAD\^{}@. What is different this time?}
+# \de{Wiederholen Sie den Commit ein drittes mal. Wiederholen Sie auch \
+      das Zurücksetzen, aber nun mit der Option @-{}-hard@} \
+     {Repeat the commit a third time. Throw away your Changes using \
+      the option @-{}-hard@}
+# \de{Wiederholen Sie den Commit ein viertes mal. Machen Sie diesmal \
+      jedoch den Commit mit @git revert@ »rückgängig«} \
+     {Repeat the commit a fourth time. This time, revert the commit \
+      with @git revert@}
+# \de{Verändern Sie mehrere Zeilen am Anfang und Ende einer Datei. \
+      Fügen Sie die Datei dem Index hinzu, und entfernen Sie einzelne \
+      Zeilen aus dem Index (@reset -p@)}\
+     {Change several lines at the beginning and at the end of a file. \
+      Add the file to the index and remove some lines from the \
+      index (@reset -p@)}
+
+%% TODO Syntax HEAD^ noch nicht eingeführt

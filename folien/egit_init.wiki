@@ -1,0 +1,7 @@
+==== EGit: init ====
+
+* ''Git-Perspective'' --> ''Repository View''
+
+* ''Add...''
+* ''Clone...''
+* ''Create...''

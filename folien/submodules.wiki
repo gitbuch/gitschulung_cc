@@ -1,0 +1,100 @@
+==== Externe Abhängigkeiten einbinden ====
+
+* Zusätzliche Repositories bindet Git durch ''Submodules'' ein
+* So verwalten Sie Abhängigkeiten (Plugins, Bibliotheken etc..)
+* Das enthaltende Repository wird ''Superproject'' genannt
+
+<[block]{Submodule hinzufügen}
+@git submodule add ''url'' ''name''@\\
+@git submodule init@\\
+@git commit -m "Submodule ''name'' hinzugfügt"@
+[block]>
+
+==== Wie wird die Information gespeichert? ====
+
+* Informationen über Submodules werden in der Datei @.gitmodules@ hinterlegt
+* Diese wird als versionierte Datei im Repository gespeichert
+
+<[block]{Beispieleintrag in @.gitmodules@}
+@[submodule "''name''"]@\\
+@~~~~path = ''pfad''@\\
+@~~~~url = ''url''@
+[block]>
+
+* Ausserdem speichert Git die SHA1 vom @HEAD@ vom Submodule
+* --> und zwar in einem ''Gitlink''
+** Dieser heißt so wie der Pfad des Submodule
+** z.\,B.\ Pfad: @submodule-one@ -- Dateiname: @submodule-one@
+* Der Gitlink wird im Repository gespeichert
+* Dadurch kann der genaue Zustand wiederhergestellt werden
+
+==== Submodules initialisieren ====
+
+* Wird ein Projekt geklont, sind die Submodules leer
+
+<[block]{Registrieren der Submodules in @.git/config@}
+@git submodule init@
+[block]>
+
+<[block]{Submodules klonen, und @HEAD@ auf den richtigen Commit setzen}
+@git submodule update@
+[block]>
+
+--2em--
+
+<[block]{In einem Schritt}
+@git submodule update -{}-init@
+[block]>
+
+* Nachteil: die lokale URL kann nicht angepasst werden
+
+==== Submodules anzeigen ====
+
+<[block]{Status aller Submodules}
+@git submodules@
+[block]>
+
+* Zeigt SHA1 und den Name an
+** (--) bedeutet: kein Eintrag in @.git/config@
+** (+) bedeutet: SHA1 im Submodule ist anders als im Gitlink
+
+--2em--
+
+<[block]{Rekursiv alle Submodules anzeigen}
+@git submodules -{}-recursive@
+[block]>
+
+%% TODO git submodules summary
+
+==== Submodules verändern ====
+
+%% TODO überarbeiten
+
+* Wir unterscheiden zwischen eigenen und fremden Veränderungen
+
+* Für eigene Veränderungen können Sie die Submodule (fast) wie ein normales Git-Repository behandeln
+* Problem: das Submodule hat einen Detached-@HEAD@
+* Den geeigneten Zustand via Gitlink in dem Superproject speichern
+
+* Bei fremden Veränderungen wird der Gitlink für das Submodule aktualisiert
+* Es reicht ein: @git submodule update@
+* Mögliches Problem: der Commit im Submodule ist nicht öffentlich verfügbar
+** Lösung: Kontakt zum verantwortlichen Entwickler
+
+==== Submodules entfernen ====
+
+* Leider existiert noch kein @git submodule remove@ Kommando
+
+<[block]{Submodule entfernen}
+@rm -rf ''submodule''@\\
+--> entfernt das Verzeichnis\\
+@git rm ''submodule''@\\
+--> entfernt den Gitlink\\
+@vim .gitmodules@\\
+--> Entsprechenden Eintrag manuell löschen\\
+@git add .gitmodules@\\
+@git commit@\\
+--> Änderungen Comitten\\
+@vim .git/config@\\
+--> Submodule Eintrag in der @.git/config@ löschen\\
+[block]>

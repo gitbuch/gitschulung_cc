@@ -1,0 +1,65 @@
+==== Git Stash ====
+
+* \de{@git stash@ lagert aktuelle Veränderungen aus}{@git stash@ stores away pending changes temporarily}
+* \de{Zustand von Index und Working-Tree werden gespeichert}{State of index and working tree will be saved}
+* \de{Git erzeugt keinen Commit}{No commit is created}
+%% Den Rest müssen wir erwähnen
+%% * Dies ist nützlich wenn die aktuelle Aufgabe unfertig ist, sie aber trotzdem unterbrochen werden muss
+%% * Aber auch um mit Veränderungen, die noch nicht im Repository sind, den Branch zu wechseln
+%* In jedem Fall werden alle Veränderungen, die noch nicht gespeichert sind (sowohl Index als auch Working-Tree), ausgelagert, und das Working-Directory auf den Zustand von @HEAD@ gesetzt.
+
+==== \de{Stashes anlegen}{Creating a stash} ====
+
+<[block]{\de{Veränderungen auslagern}{Stow away changes}}
+@git stash@
+[block]>
+
+<[block]{\de{Optional mit Beschreibung}{Optionally with a custom message}}
+@git stash save "''message''"@
+[block]>
+
+* \de{Sonst wird folgende Nachricht gesetzt:}{Otherwise, the following message will be used:}
+** ~~@WIP on ''branch'': ''sha1'' ''commit-message''@ \\
+
+==== \de{Stashes verwalten}{Managing stashes} ====
+
+* \de{Es können beliebig viele ''Stashes'' angelegt werden}{You can create an arbitrary number of stashes}
+* \de{Stashes haben die folgenden Referenzen:}{Stashes have the following reference names:}
+** @stash\@\{0\}@
+** @stash\@\{1\}@
+** @stash\@\{2\}@
+** …
+
+<[block]{\de{Stashes anzeigen}{Listing stashes}}
+@git stash list@
+[block]>
+
+<[block]{\de{Inhalt vom jüngsten Stash ansehen}{Show contents of most recent stash}}
+@git stash show@
+[block]>
+
+<[block]{\de{Stash mit Patch anzeigen}{Show stash with associated patch}}
+@git stash show -p stash\@\{3\}@
+[block]>
+
+==== \de{Stashes verwenden}{Applying stashes} ====
+
+* \de{Ein Stash kann jederzeit verwendet werden}{You can always apply stashes}
+* \de{Erzeugt das jedoch Konflikte, siehe --> Konfliktlösung bei Merges} \
+     {If that creates a merge conflict, see --> How to resolve merge conflicts}
+
+<[block]{\de{Den jüngsten Stash verwenden}{Apply most recent stash}}
+@git stash apply@
+[block]>
+
+<[block]{\de{Jüngsten Stash löschen}{Delete most recent stash}}
+@git stash drop@
+[block]>
+
+<[block]{\de{Verwenden und auch gleich löschen (bevorzugte Möglichkeit)}{Apply and then delete stash (preferred operation)}}
+@git stash pop@
+[block]>
+
+<[block]{\de{Alle Stashes löschen}{Delete all stashes}}
+@git stash clear@
+[block]>

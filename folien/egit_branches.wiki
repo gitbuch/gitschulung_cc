@@ -1,0 +1,11 @@
+==== EGit: Branches ====
+
+* ''History-View''
+** ''Checkout''
+** ''Create Branch''
+** ''Delete Branch''
+** ''Rename Branch''
+
+* ''Repository-View''
+** ''Switch to''
+** ''Branches'' --> \de{Doppelklick}{Doubleclick}

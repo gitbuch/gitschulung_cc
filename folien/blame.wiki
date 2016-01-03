@@ -1,0 +1,18 @@
+==== @git blame@ -- \de{Wer hat diese Änderung ausgeführt?}{Who made this change?} ====
+
+* \de{Sucht für jede Zeile einer Datei den Autor der letzten Veränderung}\
+  {For each line in a file, show who made the last change} 
+* --> \de{Bei Unklarheiten direkt den Autor fragen} \
+         {If in doubt ask the author directly}
+* \de{Gibt auch Zeit und Commit aus} \
+     {Also displays the commit ID and the time and date the change was made}
+
+<[block]{\de{Autoren aller Zeilen in @''datei''@}{Authors of all rows @''file''@}}
+@git blame ''\de{datei}{file}''@
+[block]>
+
+<[block]{\de{Autoren der Zeilen 10--20}{Authors of all rows 10--20}}
+@git blame -L 10,20 ''\de{datei}{file}''@
+[block]>
+
+%% TODO mit rev-list style range?

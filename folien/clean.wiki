@@ -1,0 +1,19 @@
+==== Aufräumen -- @git clean@ ====
+
+<[block]{Alle nicht von Git verwalteten Dateien und Verzeichnisse entfernen}
+@git clean -fd@
+[block]>
+
+<[block]{Alle ignorierten Dateien entfernen}
+@git clean -fdX@
+[block]>
+
+<[block]{Ignorierte und nicht von Git verwaltete Dateien löschen}
+@git clean -fdx@
+[block]>
+
+* Funktioniert gut bei einer gepflegten @.gitignore@
+* Kann in den Build-Prozess eingebaut werden
+
+!Achtung\!! Dateien werden unwiederbringlich gelöscht!\\
+Wenn unsicher, @-n@ verwenden (zeigt an, was gelöscht werden würde).

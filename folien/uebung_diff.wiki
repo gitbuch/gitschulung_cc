@@ -1,0 +1,10 @@
+==== '''Übung:'''  Schauen Sie sich die Details an ====
+
+# Machen Sie modifikationen in ihren Dateien
+# Sehen Sie sich die Unterschiede zum Working-Tree mit @git diff@ an
+# Fügen Sie alle Veränderungen dem Index hinzu
+# Sehen Sie sich erneut die Ausgabe von @git diff@ an
+# Warum wird nichts angezeigt?
+
+%% TODO --diff-filter Aufgaben
+%% TODO Pickaxe Aufgabe

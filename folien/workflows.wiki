@@ -1,0 +1,15 @@
+==== Workflows ====
+
+\de{''Workflows'' in Git bezeichnen zwei Kategorien}{The term ''workflows'' can
+refer to two categories}:
+
+* \de{Verteilte Workflows}{Distributed workflows}
+** \de{Welche Repositories gibt es?}{What repositories exist?}
+** \de{Wer hat auf was Zugriff?}{Who has access to what?}
+** \de{Wie wird Code ausgetauscht?}{How will source-code be exchanged?}
+
+* \de{Lokale Workflows}{Local workflows}
+** \de{Welche Kommandos muss ich eingeben?}{What commands should I use?}
+** \de{Wie verwalte ich Branches?}{How do I maintain branches?}
+
+\de{Natürlich ist die Grenze auch oft schwammig}{Not always a clear separation}

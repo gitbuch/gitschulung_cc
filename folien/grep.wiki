@@ -1,0 +1,23 @@
+==== \de{Nach Inhalten suchen}{Search for content} ====
+
+* \de{Analog zum UNIX-Befehl @grep@ gibt es @git grep@} \
+     {Analogue to the UNIX command @grep@: @git grep@}
+* \de{Sucht nur in Dateien, die mit Git verwaltet werden}\
+     {Searches only in files that are managed with Git}
+* \de{Optionen an @grep@ angepasst} \
+     {Options adapted to mimik @grep@ }
+* \de{Ist multithreaded und daher schneller als @grep@\!} \
+     {Is multithreaded and thus much faster than plain @grep@\!}
+
+<[block]{\de{In allen Dateien nach @foobar@ suchen}
+            {Find all files that contain @foobar@}}
+@git grep foobar@
+[block]>
+
+<[block]{\de{Nur in @''feature''@ suchen}
+            {Search only in @''feature''@}}
+@git grep foobar ''feature''@
+[block]>
+
+%% TODO einleuchtendes Beispiel hinzufügen
+

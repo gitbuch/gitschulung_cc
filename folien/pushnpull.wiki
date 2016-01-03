@@ -1,0 +1,20 @@
+==== Push'n'pull Workflow ====
+
+<[center]
+<<<bilder/push-pull\de{}{-en}.pdf, scale=0.15>>>
+[center]>
+
+<[columns]
+[[[ 5cm ]]]
+_blue_1._ \de{Lokale Änderungen}{Local changes}
+* @vim ''\de{datei}{file}''@
+* @git add ''\de{datei}{file}''@
+* @git commit -m "''msg''"@
+[[[ 5.5cm ]]]
+_blue_2._ \de{Änderungen veröffentlichen}{Publish changes}
+* @git push@
+* \de{Wenn @push@ fehlschlägt}{If @push@ fails}
+* @git pull@, \de{dann}{then} @git push@
+% ** @git pull@
+% ** @git push@
+[columns]>

@@ -1,0 +1,15 @@
+==== Informationen über das Repository erhalten ====
+
+* Den jüngsten Commit im vollen Umfang anschauen:
+** @git show@
+
+* Die gesamte Versionsgeschichte, die zum aktuellen Zustand führt, anzeigen:
+** @git log@
+
+* Was hat sich verändert?
+** @git diff@
+
+* Das Repository visualisieren:
+** @gitk@
+* ... oder textbasiert:
+** @tig@

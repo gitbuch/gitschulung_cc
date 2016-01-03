@@ -1,0 +1,17 @@
+==== Low-Level Kommandos ====
+
+<[block]{Hashsumme bilden:}
+@git hash-object ''datei''@
+[block]>
+
+<[block]{Objekt-Typ anzeigen}
+@git cat-file -t ''ref''@
+[block]>
+
+<[block]{Objekt-Inhalt anzeigen}
+@git cat-file ''object-type'' ''ref''@
+[block]>
+
+<[block]{Tree anzeigen}
+@git ls-tree ''ref''@
+[block]>

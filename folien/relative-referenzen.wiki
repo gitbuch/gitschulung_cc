@@ -1,0 +1,7 @@
+==== Referenzen ====
+
+Relative Referenzen:
+* @HEAD@: Der letzte Commit (wird per @git show@ angezeigt)
+* @HEAD$^\mathbf{\wedge}$@: Der erste Vorfahre vom letzten Commit
+* @HEAD$^\mathbf{\wedge}$N@ Der ''N''te direkte Vorfahre vom letzten Commit
+* @HEAD\textasciitilde{}''2''@: Der direkte Vorfahre vom direkten Vorfahren vom letzten Commit

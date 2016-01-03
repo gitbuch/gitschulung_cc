@@ -1,0 +1,38 @@
+==== Aufgaben automatisieren ====[containsverbatim]
+
+* Problem: keine Umlaute in der ersten Zeile der Commit-Nachricht erwünscht
+* Lösung: entsprechenden ''Git-Hook'' einrichten
+
+--.5cm--
+
+\texttt{\#!/bin/sh}
+<[verbatim]
+if head -n 1 "$1" | grep -q '[äöüßÄÖÜ]' ; then
+    echo >&2 'Umlaute in der ersten' \ \
+        'Zeile der Commit-Message!'
+    exit 2
+fi
+[verbatim]>
+
+==== Git-Hooks ====
+
+* Hooks (inkl. Beispielen) befinden sich in @.git/hooks@
+* Können in beliebiger Sprache entwickelt werden
+* Werden nicht in das Repository eingechekt
+
+* Durch Umbennenung werden Beispiel-Hooks aktiviert
+** z.\,B.\ @commit-msg.sample@ --> @commit-msg@
+* Hooks müssen ausführbar sein (@chmod +x@)
+
+====  Mögliche Hooks ====
+
+* @applypatch-msg@
+* @commit-msg@
+* @post-commit@
+* @post-receive@
+* @post-update@
+* @pre-applypatch@
+* @pre-commit@
+* @pre-rebase@
+* @prepare-commit-msg@
+* @update@

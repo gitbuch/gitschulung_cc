@@ -1,0 +1,9 @@
+==== \de{Ein typischer Arbeitsablauf}{A Typical Workflow} ====
+
+\de{Eine @''datei''@ verändern, und die Änderungen in das Repository »einchecken«:}{Modify a @''file''@ and «check-in» the changes:}
+# @\$EDITOR \de{''datei''}{''file''}@
+# @git status@
+# @git add \de{''datei''}{''file''}@
+# @git commit -m \de{'\emph{datei} angepasst'}{'modified \emph{file}'}@
+# @git show@
+

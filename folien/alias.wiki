@@ -1,0 +1,25 @@
+==== Git-Aliase ====
+
+* Aliase verkürzen die Eingabe von Arbeitsschritten
+* Sinnvoll für häufig benötigte Kommandos
+
+<[block]{Beispiele für sinnvolle Aliase}
+@git config -{-}global alias.co checkout@\\
+@git config -{-}global alias.cm commit -m@\\
+@git config -{-}global alias.st status@\\
+@git config -{-}global alias.lol \textbackslash@\\
+\qquad{}@'log -{}-oneline -{}-graph -{}-decorate -{}-all'@\\
+@git config -{-}global alias.k '! gitk -{}-all'@
+[block]>
+
+==== Aliase in der Shell ====
+
+* In der Shell lassen sich natürlich auch sinnvolle Aliase einrichten
+
+<[block]{Aliase für z.\,B. @bash@}
+@alias giu='git remote update'@\\
+@alias ga='git add'@\\
+@alias gcm='git commit -m'@\\
+@alias gis='git status'@\\
+@alias gil='git log'@\\
+[block]>

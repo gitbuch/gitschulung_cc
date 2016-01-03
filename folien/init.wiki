@@ -1,0 +1,10 @@
+==== \de{Ein Projekt importieren oder erstellen}{Import or Create a New Project} ====
+
+<[block]{\de{Ein neues Projekt erstellen}{Creating a new project}}
+@git init \de{''projekt''}{project}@
+[block]>
+
+<[block]{\de{Um ein bestehendes Projekt zu importieren, »klont« man es mit seiner gesamten Versionsgeschichte}{To ''import'' an existing project, you «clone» it}}
+@git clone git://gitschulung.de/''projekt''@
+[block]>
+

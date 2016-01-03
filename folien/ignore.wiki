@@ -1,0 +1,27 @@
+==== Dateien ignorieren ====
+
+* @.gitignore@ regelt, welche Dateien Git ignorieren soll
+* Enthält Zeilen mit Globbing-Ausdrücken, z.\,B.
+** @*.[oa]@ für C-Objekt-Dateien
+** @*.tmp@ für temporäre Dateien
+
+--.5cm--
+
+* Regeln werden kaskadierend angewendet
+*# Definitionen im aktuellen Verzeichnis
+*# Aus höheren Verzeichnissen im aktuellen Projekt
+
+--.5cm--
+
+<[block]{Dateien, die in allen Repositories ignoriert werden sollen}
+@git config -{-}global core.excludesfile \textasciitilde{}/.gitignore@
+[block]>
+
+==== @.gitignore@ einchecken ====
+
+* @.gitignore@ in einem Repository erstellen und einchecken
+** Enthält für das Projekt typische »Abfalldateien«
+
+* Alle Mitentwickler haben nun die gleichen Ignore-Einstellungen
+** In @.git/info/excludes@ kann die Liste erweitert werden
+** Ein @\!@ negiert den Ausdruck: @\!*.pdf@ hebt eine Ignore-Anweisung auf PDF-Dateien auf

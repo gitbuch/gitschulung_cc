@@ -1,0 +1,19 @@
+==== Commit-Message ====
+
+* \de{Die erste Zeile der Commit-Message sollte maximal 50 Zeichen lang sein}{The first line of the commit message should not exceed 50 characters}
+* \de{Kurz, prägnant formulieren -- aber trotzdem informativ!}{Should be short and concise -- but still informative\!}
+* \de{Beschreiben, ''warum'' etwas geändert wurde!}{Explain ''why'' something was changed}
+** \de{''Was'' geändert wurde, sieht man an der @diff@-Ausgabe}{''what'' was changed is evident from the @diff@}
+
+<[block]{\de{Beispiel}{Example}}
+\texttt{commit~95ad6d2de1f762f20edb52d139d3cc19529a581a\\
+Author:~Matthieu Moy <Matthieu.Moy@imag.fr>\\
+Date:~~~Fri Sep 24 18:43:59 2010 +0200\\
+    ~\\
+    update comment and documentation for :/foo syntax\\
+    ~\\
+    The documentation in revisions.txt did not match the implementation, and
+    the comment in sha1\_name.c was incomplete.}
+[block]>
+
+%% TODO schlechtes Beispiel, erste Zeile besschreibt was verändert wurde

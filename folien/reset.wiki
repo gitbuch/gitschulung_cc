@@ -1,0 +1,93 @@
+==== \de{Index und Working-Tree manipulieren: @reset@}{Manipulating Index and Working-Tree: @git reset@} ====
+
+* \de{@git reset@ erlaubt die Manipulation …}{With @git reset@ you can manipulate …}
+** \de{vom aktuellen @HEAD@ (bzw. Branch)}{The current position of @HEAD@ (i.e. your branch)}
+** \de{des Indexes (Staging Area)}{The Index/Staging Area}
+** \de{der  Working-Tree}{The Working-Tree}
+
+* ''soft reset''
+** \de{Ändert nur den @HEAD@}{Will just change @HEAD@}
+* ''mixed reset'' (default)
+** \de{Ändert den @HEAD@ und Index}{Changes both @HEAD@ and Index}
+**  \de{Working-Tree bleibt unverändert}{Working-Tree will stay as it was}
+*** \de{Eventuelle Änderungen werden nicht verworfen}{Pending changes won’t be thrown away}
+* ''hard reset''
+** \de{Forciert den @HEAD@, den Index und die  Working-Tree auf den selben Stand} \
+      {Forces @HEAD@, index and working-tree into the same state}
+** \de{Achtung: Hierdurch können Commits und Änderungen verloren gehen\!} \
+      {Warning: You can lose commits and pending changes in this mode\!}
+
+==== @git reset@: \de{Manipulationen am Index}{Manipulating the Index} ====
+
+<[block]{\de{Den Index leeren}{Emptying the Index}}
+@git reset@
+[block]>
+
+<[block]{\de{Änderungen an ''datei'' aus dem Index löschen}{Remove changes to ''file'' from Index}}
+@git reset -{}- ''\de{datei}{file}''@
+[block]>
+
+<[block]{\de{Änderungen zeilenweise aus dem Index entfernen}{Remove changes hunk by hunk from Index}}
+@git reset -p@
+[block]>
+
+* \de{Implizit beziehen sich alle Kommandos auf @HEAD@}{Implicitly, all commands target @HEAD@}
+* \de{Diese Kommandos sind nicht-destruktiv}{These commands are non-destructive}
+* \de{Änderungen werden aus dem Index gelöscht (bleiben aber im Working-Tree erhalten} \
+     {Changes will only be removed from the Index (but stay in Working-Tree)}
+** \de{Gegenteil zu @git add@}{Counterpart to @git add@}
+
+==== \de{Ausgangszustand}{Initial State} ====
+
+* \de{Veränderungen wurden im Working-Tree und Index gemacht} \
+     {We have changes in Working-Tree and Index}
+
+<[center]
+<<<bilder/reset-stage1.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Index zurücksetzten}{Emptying the Index} -- @git reset@  ====
+
+* \de{Veränderungen aus @HEAD@ auf den Index abbilden} \
+     {Replicate changes from @HEAD@ onto the Index}
+
+<[center]
+<<<bilder/reset-stage2.pdf, scale=0.25>>>
+[center]>
+
+==== @reset@: \de{Destruktive Rezepte}{Destructive Receipies} ====
+
+<[block]{\de{Änderungen im Index und im Working-Tree löschen}{Deleting changes from Index and Working-Tree}}
+@git reset -{-}hard@
+[block]>
+
+<[block]{\de{Zuletzt gemachten Commit und alle Änderungen verwerfen}{Delete most recently created commit}}
+@git reset -{-}hard HEAD\^@
+[block]>
+
+%% TODO Syntax HEAD^ noch nicht eingeführt
+
+* \de{Ein harter Reset synchronisiert @HEAD@, Index und  Working-Tree} \
+     {A hard reset will synchronize @HEAD@, Index and Working-Tree}
+* \de{@git status@ wird »nothing to commit« zurückgeben} \
+     {The @git status@ command will return «nothing to commit»}
+* \de{Änderungen am Working-Tree werden weggeworfen (und können nicht wiederhergestellt werden)} \
+     {Pending changes that are only in the Working-Tree will be thrown away and ''cannot'' be recovered\!}
+
+==== \de{Ausgangszustand}{Initial State} ====
+
+* \de{Veränderungen wurden im Working-Tree und Index gemacht} \
+     {Changes are present in the Index and Working-Tree}
+
+<[center]
+<<<bilder/reset-stage1.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Index zurücksetzten}{Throwing away the changes} -- @git reset -{}-hard@  ====
+
+* \de{Veränderungen aus @HEAD@ auf den Index und WT abbilden} \
+     {Replicate @HEAD@ onto both the Index and the Working-Tree}
+
+<[center]
+<<<bilder/reset-stage3.pdf, scale=0.25>>>
+[center]>

@@ -1,0 +1,11 @@
+==== \de{'''Übung:''' Schauen Sie sich die Geschichte an}{'''Exercise:''' View History} ====
+
+# \de{Betrachten Sie, was Sie bisher gemacht haben mit @git log@}{View the work you’ve done so far using @git log@}
+# \de{Machen Sie einen neuen Commit, und vergleichen Sie die Ausgabe von @git log@}{Create a new commit and view @git log@ again}
+# \de{Betrachten Sie nur die ''n'' neusten Commits mit @git log -''n''@}{View only the ''n'' newest commits using @git log -''n''@}
+# \de{Schauen Sie sich einzelne Commits mit @git show@ an. Zum Beispiel: @git show HEAD\^{}\^{}@}{View single commits using @git show@ e.\,g. @git show HEAD\^{}\^{}@}
+# \de{Passen Sie die Ausgabe von @git log@ an, verwenden Sie:}{Modify the output of @git log@, use:}
+#* @git log -{}-oneline@
+#* @git log -{}-stat@
+#* @git log -p@
+# \de{Führen Sie das folgende Kommando aus:\\@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}{Execute the following command: \\@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}

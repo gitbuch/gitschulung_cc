@@ -1,0 +1,70 @@
+% Achtung: Momentan nicht inkludiert!
+
+==== Änderungen erkennen: @diff@ ====
+
+<[block]{Änderungen zwischen Working-Tree und Index}
+@git diff@
+[block]>
+
+<[block]{Änderungen zwischen Index und Repository}
+@git diff -{-}staged@\\
+@git diff -{-}cached@
+[block]>
+
+* Ausgabe erfolgt im ''Unified Diff Format''
+* Direkt verwertbar für @patch@ oder @git apply@
+* Akzeptiert Commit-Listen wie das @log@-Kommando
+
+<[block]{Patch der Änderungen, die @''feature''@ einführt, ausgeben}
+@git diff master..''feature''@
+[block]>
+
+==== Diff-Filter ====
+
+<[block]{Welche Dateien wurden in den letzten 20 Commits gelöscht?}
+@git diff -C -{-}diff-filter=D -{}-name-status HEAD\~{}20@
+[block]>
+
+<[block]{Welche Dateien wurden seit @v1.0@ umbenannt?}
+@git diff -C -{-}diff-filter=R -{}-name-status v1.0@
+[block]>
+
+* Mit @-C@ erkennt Git automatisch (auch partielle) Umbenennungen und Duplikationen
+* Es können mehrere Diff-Filter angegeben werden
+
+* Diff-Filter funktionieren auch mit @git log@
+
+<[block]{Wann wurden Dateien aus @src/@ gelöscht oder umbenannt?}
+@git log -C -{}-diff-filter=DR -{}-oneline \textbackslash@\\
+@\qquad{}-{}-name-status -{}- src/@
+[block]>
+
+==== Überblick: Was wurde geändert? ====
+
+<[block]{Eine Bilanz hinzugefügter/entfernter Zeilen ausgeben}
+@git diff -{}-stat origin/master..master@
+[block]>
+
+--.5cm--
+
+<[block]{Wortweises Diff anzeigen}
+@git diff -{}-color-words@
+[block]>
+
+* Speziell für Plaintext- oder \LaTeX{}-Dateien hilfreich
+
+==== Mit der »Spitzhacke« nach Änderungen suchen ====
+
+* Wie @git grep@, nur dass nach ''Änderungen'' gesucht wird
+* Vergleichbar mit @grep@ für Diffs
+
+--.5cm--
+
+<[block]{Nach @strncpy@ in den Veränderungen von @src/*@ suchen}
+@git log -p -S"strncpy" -{-} src@
+[block]>
+
+<[block]{Veränderungen suchen, die Infinite-Loops einführen/entfernen}
+@git log -p  -{}-pickaxe-regex@
+@-S"for\textbackslash{}s*\textbackslash{}(\textbackslash{}s*;\textbackslash{}s*;\textbackslash{}s*\textbackslash{})"@
+[block]>

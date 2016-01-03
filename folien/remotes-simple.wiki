@@ -1,0 +1,176 @@
+==== Remote-Repositories ====
+
+* \de{Alle »anderen« Repositories heißen bei Git ''Remote Repository''}\
+     {All «other» repositories are known as ''remote repositories''}
+** \de{Das zentrale Repository}{The central (blessed) repository}
+** \de{Repositories von anderen Entwicklern}\
+      {Repositories belonging to other developers}
+** \de{Kopien (Klone) des Repositories}{Copies (clones) of the repository}
+* \de{Kurzbezeichnung: '''Remotes'''}{Abbreviation: '''Remotes'''}
+
+* \de{Im simpelsten Fall (nach einem @git clone@) ist nur ein Remote namens \
+      @origin@ eingetragen}\
+     {In the simplest case (e.\,g. after a @git clone@) only a single remote \
+     by the name of @origin@ is configured}
+
+<[block]{\de{Bestehendes Projekt ''klonen''}{''Clone'' an existing project}}
+@git clone git://gitschulung.de/''git-test''@\\
+@git clone tn01\@gitschulung.de:/''repos/git-test''@
+[block]>
+
+==== Remote-Tracking Branches ====
+
+* \de{Zur Erinnerung: Branches sind nur ''Zeiger'' in den Graphen}{Reminder: branches are just ''pointers'' into the DAG}
+* Remote-tracking-branches \de{sind spezielle Branches}{are special kinds of branches}
+* \de{Git merkt sich damit den Zustand auf der Remote-Seite}{Used to keep track}
+* \de{Können nicht vom User verwendet werden}{Can't be used by the user}
+* \de{Werden beim Fetch aktualisiert}{Updated during fetch}
+
+<[block]{@origin/master@}
+\de{@origin/master@ ist der ''Remote-Tracking-Branch'' des Branches @master@ aus dem Remote @origin@}
+   {@origin/master@ is the ''remote-tracking-branch'' of the branch @master@ from the remote @origin@}
+[block]>
+
+==== \de{Vor}{Before} @git clone@ ====
+
+<<<bilder/new-clone-before.pdf,width=\textwidth>>>
+
+==== \de{Nach}{After} @git clone@ ====
+
+<<<bilder/new-clone-after.pdf,width=\textwidth>>>
+
+==== @git push@ -- \de{Änderungen hochladen}{Pushing Changes} ====
+
+<[block]{\de{Änderungen im @''branch''@ nach @''remote''@ hochladen}\
+        {Pushing changes from @''branch''@ to @''remote''@}}
+@git push ''remote'' ''branch''@\\
+@git push origin master@
+[block]>
+
+<[block]{\de{Soll der Branch im Remote anders heißen}\
+        {Pushing a local branch to a differnt remote branch}}
+@git push ''remote'' ''branch-lo\de{k}{c}al'':''branch-remote''@
+[block]>
+
+* \de{Existiert der Branch bereits, versucht Git, ihn »weiterzurücken« (Fast-Forward)} \
+     {Git will attempt to «fast-forward» the remote branch if it exists}
+* \de{Geht das nicht, gib Git eine Fehlermeldung aus}\
+     {When this fails, an error message will be displayed}
+* \de{Git erstellt den Branch, falls er nicht existiert}\
+     {Git will create the branch, if it does not exist}
+
+==== \de{Vor}{Before} @git push@ ====
+
+<<<bilder/new-push-before.pdf,width=\textwidth>>>
+
+==== \de{Nach}{After} @git push@ ====
+
+<<<bilder/new-push-after.pdf,width=\textwidth>>>
+
+==== @git pull@ -- \de{Änderungen herunterladen}{Pulling Changes} ====
+
+<[block]{\de{Änderungen aus dem @''branch''@ im @''remote''@ herunterladen}\
+        {Pull changes from @''branch''@ in @''remote''@}}
+@git pull ''remote'' ''branch''@\\
+@git pull origin master@
+[block]>
+
+* \de{Änderungen werden in den aktuellen Branch gemerged}\
+     {Changes will be merged into the currently checked out branch}
+
+==== @git fetch@ -- \de{Remote-Tracking-Branches aktualisieren}{Update Remote-Tracking-Branches} ====
+
+* \de{Lokales Repository mit einem Remote synchronisieren}\
+     {Synchronize local repository with remote repository}
+*# \de{Veränderungen herunterladen}{Download changes}
+*# \de{Remote-Tracking-Branches werden automatisch angepasst}\
+      {Remote-tracking-branches are updates automatically}
+
+%% VH: lieber erwähnen
+%%* Lokale Branches und Änderungen werden ''nicht'' beeinflusst
+
+<[block]{\de{Veränderungen aus einem einzelnen Repository herunterladen}\
+            {Fetch changes from a single remote repository}}
+@git fetch ''remote''@
+[block]>
+
+<[block]{\de{Veränderungen aus allen Remotes herunterladen}{Fetch changes from all remotes}}
+@git remote update@ \quad (\de{oder alternativ}{alternatively})\\
+@git fetch -{}-all@
+[block]>
+
+* \de{Nach dem Update müssen Änderungen eingepflegt werden}\
+     {After the update, changes may have to be merged into the local branches}
+** --> @git merge@ \de{oder}{or} @git rebase@
+
+%% TODO einzelne Branches fetchen git fetch remote-name remote-branch:local-branch
+
+--.5cm--
+
+%% VH: s.o.
+%% !'''Wichtig\!'''! Eigene Commits werden durch diese Kommandos ''nicht'' veröffentlicht!
+
+==== \de{Vor}{Before} @git fetch@ ====
+
+<<<bilder/new-fetch-before.pdf,width=\textwidth>>>
+
+==== \de{Nach}{After} @git fetch@ ====
+
+<<<bilder/new-fetch-after.pdf,width=\textwidth>>>
+
+==== \de{Remote-Tracking-Branches Auslauben}{Prune stale Remote-Tracking-Bracnhes} ====
+
+* \de{Die Remote-Tracking-Branches verschwinden nicht automatisch}\
+     {Remote-Tracking-Branches aren't deleted automatically}
+* \de{Zum Beispiel: die Feature-Branches der Kollegen}\
+     {For Example: the feature-branches of your co-workers}
+
+<[block]{\de{Während des fetch}{During fetch}}
+@git fetch -{}-prune@
+[block]>
+
+<[block]{\de{Immer}{Always}}
+@git config -{}-global fetch.prune true@
+[block]>
+
+
+==== @git pull = fetch + X@====
+
+@git pull@ \de{verbindet zwei Kommandos}{combines two commands}:
+# \de{Änderungen herunterladen, Tracking-Branches aktualisieren}\
+     {fetch changes and update tracking branches}
+#* @git fetch@
+# \de{Tracking-Branch integrieren}{merge tracking branches}
+#* @git merge@ \de{oder}{or} @git rebase@
+
+<[block]{Fetch \de{und}{+} Merge}
+@git pull@
+[block]>
+
+<[block]{Fetch \de{und}{+} Rebase}
+@git pull -{}-rebase@
+[block]>
+
+==== \de{Vor einem Pull mit Fast-Forward}{Before Fast-Forward Pull}  ====
+
+<<<bilder/new-fetch-before.pdf,width=\textwidth>>>
+
+==== \de{Nach einem Pull mit Fast-Forward}{After Fast-Forward Pull}  ====
+
+<<<bilder/new-ff-pull-after.pdf,width=\textwidth>>>
+
+==== \de{Vor einem Pull mit Merge}{Before Merge Pull}  ====
+
+<<<bilder/new-merge-pull-before.pdf,width=\textwidth>>>
+
+==== \de{Nach einem Pull mit Merge}{After Merge Pull}  ====
+
+<<<bilder/new-merge-pull-after.pdf,width=\textwidth>>>
+
+==== \de{Vor einem Pull mit Rebase}{Before Pull + Rebase} ====
+
+<<<bilder/new-merge-pull-before.pdf,width=\textwidth>>>
+
+==== \de{Nach einem Pull mit Rebase}{After Pull + Rebase} ====
+
+<<<bilder/new-rebase-pull-after.pdf,width=\textwidth>>>

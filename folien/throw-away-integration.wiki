@@ -1,0 +1,9 @@
+==== Throw-Away-Integration ====
+
+* Idee: Einen Merge vorher ''testen''
+** Funktioniert das Feature? Gibt es Konflikte?
+* @git branch throw-away-feature1@
+* @git merge feature1@
+* Funktioniert alles?
+** Nein: Fehler suchen, verantwortlichen Entwickler kontaktieren
+** Ja: @git branch -D throw-away-feature1@ und den gleichen Merge in den Entwicklungs-Branch machen

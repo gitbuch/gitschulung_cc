@@ -1,0 +1,39 @@
+==== \de{Git konfigurieren}{Configure Git} ====
+
+* \de{Mit @git config@ wird die Konfiguration abgefragt und angepasst}\
+     {Using @git config@ the configuration can be queried and changed}
+
+* \de{Grundsätzlich nur für das aktuelle Projekt}\
+     {Usually just for the current project}
+** \de{Wird in @.git/config@ gespeichert}\
+      {Saved in @.git/config@}
+* \de{Mit dem Zusatz @-{}-global@ für den aktuellen Benutzer}\
+     {With the @-{}-global@ switch for the current user}
+** \de{Wird in der Datei @\~{}/.gitconfig@ gespeichert}\
+      {Saved in the file @\~{}/.gitconfig@}
+
+==== \de{Wer bin ich? -- Name und E-Mail einstellen}{Wo am I? -- Set Name and Email} ====
+
+* \de{Bevor wir Git einsetzen, müssen wir uns vorstellen}\
+     {Before we can use Git, we must introduce ourselves}
+* \de{Information wird beim Erstellen von Commits verwendet}\
+     {Information will be used when creating a commit}
+* \de{Default-Einstellung sind @\$USER@ und @hostname@}\
+     {The defaults are @\$USER@ and @hostname@}
+
+<[block]{\de{Allgemein für den Benutzer}{For the current user}}
+@git config -{}-global user.name \de{"Max Mustermann"}{"John Doe"}@ \\
+@git config -{}-global user.email \de{max\@mustermann.com}{john\@doe.com}@
+[block]>
+
+<[block]{\de{... alternativ nur für das aktuelle Projekt}\
+        {... alternatively just for the current project}}
+@git config user.email maintainer\@cool-project.org@
+[block]>
+
+--0.2cm--
+
+<[block]{\de{!Achtung\!! ''Kein'' !'''='''! aber '''""''' verwenden!}
+        {\textcolor{red}{Warning\!} ''do not'' use \textcolor{red}{'''='''}}}
+@git config -{}-global user.name !'''='''! Max Mustermann@
+[block]>

@@ -1,0 +1,9 @@
+==== Windows ====
+
+* Git-BASH/@mysysgit@ \de{Ist ein Windows-Port von Git}{is a Windows port of Git}
+* \de{Enthält wesentliche UNIX Werkzeuge, Shell, Editor etc..}\
+     {Includes basic UNIX utilities, shell, editor etc..}
+* \de{Sogar @ssh@ und @ssh-keygen@}{Even @ssh@ and @ssh-keygen@}
+
+* \de{Achten Sie auf Zeilenenden}{Beware of line ending issues}
+* \de{Überprüfen Sie die Firmenpolicy}{Check your company guidelines}

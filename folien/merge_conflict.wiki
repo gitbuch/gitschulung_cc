@@ -1,0 +1,50 @@
+==== \de{Merge-Strategien}{Merge Strategies} ====
+
+\de{Git kennt mehrere Strategien, um einen Merge auszuführen. Die beiden wichtigsten sind:}{Git has many strategies to perform merges, the two most important are:}
+* '''recursive'''
+** \de{Standard-Strategie: 3-Wege-Merge, platziert im Konfliktfall entsprechende Marker in den betroffenen Dateien}{Standard strategy: a 3-way merge, will place markers into files in case of conflicts}
+* '''octopus'''
+** \de{Strategie, um mehrere Branches zusammenzufügen. Bricht bei Konflikten ab.}{Strategy to merge multiple branches, will abort in case of conflicts}
+
+==== \de{Konflikte lösen: Manuell}{Conflict Resolution: Manually} ====
+
+* @git checkout master@
+* @git merge ''topic''@
+** \de{... bricht mit einem Konflikt in @''datei''@ ab}{Will abort with a conflict in @''file''@}
+* @\$EDITOR ''\de{datei}{file}''@
+** \de{Suche nach den Markern}{Search for the markers} @>{}>{}>{}>{}>@, @<{}<{}<{}<{}<@ \de{und}{and} @=====@
+** \de{Behebung des Konfliktes}{Resolve the conflict}
+* @git add ''\de{datei}{file}''@
+* @git commit@
+** \de{Konflikt und Lösung beschreiben}{Describe the conflict and the resolution}
+
+==== \de{Konflikte lösen}{Conflict Resolution}: Mergetool ====
+
+<[block]{\de{Ein Mergetool konfigurieren}{Configure a mergetool}}
+@git config -{}-global merge.tool vimdiff@
+[block]>
+
+--.5em--
+
+* @git merge ''topic''@
+** \de{... bricht mit einem Konflikt in @''datei''@ ab}{Will abort with a conflict in @''file''@}
+* @git mergetool@
+** \de{Konflikt lösen}{Resolve conflict}
+* @git commit@
+
+==== \de{Konflikte lösen: automatisch}{Conflict Resolution: Automatic} ====
+
+* \de{Die Merge-Strategie ''recursive'' kennt zwei Optionen, die einen Merge automatisch lösen können}{The merge strategy ''recursive'' knows two options to automatically resolve a merge}
+* \de{Treten konfliktierende Hunks (Bündel geänderter Zeilen) auf, bevorzugt}{In case of conflicts...}
+** '''ours''' \de{die Änderungen aus dem aktuellen Branch}{takes the changes from the current branch}
+** '''theirs''' \de{die Änderungen aus dem zu integrierenden Branch}{takes the changes from the branch being merged}
+
+<[block]{\de{Den Änderungen aus @master@ Vorzug geben}{Use changes from @master@}}
+@git checkout master@\\
+@git merge -X ours ''topic''@
+[block]>
+
+<[block]{\de{Den Änderungen aus @''topic''@ Vorzug geben}{use changes from @topic@}}
+@git checkout master@\\
+@git merge -X theirs ''topic''@
+[block]>

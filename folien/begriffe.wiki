@@ -1,0 +1,11 @@
+==== \de{Begriffsbildung}{Vocabulary} ====
+
+* \de{'''Commit''': Eine Änderung an einer oder mehrerer Dateien, versehen mit Metadaten wie Autor, Datum und Beschreibung}{'''Commit''': A change in one more files; includes meta-data such as author, date and description}
+* \de{'''Commit-ID''': Jeder '''Commit''' wird durch eine eindeutige SHA1-Summe identifiziert, seine '''ID'''}{'''Commit-ID''': every '''Commit''' is identified by a unique SHA-1-Sum, its '''ID'''}
+* \de{'''Repository''': »Behältnis« für gespeicherte '''Commits'''}{'''Repository''': «Container» for saved '''Commits''' }
+* \de{'''Working-Tree''': Arbeitsverzeichnis, die Dateien die man sieht}{'''Working-Tree''': the current files in the working directory}
+* \de{'''Branch''': Ein »Zweig«, eine Abzweigung im Entwicklungszyklus, z.\,B. um ein neues Feature einzuführen.}{'''Branch''': A bifurcation in the development, e.\,g. to add a new feature}
+* \de{'''Referenz''': Eine Referenz »zeigt« auf einen bestimmten Commit, z.\,B. ein '''Branch'''}{'''Reference''': A reference «points» to a specific commit, e.\,g. a branch}
+
+* \de{'''Index'''/'''Staging-Area''': Bereich zwischen dem '''Working-Tree''' und dem '''Repository''', in dem Änderungen für den nächsten '''Commit''' gesammelt werden}{'''Index'''/'''Staging-Area''': Area between '''Working-Tree''' and '''Repository''' where changes for the next '''Commit''' are collected}
+

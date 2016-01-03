@@ -1,0 +1,37 @@
+==== \de{Hinaus in die weite Welt\!}{Out into the Wild World\!} ====
+
+* \de {Wir wollen unsere Arbeit mit der anderer Entwickler austauschen\!}{Goal: Exchange work with other developers\!}
+* \de {Durch die verteilte Architektur von @git@ braucht es keinen ''zentralen'' Server zu geben.}{There is no need for a ''central'' server due to the distributed architecture of @git@}
+* \de {Das Entwicklerteam muss sich auf einen ''Workflow'' einigen:}{The developers needs to agree on a ''Workflow''}
+** \de {Zentralisiert}{Centralized}
+** \de {Öffentliche Entwickler-Repositories}{Public developer repositories}
+** \de {Patch-Queue per E-Mail}{Patch-queue by email}
+** \de {... oder auch alles durcheinandergemixt}{... or everything mixed up :)}
+
+% TODO: Auflistung komplett?
+
+==== Hybrid-\de{Zentralisiert}{Centralized} ====
+
+<[figure][ht]
+    <<<bilder/centralised\de{}{-en}.pdf, scale=0.35>>>
+[figure]>
+
+* \de {Ein einziges zentrales Repository}{A single central repository}
+* \de {Alle Entwickler haben Schreibzugriff}{All developers have write access}
+
+==== \de {Öffentliche Entwickler-Repositories}{Public Developer-Repositories} ====
+
+<[figure][ht]
+    <<<bilder/developer-public\de{}{-en}.pdf, scale=0.35>>>
+[figure]>
+
+* \de {Ein öffentliches Repository pro Entwickler}{One public repository per developer}
+* \de {Der Projektleiter integriert Verbesserungen}{The project leader(s) integrate(s) improvements}
+
+==== \de {Patch-Queue per E-mail}{Patch-Queue by Email} ====
+
+<[figure][ht]
+    <<<bilder/patches-per-mail\de{}{-en}.pdf, scale=0.32>>>
+[figure]>
+
+* \de {Stark vom Kernel und Git selbst verwendet}{Extensively used by the Kernel and Git itself}

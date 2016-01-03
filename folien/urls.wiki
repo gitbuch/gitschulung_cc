@@ -1,0 +1,73 @@
+==== Anonymes Remote ====
+
+* Für @pull@ bzw. @fetch@ sowie @push@ muss das Repository nicht zwingend als Remote eingetragen sein
+
+<[block]{Änderungen aus einem fremden Repository integrieren}
+@git pull git://gitschulung.de/projekt.git ''korrekturen''@
+[block]>
+
+* Der Branch @''korrekturen''@ aus obiger URL wird heruntergeladen und in den aktuellen Branch gemerged
+
+
+==== Git unterstützt folgende Protokolle: ====
+
+<[block]{SSH}
+@ssh://[user\@]gitschulung.de[:port]/pfad/zum/repo.git@
+[block]>
+
+<[block]{Git-Protokoll (Port 9418)}
+@git://gitschulung.de[:port]/pfad/zum/repo.git@
+[block]>
+
+<[block]{HTTP(S)}
+@http[s]://gitschulung.de[:port]/pfad/zum/repo.git@
+[block]>
+
+<[block]{FTP(S)}
+@ftp[s]://gitschulung.de[:port]/pfad/zum/repo.git@
+[block]>
+
+<[block]{RSYNC}
+@rsync://gitschulung.de/pfad/zum/repo.git@
+[block]>
+
+
+
+==== URLs verwenden ====
+
+* Folgende Befehle akzeptieren URLs
+** @git clone@
+** @git fetch@
+** @git pull@
+** @git remote@
+** @git push@
+
+--2em--
+
+Zusätzlich zu den gennanten Protokollen kann Git auch mit lokalen Repositories umgehen:
+
+<[block]{URL im lokalen Dateisystem}
+@/pfad/zum/repo.git@\\
+@file:///pfad/zum/repo.git@
+[block]>
+
+==== SSH-Syntax ====[containsverbatim]
+
+<[block]{Verkürzte SSH-Syntax}
+@[user\@]gitschulung.de:pfad/zum/repo.git@
+[block]>
+
+* Besonders nützlich mit dem entsprechenden Eintrag in @\~{}/.ssh/config@
+
+<[block]{Server-Konfiguration}
+<[verbatim]
+Host schulung
+    HostName  gitschulung.de
+    User      valentin
+[verbatim]>
+[block]>
+
+<[block]{Verkürzte URL}
+@git clone schulung:/git/beispiel.git@
+[block]>
+

@@ -1,0 +1,14 @@
+==== '''Übung:''' Checkout ====
+
+# \de{Verwenden Sie @git checkout@, um den Working-Tree in einen Zustand von heute Morgen zu versetzten} \
+     {Use @git checkout@ to re-create a working-tree state like it was earlier today}
+# \de{Beobachten Sie hierbei die Ausgabe von Git bzgl.\ des »Detached @HEAD@«} \
+     {Note Git’s informative message about the «Detached HEAD» state }
+# \de{Schauen Sie sich nun die Ausgabe von @git branch@ an} \
+     {View the output of @git branch@}
+# \de{Verändern Sie eine Datei im Working-Tree. Stellen Sie danach mit @git checkout@ den alten Zustand wieder her} \
+     {Make a change in the working-tree; then throw away that change again using @git checkout@}
+# \de{Verändern Sie mehrere Dateien im Working-Tree, und stellen Sie danach mit einem \
+      einzigen Aufruf von @git checkout@ den Zustand aller Dateien wieder her} \
+      {Change multiple files in the working-tree; then, throw away all changes using just \
+      one call to @git checkout@.}

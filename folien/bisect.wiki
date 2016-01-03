@@ -1,0 +1,42 @@
+==== Commits »sezieren«: @git bisect@ ====
+
+* In der aktuellen Version tritt ein Fehler auf
+* In früheren Versionen gab es diesen Fehler nicht
+
+* Welcher Commit hat diese Änderung eingeführt?
+
+* @git bisect@ sucht den schuldigen Commit
+** Benötigt ca. $\log_2(n)$ Schritte
+** Automatisierung möglich
+
+==== Benutzung von @git bisect@ ====
+
+<[block]{Fehlersuche starten}
+@git bisect start@\\
+@git bisect bad ''bad-commit''@\\
+@git bisect good ''good-commit''@
+[block]>
+
+* »Divide and Conquer«: Git präsentiert einen Commit, der in etwa in der Mitte zwischen @good@ und @bad@ liegt
+* Überprüfen, ob der Bug existiert
+** Wenn ja, @git bisect bad@
+** Wenn nein, @git bisect good@
+
+<[block]{Fehlersuche beenden}
+@git bisect reset@
+[block]>
+
+==== Bisect automatisieren ====
+
+* Skript schreiben, das den Test automatisiert
+** Gibt @0@ zurück, wenn Programm keine Fehler hat
+** Sonst: Rückgabewert @1@--@127@
+
+* @git bisect@ führt für jeden Schritt das Skript aus
+** Rückgabewert @0@ --> markiert Commit als @good@
+** Sonst ist der Commit @bad@
+
+<[block]{Bisect automatisieren}
+@git bisect start ''bad-commit'' ''good-commit''@\\
+@git bisect run ''test-script.sh''@
+[block]>

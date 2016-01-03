@@ -1,0 +1,24 @@
+==== \de {'''Übung:'''  Rebase}{'''Exercise:'''  Rebase} ====
+
+# \de{Erstellen Sie auf einem Branch, der von @master@ abgeht, \
+      einige Commits. Erstellen Sie auf @master@ Commits. \
+      Bauen Sie den anderen Branch von neuem auf @master@ auf (''rebase'')} \
+     {Create some commits on a branch off of @master@. \
+      Create some commits on @master@. \
+      Rebase the branch onto @master@}
+# \de{Schaffen Sie eine geeignete Situation, in der @rebase -{}-onto@ \
+      hilfreich ist} \
+     {Create a situation where @rebase -{}-onto@ could be helpful}
+# \de{Transplantieren Sie die drei neusten Commits auf Ihrem aktuellen \
+      Branch in einen anderen Branch (''rebase onto'')} \
+     {Transplant the three newest commits on your current branch into \
+      another branch (''rebase onto'')}
+# \de{Erstellen Sie mehrere Commits auf mehreren Branches, und \
+      linearisieren Sie alle Commits aller Branches} \
+     {Create multiple commits on multiple branches and linearize all \
+      commits of all branches}
+# \de{Übernehmen Sie aus einem Branch einen Commit per @cherry-pick@ \
+      in den @master@ und bauen Sie den Branch dann neu auf @master@ auf. \
+      Was passiert mit dem Commit, den Sie übernommen hatten?} \
+     {Transfer a commit from a branch into the @master@ using @cherry-pick@. \
+     What happens to the commit which you transfered?}

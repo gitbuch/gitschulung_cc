@@ -1,0 +1,24 @@
+==== \de{Ablaufplan: Tag 1}{Schedule: Day 1} ====
+
+* \de{'''Tag 1, vormittags:''' Einführung in Git}{'''Day 1, morning:''' Introduction to Git}
+** \de{Ein Repository erstellen}{Creating a Git repository}
+** \de{Die wichtigsten Git-Kommandos}{The most important Git commands}
+** \de{Der Index}{The Index}
+** \de{Git-Interna}{Git internals}
+* \de{'''Tag 1, nachmittags:''' Mit Branches arbeiten}{'''Day 1, afternoon:''' Working with branches}
+** \de{Branches erstellen und wieder zusammenführen}{Creating branches and merging them back}
+** \de{Änderungen rückgängig machen}{Undoing changes}
+** \de{Merge-Konflikte lösen}{How to solve merge conflicts}
+
+==== \de{Ablaufplan: Tag 2}{Schedule: Day 2} ====
+
+* \de{'''Tag 2, vormittags:''' Kollaboration}{'''Day 2, morning:''' Collaboration}
+** Rebase
+** \de{Parallele Entwicklung mit Git}{Parallel development with Git}
+** Workflows
+** \de{Praktischer Teil: Zusammen ein Projekt erstellen}{Practice: Working together on a project}
+* \de{'''Tag 2, nachmittags:''' Erweitertes Git}{'''Day 2, afternoon:''' Advanced Git}
+** \de{Hilfreiche Git-Kommandos}{Helpful Git commands}
+** \de{Fehlersuche}{Bug hunting}
+** \de{Automatisierung}{Automatization}
+** \de{Evtl. Auffangbecken für noch nicht geklärte Fragen}{If desired: Q\&A}

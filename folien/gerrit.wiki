@@ -1,0 +1,50 @@
+==== Git \de{und}{and} Gerrit ====
+
+* \de{Gerrit ist ein webbasiertes Code-Review-System}{Gerrit is a web-based code review system}
+** \de{Ursprünglich von Google für die Android-Entwicklung geschriebenn}{Initially written by Google for Android development}
+** \de{Enthält einen Git-Server, der Nutzerberechtigungen verwaltet}{Includes a Git server with fine-grained ACL options}
+
+* \de{Gerrit ist ein »Gateway« für neue Commits}{Gerrit acts as a «gateway» for new commits}
+* \de{Commits brauchen Review-Punkte, bevor sie ins Repository wandern}{Commits need rewiew points in order to move to the repository}
+* \de{Fehlerhafte Commits können verbessert werden, bis sie akzeptiert werden}{Faulty patch series can be re-rolled several times until accepted}
+
+==== \de{Der Gerrit-Workflow}{The Gerrit Workflow} ====
+
+<<<bilder/gerrit\de{}{-en}.pdf, scale=0.40>>>
+
+==== \de{Der Gerrit-Workflow}{The Gerrit Workflow} ====
+
+* \de{Nie auf @master@ entwickeln, sondern einen Branch pro Feature}{Never develop on @master@, use one branch per feature}
+** \de{Auf diese Weise kann @master@ immer per Fast-Forward gemergt werden}{This way, you can always fast-forward your @master@ branch}
+* \de{Immer eine Zeile mit @Change-Id@ in die Commit-Nachricht schreiben}{Always use the @Change-Id@ line in commit message}
+** \de{Gerrit-Hook verwenden oder Eclipse-Button}{Copy hook over from Gerrit or use Eclipse button}
+* \de{Code ist fertig? Code für @''branch''@ nach @refs/for/''branch''@ pushen}{Code ready: Push code intended for @''branch''@ to @refs/for/''branch''@}
+
+<[block]{\de{Neue Commits für @master@ hochladen}{Upload new commits intended for @master@}}
+@git push ''gerrit'' HEAD:refs/for/master@
+[block]>
+
+==== \de{Patch-Serie verbessern}{Improving a patch series} ====
+
+* \de{Wenn die Code-Review etwas bemängelt, muss dies repariert werden}{If the review uncovers bad code, you need to fix it}
+* \de{Checken Sie den Branch aus, auf dem Sie das Feature entwickelt hatten}{Check out the branch where you did the work}
+** \de{Benutzen Sie z.B.}{Use e.g.} @git branch -v -{}-contains ''commit-id''@
+* \de{Benutzen Sie interaktives Rebase, um den Commit zu verbessern}{Use interactive rebase to fix the commit}
+** \de{Stellen Sie sicher, dass Sie die gleiche @Change-Id@ in der Beschreibung beibehalten\!}{Make sure the @Change-Id@ field stays in the commit description\!}
+* \de{Pushen Sie die Commits ein weiters Mal nach @refs/for/''branch''@}{Push the commits to @refs/for/''branch''@ again}
+** \de{Wegen der gleichen @Change-Id@ erkennt Gerrit dies als einen »Re-roll«}{Because of the @Change-Id@, Gerrit will recognize this as a re-roll}
+
+==== \de{Code Anderer überprüfen}{Reviewing other’s code} ====
+
+* \de{Navigieren Sie zu dem Patch-Set, das Sie reviewen wollen}{Navigate to the patch set you’d like to review}
+* \de{Verwenden Sie das unter »Download« angegebene Kommando, um die Commits herunterzuladen}{Use the command under “download” to to get the commit(s)}
+* \de{Das Kommando versetzt Sie in den »Detached HEAD«-State}{This will put you in a “detached HEAD” state}
+
+<[block]{\de{Änderung auschecken}{Check out a changeset}}
+@git fetch ssh://…/repo refs/changes/''n''/''m''@\\
+@git checkout FETCH\_HEAD@
+[block]>
+
+<[block]{\de{Tip: Auf den vorherigen Branch wechseln}{Hint: Switch to previous branch}}
+@git checkout -@
+[block]>

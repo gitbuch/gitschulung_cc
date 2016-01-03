@@ -1,0 +1,34 @@
+==== Daten wiederherstellen ====
+
+* Was tun, wenn nach einem @reset@ oder @branch -D@ Commits verloren scheinen?
+
+* Git protokolliert alle Vorgänge, die Daten speichern, im ''Reflog''
+
+<[block]{Anzeigen des Reflog}
+@git reflog@
+[block]>
+
+<[block]{Normales @log@ mit Informationen aus dem Reflog}
+@git log -g@
+[block]>
+
+==== Daten aus dem Reflog übernehmen ====
+
+* Identifizieren Sie, welche(n) Commit(s) Sie brauchen
+* Nutzen Sie Git Kommandos @merge@, @cherry-pick@ oder @branch@ zum Wiederherstellen
+** Auch wenn die Commits nicht mehr sichtbar sind, sind sie noch vorhanden
+
+<[block]{Fehlerhaften @reset@ rückgängig machen}
+@git reset -{}-hard HEAD\^{}@\\
+@git merge HEAD\@\{1\}@
+[block]>
+
+==== Wie lange hält der Reflog? ====
+
+* Reflog-Einträge werden nach einer bestimmten Zeit gelöscht
+** 90 Tage für alle erreichbaren Commits
+** 30 Tage für alle unerreichbaren
+
+--.5cm--
+
+!Bedenken Sie\!! Dateien oder Veränderungen die (noch) nicht mit Git gespeichert sind, können mit diesem Mechanismus nicht wiederhergestellt werden!!

@@ -1,0 +1,16 @@
+==== EGit: Fetch ====
+
+* ''Repository-View''
+* --> ''Fetch from Upstream''
+* --> ''Remote'' --> ''Fetch...''
+
+==== EGit: Push ====
+
+* ''Repository-View''
+* --> ''Push to Upstream''
+* --> ''Push Branch''
+* --> ''Remote'' --> ''Push...''
+
+==== EGit: Pull ====
+
+* ''Repository-View'' --> ''Pull''

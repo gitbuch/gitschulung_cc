@@ -1,0 +1,14 @@
+==== \de{'''Übung:''' Branches und Tags erstellen und löschen}{'''Exercise:''' Creating and Deleting Branches and Tags} ====
+
+# \de{Erstellen Sie zwei Branches, die vom gleichen Commit ausgehen}\
+     {Create two branches from the same commit}
+# \de{Erstellen Sie Commits auf beiden Branches}\
+     {Create commits on each of those branches}
+# \de{Schauen Sie sich das Ergebnis mit folgendem Kommando an: \
+      \qquad{}@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}\
+      {View the result using \\\qquad{}@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}
+# \de{Rufen Sie @gitk -{}-all@ auf}\
+     {Call @gitk -{}-all@}
+# \de{Listen Sie alle vorhandenen Branches mit @git branch -av@ auf}\
+     {List all branches with @git branch -av@}
+# \de{Erstellen Sie ein ''Annotated Tag'' @v1.0@}{Create the ''annotated tag'' @v1.0@}

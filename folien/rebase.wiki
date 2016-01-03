@@ -1,0 +1,200 @@
+==== \de{Rebase: Auf eine neue Basis stellen}{Rebase: Rebuild Onto New Base} ====
+
+* \de{'''Rebase''': Einen Branch auf eine »neue Basis« stellen.}\
+     {'''Rebase''': Move a branch onto a «new base».}
+
+<[block]{\de{@master@ als neue Basis für @''topic''@}\
+        {@master@ as a new base for @''topic''@}}
+@git checkout ''topic''@ \\
+@git rebase master@
+[block]>
+
+<[block]{\de{Alternativ}{Alternative short version}}
+@git rebase master ''topic''@
+[block]>
+
+==== \de{Vor dem Rebase}{Before Rebase} ====
+
+<[center]
+<<<bilder/rebase-vorher.pdf,scale=0.12>>>
+[center]>
+
+* \de{@''topic''@ soll auf der neusten Version von @master@ basieren}\
+     {@''topic''@ should be based on the most recent version of @master@}
+
+==== \de{Nach dem Rebase}{After Rebase} ====
+
+<[center]
+<<<bilder/rebase-nachher.pdf,scale=0.12>>>
+[center]>
+
+* @git rebase master ''topic''@
+
+
+==== \de{Rebase: Wozu?}{Rebase: Why?} ====
+
+\de{Mit einem Rebase kann man »die Geschichte umschreiben« -- aber wozu?}\
+   {Using rebase we can «rewrite history» -- but why?}
+
+--.5cm--
+
+* \de{Kontinuierliche, parallele Entwicklung} \
+     {Continuous, parallel development}
+* \de{Entwicklungsgeschichte linearer und übersichtlicher machen}\
+     {Linearize and clean up history (''sausage making'')}
+* \de{Einen Teil der Entwicklung auf einen anderen Branch transplantieren}\
+     {Transplant one part of the development to another branch}
+* \de{Patch-Stacks verwalten} \
+     {Manage patch stacks}
+
+==== \de{Anwendungsfall visualisiert}{The Idea visualized} ====
+
+-- -.8em--
+<[center]
+<<<bilder/rebase-konzept-vorher.pdf,scale=0.18>>>
+[center]>
+
+==== \de{Anwendungsfall visualisiert}{The Idea visualized} ====
+
+-- -.8em--
+<[center]
+<<<bilder/rebase-konzept-nachher.pdf,scale=0.18>>>
+[center]>
+
+==== \de{Rebase: Kontinuierliche Entwicklung}{Rebase: Continuous Development} ====
+
+# \de{Die Entwicklung eines Features wird begonnen} \
+     {The development of a feature begins}
+# \de{Teile des Features werden in das Release übernommen} \
+     {Parts of the feature are included in the release}
+# \de{Feature-Branch soll nun wieder auf dem aktuellsten Release basieren} \
+     {Feature Branch should be based the latest release}
+# \de{Entwicklung geht weiter, das Feature wird fertig gestellt und released} \
+     {Development continues, the feature is completed and released}
+
+==== \de{1. Die Entwicklung eines Features wird begonnen}\
+        {1. The development of a feature begins} ====
+
+\de{Januar (@v1.0@): Das Ausgabe-Handling soll umgeschrieben werden}
+   {January (@v1.0@): The output handling is to be rewritten}
+
+--3em--
+
+<[block]{\de{Neuen Branch erstellen, in dem das Feature entwickelt wird} \
+            {Create a new branch, for developing this feature}}
+@git checkout -b ''rewrite-io'' v1.0@
+[block]>
+
+==== \de{2. Teile des Features werden in das Release übernommen} \
+        {2. Parts of the feature are included in the release} ====
+
+\de{Februar (@v1.1@): Funktionen wurden umbenannt und vereinheitlicht, \
+    Interna sind im Wesentlichen gleich geblieben}\
+   {February (@v1.1@): Functions have been renamed and unified, \
+    internals have remained essentially the same}
+
+--3em--
+
+<[block]{\de{Teile der Commits werden übernommen nach @v1.1@}\
+            {Parts of the commits are adopted to @v1.1@}}
+@git merge/cherry-pick ...@
+[block]>
+
+==== \de{3. Feature-Branch soll nun wieder auf dem aktuellsten \
+         Release basieren} \
+        {3. Feature Branch should be based on the latest release} ====
+
+\de{Die geplanten neuen Ausgabe-Routinen benötigen eine Funktionalität, \
+    die erst in der neusten Version implementiert wurden} \
+   {The planned new output routines need functionality that were not \
+    implemented in the latest version}
+
+--3em--
+
+<[block]{\de{Der Feature-Branch wird auf eine neue Basis gebracht}\
+            {The Feature-Branch is brought to a new base}}
+@git rebase v1.1 ''rewrite-io''@
+[block]>
+
+==== \de{4. Entwicklung geht weiter, das Feature wird fertig gestellt \
+         und released} \
+        {4. Development continues, the feature is completed and released} ====
+
+\de{März (@v1.2@): Die Ausgabe-Routinen sind fertig und werden eingebunden}{March (@v1.2@): The output routines are done and be involved}
+
+--3em--
+
+<[block]{\de{Der Feature-Branch wird gemerged}{The feature branch is merged}}
+@git merge ''rewrite-io''@
+[block]>
+
+==== \de{Rebase: Entwicklungsgeschichte linearisieren}{Rebase: Linearize the Development History} ====
+
+* \de{Parallel stattfindende Entwicklung muss nicht notwendigerweise \
+      als solche aufgezeichnet werden} \
+     {Parallel development may not necessarily be recorded as such}
+
+* \de{Für Fehlersuche sowie Code-Review sollte die Versionsgeschichte \
+      logisch »gegliedert« sein} \
+     {For debugging and code review the version history \
+     should be «structured» in a semantic way}
+** \de{Erst den Protokoll-Stack schreiben, dann Funktionen, die ihn \
+       verwenden (selbst wenn beides gleichzeitig entwickelt wird)} \
+      {First write the protocol stack, then functions that use it \
+       (even if both are developed simultaneously)}
+
+* \de{Achtung: Sinnlose Linearisierung ist nicht wünschenswert\!} \
+     {Warning: Senseless linearization is not desirable\!}
+** \de{Zusammenhängende (aber zeitlich weit auseinanderliegende) \
+       Commits sind nicht mehr einfach als solche zu identifizieren} \
+      {Related commits from different development periods are no longer \
+       easy to identify}
+
+==== \de{Rebase Onto: Commits »transplantieren«}{Rebase onto: «Transplant» Commits} ====
+
+* \de{Aufbau der Branches: @master@ <-- @topic@ <-- @bugfix@}\
+      {Structure of branches: @master@ <-- @topic@ <-- @bugfix@}
+* \de{@bugfix@ soll nun direkt auf @master@ basieren, ohne dass die \
+      Commits von @topic@ dupliziert werden} \
+     {@bugfix@ is now directly based on @master@ without the commits \
+      of @topic@ beeing duplicated}
+* \de{Lösung: @git rebase -{-}onto@} \
+     {Solution: @git rebase -{-}onto@}
+
+<[block]{\de{Teile eines Branches »transplantieren«}\
+        {«Transplant» parts of a branch }}
+@git rebase -{-}onto master topic bugfix@
+[block]>
+
+==== \de{Rebase Onto -- Vorher}{Rebase Onto -- Before} ====
+
+<[center]
+ <<<bilder/rebase-onto-vorher.pdf,scale=0.12>>>
+[center]>
+
+==== \de{Rebase Onto -- Nachher}{Rebase Onto -- After} ====
+
+<[center]
+ <<<bilder/rebase-onto-nachher.pdf,scale=0.12>>>
+[center]>
+
+==== \de{Upstream Rebase}{Upstream Rebase} ====
+
+* \de{!'''Wichtig:'''! Sie sollten '''''niemals''''' Commits aus \
+      einem bereits veröffentlichten Branch durch @git rebase@ verändern\!}\
+     {!'''Important:'''! You should '''''never''''' modify commits that \
+      have already been published\!}
+** \de{Branches (z.\,B.\ anderer Entwickler), die darauf basieren, \
+       stehen nun »elternlos« da -- so etwas zu reparieren ist teilweise \
+       mühselig.}\
+      {Branches (i.e. of other developers), based on it, become \
+       «parentless» -- may be potentially tedious to fix.}
+* \de{'''Daher: Nur unveröffentlichten Code rebasen\!'''} \
+     {'''Rule-of-thumb: Only rebase unpublished code\!'''}
+** @git rebase origin/master@
+** @git rebase v1.1.23@
+
+* \de{Eine Ausnahme bilden natürlich Vereinbarungen zwischen den Entwicklern}\
+     {Exception: agreements between developers}
+** \de{»Auf die Branches @test/*@ soll niemand seine Arbeit aufbauen«}\
+      {«nobody should base his work on the branches in @test/*@»}

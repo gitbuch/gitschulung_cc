@@ -1,0 +1,4 @@
+==== \de{'''Übung:''' Branches zusammenführen}{'''Exercise:''' Merging Branches} ====
+
+# \de{Führen Sie zwei Branches zusammen}{Merge two branches}
+# \de{Integrieren Sie ''mehrere'' Branches gleichzeitig in den @master@ (''octopus'')}{Merge multiple branches into @master@ (''octopus'')}

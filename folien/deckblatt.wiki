@@ -1,0 +1,11 @@
+>>>autotemplate.wiki<<<
+
+\toggletrue{de}
+
+\begin{frame}
+    \title{Git-Schulung}
+    \subtitle{--Firma--}
+    \author{Valentin Hänel, Julius Plenz}
+    \date{--Datum--}
+    \titlepage
+\end{frame}

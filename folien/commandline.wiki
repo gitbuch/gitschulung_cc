@@ -1,0 +1,20 @@
+==== \de{Der Kommandozeilenclient}{The Commandline Client} ====
+
+* \de{Der Referenzclient}{The reference client}
+* \de{Viele Tutorials}{Many tutorials}
+* \de{Sehr viele Subkommandos und Optionen}{Many subcommands and options}
+
+==== \de{Subkommandos}{Subcommands} ====
+
+* \de{Besteht aus Subkommandos mit Optionen}{Consists of subcommands and options}
+* \de{Optionen sind kurz oder lang}{Options can be short or long}
+
+<[block]{}
+@git ''-o'' ''-{}-option'' ''subcommand''@
+[block]>
+
+
+<[block]{}
+@git commit -m 'initial commit'@\\
+@git commit -{}-message 'initial commit'@
+[block]>

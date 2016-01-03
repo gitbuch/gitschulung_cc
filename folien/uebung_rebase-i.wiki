@@ -1,0 +1,12 @@
+==== \de {'''Übung:'''  Rebase interaktiv}{'''Exercise:''' interactive rebase} ====
+
+# \de{Ändern Sie die Commit-Nachricht mehrerer Commits} \
+     {Change the commit-message of multiple commits}
+# \de{Fassen Sie mehrere Commits zu einem zusammen} \
+     {Squash two or more commits into a single one}
+# \de {Löschen Sie einen Commit aus der Versionsgeschichte} \
+      {Delete a commit from history}
+# \de {Wählen Sie einen Commit aus dem aktuellen Branch \
+       (nicht den neusten\!) und teilen Sie ihn in mehrere kleinere auf} \
+      {Choose a commit from the current branch (not the most recent\!) \
+       and split it into several small commits}

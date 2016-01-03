@@ -1,0 +1,10 @@
+#!/bin/sh
+ls bilder/*.pdf | while read line
+do
+    echo
+    echo ==== $line ====
+    echo
+    echo
+    echo "<<<$line, scale=0.25>>>"
+    echo
+done

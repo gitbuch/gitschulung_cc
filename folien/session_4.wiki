@@ -1,0 +1,41 @@
+>>>deckblatt.wiki<<<
+
+== Session 4 ==
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection]
+
+===  \de{Weitere nützliche Kommandos}{More useful commands} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>ignore.wiki<<<
+
+>>>clean.wiki<<<
+
+>>>blame.wiki<<<
+
+>>>grep.wiki<<<
+
+=== \de{Forgeschrittene Nutzung}{Advanced Usage} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>custom-cmds.wiki<<<
+
+>>>reflog.wiki<<<
+
+>>>bisect.wiki<<<
+
+>>>hooks.wiki<<<
+
+=== Submodules ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>submodules.wiki<<<
+
+=== \de{Interaktion mit SVN}{Interaction with SVN} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>svn.wiki<<<

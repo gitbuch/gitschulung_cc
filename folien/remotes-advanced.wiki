@@ -1,0 +1,142 @@
+==== Local-Tracking-Branches ====
+
+* \de{Wir wollen einen Remote-Branch modifizieren}\
+     {We would like to modify a remote branch}
+* \de{Wir erstellen einen lokalen Branch mit dem gleichen Namen wie der Branch im Remote}\
+     {Create a local branch with the same name as the branch in the remote}
+** @origin/feature@ --> @feature@
+** @johndoe/fix-typos@ --> @fix-typos@
+* \de{@origin/master@ ist auch als sog. ''upstream-branch'' @master@ bekannt}\
+     {@origin/master@ is also knowen as the ''upstream-branch'' of @master@}
+
+==== \de{Einen lokalen Branch zum Arbeiten anlegen}{Create a local branch to work with} ====
+
+<[block]{\de{Local-Tracking-Branch erstellen}{Create local-tracking-branch}}
+@git checkout -b ''branch-name'' ''remote-name''/''branch-name''@
+@git checkout -b feature origin/feature@
+[block]>
+
+<[block]{\de{Ist @''branch-name''@ eindeutig, reicht}{In case @''branch-name''@ is unambiguous}}
+@git checkout ''branch-name''@\\
+@git checkout feature@
+[block]>
+
+%% NOTE: gibt es mehrere Remotes mit dem branch-name gibt es:
+%% error: pathspec 'br' did not match any file(s) known to git.
+
+==== Upstream-Configuration ====
+
+* \de{Die Beziehung der lokalen Branches zu denen in Remotes wird \
+      in der @.git/config@ gespeichert}\
+     {The relationship of the local branches to those in the remote is\
+     stored in the @.git/config@}
+* \de{Dies ist die sog. ''upstream-config''}{This is the so-called ''upstream-config''}
+
+<[block]{Upstream-Config}
+@[branch "''branch-name''"]@\\
+@~~~~remote = ''remote-name''@\\
+@~~~~merge = refs/heads/''branch-name''@
+[block]>
+
+<[block]{\de{Beispiel}{Example}}
+@[branch "master"]@\\
+@~~~~remote = origin@\\
+@~~~~merge = refs/heads/master@
+[block]>
+
+%% VORSICHT: ich kann auch lokale Branches auf diese Weise tracken.
+%% Jedoch noch unklar: was bringt das?
+
+<[block]{\de{Abfragen der Tracking-Beziehung}{\de{Query the tracking information}}}
+@git branch -vv@
+[block]>
+
+==== \de{Upstream-Config verwenden}{Making use of the Upstream-Config} ====
+
+* \de{Andere Kommandos nutzen diese Informationen}{Other commands can use this informaton}
+* \de{Voraussetzung: der aktuelle Branch  hat eine Upstream-Config}\
+     {Assumption: the current branch has an upstream-config}
+** \de{@master@ ist ausgecheckt und trackt @origin/master@}\
+      {@master@ is currently checked out and tracks @origin/master@}
+* \de{Git-Kommandos @fetch@, @pull@ und @push@ können ohne Argumente aufgerufen werden}\
+     {git commands @fetch@, @pull@ und @push@ can be executed w/o arguments}
+
+--1em--
+
+* @git fetch@
+** --> \de{Ziel-Remote ist bekannt}{target remote is knowen}
+* @git pull@
+** --> \de{Ziel-Remote ist bekannt}{target remote is knowen}
+** --> \de{Remote-Tracking-Branch zum mergen ist bekannt}{remote tracking ** branch to merge/rebase is knowen}
+* @git push@
+** --> \de{Ziel-Remote ist bekannt}{target remote is knowen}
+** --> \de{Remote-Branch ist bekannt}{remote branch is knowen}
+
+%% 'git fetch' ohne Argumente fetched automatisch aus dem Repo das als 'remote' konfiguriert ist.
+%% also aus dem Repo in dem sich der Remote-Branch befindet der quasi vom Lokal-Remote-Tracking-Branch ge-tracked wird.
+%% Wenn kein remote für den branch definiert ist, dann versuch: 'git fetch origin'
+
+%% 'git pull' ohne Argumente weiss automatish von wo ge-fetched wird, und mit welchem Remote-Tracking-Branch ge-merged werden soll.
+
+%% 'git push' ohne Argumente weiss in welches Remote-Repository der aktuelle Branch ge-pushed werden soll.
+%% Aber Vorsicht die Einstellung push.default gibt an das 'alle' branches gepushed werden bei denen der Name passt,
+%% also nicht nur die für die eine Einstellung wie oben existiert.
+
+==== \de{Push ohne Argumente}{Push w/o Arguments} ====
+
+* \de{Seit git 2.0 wird nur der aktuell ausgecheckte Branch gepushed wenn:}\
+     {As * of git 2.0 only the currently checked out branch will be pushed if:}
+** \de{Er eine Upstream-Configuration hat}{it has an upstream-config}
+** \de{der Branch im Remote den gleichen Namen hat}{the branch in the remote has the same name}
+* \de{Ausgezeichnete Einstellung für Anfänger}{Excellent default for beginners}
+* \de{Vorher: alle Branches die einen Branch des selben Namens im Remote haben \
+      werden gepushed}{Before: all branches that have a branch of the same name\
+      in the remote will be pushed}
+
+* \de{Verhalten ist Konfigurierbar}{Behaviour can be configured}
+** @push.default = simple@: Git 2.0 \de{default}{Standardeinstellung}
+** @push.default = matching@: \de{alte Einstellung}{old default}
+
+%% TODO push --tags
+% JP: Nicht lieber bei den Tags erwähnen?
+
+==== \de{Remote-Branches Löschen}{Delete Remote-Branches} ====
+
+<[block]{\de{Remote-Branches löschen}{Delete Remote-Branches}}
+@git push ''remote-name'' -{}-delete ''branch-name''@\\
+@git push origin -{}-delete feature@
+[block]>
+
+<[block]{\de{Alternative Syntax}{Alternative}}
+@git push ''remote-name'' :''branch-name''@\\
+@git push origin :feature@
+[block]>
+
+==== \de{Remotes anzeigen}{Display remotes} ====
+
+<[block]{\de{Auflistung aller Remotes}{Listing remotes}}
+@git remote@
+[block]>
+
+<[block]{\de{Gleiche Auflistung mit mehr Einzelheiten}{Listing with more details}}
+@git remote -vv@
+[block]>
+
+<[block]{\de{Alle verfügbaren Infos zu ''einem'' Remote ausgeben}{Show details of a remote}}
+@git remote show ''remote-name''@
+[block]>
+
+==== \de{Remotes verwalten}{Managing Remotes} ====
+
+<[block]{\de{Remote hinzufügen}{Adding a remote}}
+@git remote add ''remote-name'' ''URL''@
+[block]>
+
+<[block]{\de{Remote umbenennen}{Renaming a remote}}
+@git remote rename ''alt'' ''neu''@
+[block]>
+
+<[block]{\de{Remote löschen}{Delete a remote}}
+@git remote rm ''remote-name''@
+[block]>
+

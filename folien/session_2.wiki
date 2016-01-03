@@ -1,0 +1,52 @@
+>>>deckblatt.wiki<<<
+
+== \de{Session 2: Versionsgeschichte, Branching und Merging}{Session 2: Version History, Branching and Merging} ==
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection]
+
+=== Aliase ===
+>>>alias.wiki<<<
+
+=== \de{Veränderungen einsehen}{Viewing the History of Changes} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>log-advanced.wiki<<<
+
+=== \de{Rückgängig machen}{Undoing Changes} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>checkout.wiki<<<
+
+>>>uebung_checkout.wiki<<<
+
+>>>reset.wiki<<<
+
+>>>revert.wiki<<<
+
+>>>uebung_reset_revert.wiki<<<
+
+=== \de{Branches zusammenführen}{Merging Branches} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>merge.wiki<<<
+
+>>>uebung_merges.wiki<<<
+
+>>>merge_conflict.wiki<<<
+
+>>>uebung_merges_2.wiki<<<
+
+>>>throw-away-integration.wiki<<<
+
+>>>rerere.wiki<<<
+
+>>>merge-no-ff.wiki<<<
+
+>>>cherry-pick.wiki<<<
+
+>>>uebung_merges_3.wiki<<<
+
+>>>branch-conventions.wiki<<<

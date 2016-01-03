@@ -1,0 +1,169 @@
+==== Gitolite ====
+
+* Access-Control-Management
+* ''Nur'' Authorisation
+* In der Regel in Kombination mit OpenSSH
+
+* Vorteile:
+** User-Management abseits von UNIX
+** Permissions über Config-File konfigurierbar
+** Authorisation erfolgt i.\,d.\,Regel nur über SSH-Keys
+
+==== Konfiguration ====
+
+* Verzeichnis @gitolite-admin.git@
+* Konfiguration wird ''nur'' mit Git verwaltet
+* @git push@ triggert einen serverseitigen Hook
+
+* @conf/gitolite.conf@ enthält alle Einstellungen
+** Aufteilen: @include "conf.d/*"@
+** Delegation: @subconf "teams/*.conf"@
+
+==== Key-Management ====
+
+* Unterverzeichnis @keydir/@
+** ''Eine'' Datei pro Key: @''user''.pub@
+** Mehrere Keys pro User: @''user''\@''host''.pub@
+** Gliederung über Unterverzeichnisse möglich
+** Key-Format muss OpenSSH-kompatibel sein
+
+* Keys können automatisiert, z.\,B. via Cron, aktualisiert werden
+* Alternativ: Zugriffsrechte auf Unterverzeichnisse von @keydir/@
+** Teams können ihre eigenen Keys verwalten
+
+==== User und Gruppen ====
+
+<[block]{User- und Gruppendefinitionen}
+@\@devs = axel beatrice carlos@\\
+@\@chefs = denise egon@\\
+@\@qa = fraziska gert@\\
+@\@cm = hans@\\[.5em]
+@\@committers = \@devs \@chefs@\\
+@\# \@committers = axel beatrice carlos denise egon@\\[.5em]
+@\@devs = zacharias@
+[block]>
+
+* Die Definitionen sind statisch, können aber bei Bedarf auch aus LDAP o.\,Ä. ad hoc gespeist werden
+
+==== Zugriffsrechte ====
+
+* »Globaler« Zugriff pro Repository
+** @R@: Read-Access (@git clone/fetch@)
+** @RW@: Read-Write-Access (kein forcierter Push)
+** @RW+@: Kompletter Zugriff (auch destruktiv)
+
+<[block]{Zugriffsdefinitionen}
+@repo ''beispiel''@\\
+@\quad{}RW+ = \@chefs@\\
+@\quad{}RW = \@committers \@cm@\\
+@\quad{}R = \@qa@\\
+[block]>
+
+==== ACL auf Branch-Ebene ====
+
+<[block]{Nur Chefs dürfen nach Master pushen}
+@repo ''projekt''@\\
+@\quad{}RW+ master = \@chefs@\\
+@\quad{}-~~~master = \@devs@\\
+@\quad{}RW~~~~~~~~~= \@devs@
+[block]>
+
+* Beginnt der ''Refex'' nicht mit @refs/@, wird @refs/heads/@ angenommen (also Branches)
+* Fallthrough: Push wird ''abgewiesen''
+
+==== ACL auf Datei-Ebene ====
+
+<[block]{Nur Chefs dürfen @src/wichtig.c@ editieren}
+@repo ''projekt''@\\
+@\quad{}RW+~~~~~~~~~~~~~~~~~~~~~~~= \@chefs@\\
+@\quad{}RW~~~~~~~~~~~~~~~~~~~~~~~~= \@all@\\
+@\quad{}- VREF/NAME/src/wichtig.c = \@devs@
+[block]>
+
+* Regeln werden ''nach'' den »globalen« Berechtigungen geprüft
+* Fallthrough: Push wird ''zugelassen''!
+
+==== VREFs ====
+
+* Konzept der VREFs ist allgemein gehalten
+** VREFs sind ausführbare Dateien im Gitolite-Bin-Dir
+** Bekommen mindestens neun Argumente übergeben
+** Ausgabe entscheidet, ob der Push zugelassen wird
+
+* Vorinstallierte Beispiele
+** @VREF/NAME/''name''@
+** @VREF/COUNT/''n''@
+** @VREF/COUNT/''n''/NEWFILES@
+
+==== Key-Verwaltung delegieren ====
+
+<[block]{Keys über Unterverzeichnisse mit Permissions}
+@repo gitolite-admin@\\
+@\quad{}RW+ = \@admins@\\
+@\quad{}RW  = \@teamleiter@\\
+@\quad{}RW VREF/NAME/keydir/''team1''/ = teamleiter1@\\
+@\quad{}-~~VREF/NAME/~~~~~~~~~~~~~~= teamleiter1@\\
+@\quad{}RW VREF/NAME/keydir/''team2''/ = teamleiter2@\\
+@\quad{}-~~VREF/NAME/~~~~~~~~~~~~~~= teamleiter2@
+[block]>
+
+* Achtung: Das ist möglicherweise nicht komplett sicher!
+
+==== Subconfs ====
+
+<[block]{Subconf mit Regexes}
+@repo gitolite-admin@\\
+@\quad{}RW+ = \@admins@\\
+@\quad{}RW  = \@teamleiter@\\
+@\quad{}RW VREF/NAME/keydir/g2/~~~~~~= teamleiter1@\\
+@\quad{}RW VREF/NAME/conf/team1.conf = teamleiter1@\\
+@\quad{}-~~VREF/NAME/~~~~~~~~~~~~~~~~= teamleiter1@\\[1.5em]
+@\@team1 = team1-..*@\\
+@subconf "team1.conf"@
+[block]>
+
+* Basename der Subconf --> Gruppenname --> Regex
+* @team1.conf@ --> @\@team1@ --> @team1-..*@
+
+* Gruppendefinitionen haben lokalen Scope in Subconfs
+
+==== Skaliert das? – Der Meister spricht (I) ====
+
+@<sitaram> esc: ... -- re scaling to 10,000 users.  Let's decouple the "compile" step, which only happens once in a while, from the access check that happens for every "contact".  The latter is O(1) now so it doesn't matter.  Your real problem will be sshd's linear scan over the authkeys file, so if you use httpd (with mod\_auth\_ldap instead of htpasswd) it should work already@
+
+==== Skaliert das? – Der Meister spricht (II) ====
+
+@<sitaram> PerlJam: (re esc's question) fedora's config is already 11,000+ repos, and the conf file is 126,000 lines.  The killer here is the POST\_CREATE scripts actually, when I try it with v3 (or the eqvt in v2).  Luckily fedora don't use all that.@
+
+==== Skaliert das? – Der Meister spricht (III) ====
+
+@<sitaram> if they are techie enough to grok the distinction between authN and authZ you need to tell them their problem will be in the authN step (which occurs *before* gitolite is invoked), and authZ is mostly O(1) now, assuming your don't have hundreds of repo patterns or repo groups@
+
+==== Mirroring ====
+
+* Master-Slave-Konzept
+* Server müssen eindeutige Namen haben
+** Keys als @server-''name''.pub@ ablegen
+** Host-Alias @''name''@ in der @.ssh/config@
+* Pro Repo lässt sich nun genau ein Master festlegen
+** @option mirror.master = m1@
+** @option mirror.slaves = s1 s2@
+* Readonly-Slaves können Pushes »weiterleiten«
+** @option mirror.redirectOK = all@
+** Authorisation passiert auf dem ''Slave''!
+
+==== Maintenance ====
+
+<[block]{Repositories dem Userzugriff entziehen}
+@\$ gitolite writable \@all off "down due to maintenance"@
+[block]>
+
+<[block]{… was der User sieht}
+@\$ git push@\\
+@FATAL: down due to maintenance@\\
+@fatal: The remote end hung up unexpectedly@
+[block]>
+
+<[block]{… wieder herstellen}
+@\$ gitolite writable \@all on@
+[block]>

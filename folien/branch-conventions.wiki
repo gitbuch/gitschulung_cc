@@ -1,0 +1,29 @@
+==== \de{Branch-Modell}{Branch-Model} ====
+
+* \de{Dieses Modell wird in vielen OSS-Projekten verwendet} \
+     {A model used in many OSS-projects}
+* \de{Es gibt vier Haupt-Branches:} \
+     {There are four main branches:}
+** @maint@: Maintenance (Security \de{und}{and} Bugfixes)
+** @master@: \de{Vorbereitung des neuen Releases} \
+                {Preping the next releases}
+** @next@: \de{Neue Features werden auf Stabilität getestet (Beta)} \
+              {Testing new features (Beta)}
+** @pu@: \de{''proposed updates'', unfertige, experimentelle Features} \
+            {''proposed updates'', in progress, experimental features}
+* @next@ \de{und}{and} @pu@ \
+  \de{werden möglicherweise verändert (neu aufgebaut, etc.)} \
+     {may be modified (rebased, etc.)}
+* \de{Bugfixes werden von @maint@ in @master@ übernommen} \
+     {Bugfixes from @maint@ are merged into @master@}
+* \de{Topic-Branches werden bei Vollendung in @next@ übernommen} \
+     {Topic-branches are accepted into @next@ once completed}
+* \de{Wird @next@ stabil, wandern die Änderungen in den @master@} \
+     {As @next@ becomes stable, changes migrate into @master@}
+
+==== \de{Branch-Modell -- Visualisiert}{Branch-Model -- Visualised} ====
+
+<[center]
+<<<bilder/branch-model.pdf, scale=0.17>>>
+[center]>
+

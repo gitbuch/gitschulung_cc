@@ -1,0 +1,111 @@
+==== \de{Versionsgeschichte inspizieren}{Viewing history} ====
+
+* @git log@ \de{listet alle Commits auf, den neusten zuerst}\
+               {lists all commits, the newest first}
+* \de{Durch Angabe von Argumenten lässt sich die Menge der Commits \
+      reduzieren}\
+     {Arguments reduce the amount of commits}
+* @git show@ \de{zeigt einen ''einzelnen'' Commit} \
+                {shows a ''single'' Commit}
+
+<[block]{\de{Die letzten drei Commits inkl. Zeilen-Bilanz anzeigen} \
+            {Show the last three commits incl. stats}}
+@git log -{}-stat -3@
+[block]>
+
+<[block]{\de{Liste aller Commits in Kurzform anzeigen} \
+            {A brief list of all commits}}
+@git log -{}-oneline@
+[block]>
+
+<[block]{\de{Den aktuellsten Commit im @master@ anzeigen} \
+            {Show the most recent commit on @master@}}
+@git show master@
+[block]>
+
+==== \de{Revisionen auflisten}{Listing revisions}====
+
+* @HEAD@: \de{aktuell ausgecheckter Commit}\
+             {Currently checked out commit}
+** \de{Voreinstellung für viele Kommandos, die einen Commit als Argument \
+       erwarten}\
+      {Default for many commands that expect a commit as an argument}
+* @HEAD\^{}@: \de{Vorgänger von @HEAD@}\
+                 {Ancestor from @HEAD@}
+** \de{analog}{also}: @master\^{}@, @f160742\^{}@, \ldots
+* @HEAD\~{}''n''@: ''n''-\de{ter Vorgänger von} \
+                            {th ancestor of} @HEAD@
+** \de{analog}{also}: @master\~{}''n''@, @f160742\~{}''n''@, \ldots
+** @HEAD\^{}@ \de{entspricht also}{equals} @HEAD\~{}1@
+
+--.5cm--
+
+* @git log@ \de{traversiert die Geschichte bis zum Root-Commit}\
+               {traverses the history to the root commit}
+* @git show@ \de{zeigt nur den Commit an, nicht jedoch seine Vorgänger}\
+                {displays only the commit, not its ancestors}
+
+==== \de{Relative Referenzen}{Relative references} ====
+
+<[center]
+<<<bilder/relative-refs.pdf, scale=0.18>>>
+[center]>
+
+==== \de{Revisionen auflisten (cont.)}{Listing revisions (cont.)} ====
+
+* \de{Negation: @\^{}@ oder @-{-}not@} \
+     {Negation: @\^{}@ or @-{-}not@}
+* \de{@git log \^{}master ''feature''@} \
+     {@git log \^{}master ''feature''@}
+** \de{Alle Commits, die in @''feature''@ sind, aber nicht im @master@} \
+      {All commits, that are in @''feature''@, but not in @master@}
+* \de{Kurzform: @git log master..''feature''@} \
+     {Shortened form: @git log master..''feature''@}
+** \de{Welche Commits aus @''feature''@ sind noch nicht im @master@?} \
+      {Which commits from @''feature''@ are not yet in @master@?}
+** \de{Fehlt einer der beiden Namen, nimmt Git @HEAD@ an} \
+      {If one of the two names is missing, Git will assume @HEAD@}
+
+% TODO: Es werden nur die Commits HEAD..feature angeschaut!
+<[block]{\de{In welchen Commits wurde die Datei @stack.c@ modifiziert?} \
+            {Which commits modified the file @stack.c@?}}
+@git log ..''feature'' -{-} stack.c@
+[block]>
+
+==== \de{»Differenzen« von Branches}{»Differences« of branches} ====
+
+<[center]
+<<<bilder/commit-mengen-all.pdf,scale=0.23>>>
+
+@git log -{}-all@
+[center]>
+
+==== \de{»Differenzen« von Branches (2)}{»Differences« of branches (2)} ====
+
+<[center]
+<<<bilder/commit-mengen-master.pdf,scale=0.23>>>
+
+@git log master@
+[center]>
+
+==== \de{»Differenzen« von Branches (3)}{»Differences« of branches (3)} ====
+
+<[center]
+<<<bilder/commit-mengen-master-topic.pdf,scale=0.23>>>
+
+@git log master..topic@
+[center]>
+
+==== \de{Den Wald vor lauter Bäumen\ldots{}}{A useful alias} ====
+
+<[block]{\de{Baumstruktur als ASCII-Diagramm anzeigen} \
+        {Graph structure as an ASCII diagram}}
+@git log -{}-oneline -{}-graph -{}-decorate -{}-all@
+[block]>
+
+* \de{Statt @-{-}all@ kann auch eine Liste von Commits angegeben werden} \
+     {instead of @-{-}all@ you can also give a list of commits}
+* \de{@-{}-date-order@ ordnet die Commits strikt nach Datum} \
+     {@-{}-date-order@ orderes commits strictly by date}
+* \de{Ausgabe ist äquivalent zu der von @gitk@} \
+     {Is equivalent to the output of @gitk@}

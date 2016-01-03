@@ -1,0 +1,135 @@
+==== \de{Was wollen wir speichern?}{What do we Want to Store?} ====
+
+\de{Angenommen, wir wollen folgendes Verzeichnis speichern:}\
+   {Suppose we want to store the following directory:}
+
+--0.5cm--
+
+\dirtree{%
+.1 /.
+.2 hello.py.
+.2 README.
+.2 test/.
+.3 test.sh.
+}
+
+
+==== \de{Objektmodell}{Object Model} ====
+
+* ''Blob'': \de{Enthält den Inhalt einer Datei} \
+               {Contains the contents of a file}
+* ''Tree'': \de{Eine Sammlung von Tree- und Blob-Objekten} \
+               {A collection of tree and blob objects}
+* ''Commit'': \de{Besteht aus einer Referenz auf einen Tree mit zusätzlichen \
+                  Informationen} \
+                 {Consists of a reference to a tree with additional \
+                  information}
+** ''Author'' \de{und}{and} ''Commiter''
+** ''Parents''
+** ''Commit-Message''
+
+<[figure][ht]
+<<<bilder/objekte.pdf, scale=0.6>>>
+[figure]>
+
+==== SHA-1 IDs ====
+
+* \de{Objekte werden mit ''SHA-1 IDs'' identifiziert} \
+     {Objects are identified with ''SHA-1 IDs''}
+* \de{Dies ist der ''Objekt-Name''} \
+     {This is the ''object-name''}
+* \de{Wird aus dem Inhalt berechnet} \
+     {It is derived from the content}
+* \de{''SHA-1'' ist eine sogenannte Hash-Funktion; sie liefert für eine \
+      Bit-Sequenz mit der maximalen Länge von $2^{64}-1$ Bit \
+      ($\approx$ 2 Exbibyte) in eine Hexadezimal-Zahl der Länge 40 \
+      (d.\,h.\ 160 Bits)} \
+     {''SHA-1'' is a hash function, which converts a bit \
+      sequence with a maximum length of $ 2 ^ {64} $ -1 bits \
+      ($\approx$ 2 Exbibyte) a hexadecimal number of \
+      length 40 (\ i.e. \ 160-bit)}
+* \de{Die resultierende Zahl ist eine von $2^{160} \
+      (\approx 1.5\cdot 10^{49})$ möglichen Zahlen und ziemlich einzigartig} \
+     {The resulting number is one of $2 ^ {160}$ \
+      ($\approx 1.5 x 10 ^ {49}$) possible numbers and quite unique}
+
+<[figure][htp]
+    <<<bilder/sha.pdf, scale=0.6>>>
+[figure]>
+
+==== \de{Objektverwaltung}{Object Management} ====
+
+* \de{Alle Objekte werden von Git in der ''Objektdatenbank'' \
+      (genannt Repository) gespeichert} \
+     {All objects are stored in the Git ''object database'' \
+      (a.k.a. the repository)}
+* \de{Die Objekte sind durch ihre SHA-1-ID eindeutig adressierbar} \
+     {The objects are identified by their uniquely addressable SHA-1-ID}
+
+* \de{Für jede Datei erzeugt Git ein Blob-Objekt} \
+     {For each file, Git will create a blob object}
+* \de{Für jedes Verzeichnis erzeugt Git ein Tree-Objekt} \
+     {For each directory, Git will create a tree object}
+* \de{Ein Tree-Objekt enthält die Referenzen (SHA-1-IDs) \
+      auf die in dem Verzeichnis enthaltenen Dateien} \
+     {A tree object contains references (SHA-1 IDs) \
+      to the files contained in the directory}
+
+==== \de{Zusammenfassung}{Summary} ====
+
+\de{Ein Git-Repository enthält Commits; \
+    diese wiederum referenzieren Trees und Blobs, sowie ihren direkten \
+    Vorgänger} \
+   {A Git repository contains commits; \
+    these then reference trees and blobs, \
+    and their direct predecessors}
+
+<[figure][ht]
+    <<<bilder/objekte-zusammenhang.pdf, scale=0.6>>>
+[figure]>
+
+[frame]>
+
+==== \de{Commit = Dateibaum}{Commit = File Tree} ====
+
+\de{Ein Commit hält den Zustand ''jeder'' Datei zum gegebenen Zeitpunkt \
+fest. (Auch den der nicht geänderten.)}
+   {A commit references the state of ''all'' tracked files at any given \
+    time. (Even those that have not changed as part of the commit!)}
+
+<[figure][ht]
+    <<<bilder/struktur.pdf, scale=0.5>>>
+[figure]>
+
+[frame]>
+
+==== \de{Commit Graph}{Commit Graph} ====
+
+\de{Ein Repository ist ein ''Gerichteter Azyklischer Graph'' (DAG)\\}
+   {The repository is a ''Directed Acyclic Graph (DAG)''\\}
+
+<[center]
+<<<bilder/new-graph.pdf, scale=0.3>>>
+[center]>
+
+==== \de{Branches und Tags}{Branches and Tags} ====
+
+\de{Branches und Tags sind Zeiger\\}\
+     {Branches and tags are pointers\\}
+
+<[center]
+<<<bilder/new-graph-with-refs.pdf, scale=0.3>>>
+[center]>
+
+==== \de{Graph-Struktur}{Graph Structure} ====
+
+* \de{Die gerichtete Graph-Struktur entsteht, da in jedem Commit Referenzen \
+      auf direkte Vorfahren gespeichert sind} \
+     {The directed graph structure arises because each commit contains \
+     references to its direct ancestors}
+
+* \de{Integrität kryptographisch gesichert} \
+     {Integrity is cryptographically secured}
+
+* \de{Git-Kommandos manipulieren die Graph-Struktur} \
+     {Git commands simply manipulate the graph structure}

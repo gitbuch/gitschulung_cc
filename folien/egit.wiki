@@ -1,0 +1,22 @@
+==== \de{Git mit Eclipse: EGit}{Git with Eclipse: EGit} ====
+
+* \de{Menü basiertes Plug-In}{Menu based plugin}
+* \de{Basiert auf ''JGit''}{Based on ''JGit''}
+* \de{Kann nicht alles}{Not all functionality supported}
+* \de{Immer noch etwas in der Entwicklungsphase}\
+     {Still somewhat under development}
+
+* \de{Kommandozeilen Basics helfen EGit zu verstehen}\
+     {Command line basics will help to understand EGit}
+
+==== \de{Die wichtigsten Menüs}{The most important Menus} ====
+
+* \de{Vielzahl von Kontextmenüs}{Abundance of context menus}
+* \de{Manche eine direkte Übersetzung von Kommandozeilenbefehelen}\
+     {Some a direct translation of commandline commands}
+* \de{Viele Doppelungen}{Many duplications}
+
+* Java Perspective, Project View: ''Team''
+* Git Perspective, Repository View
+* Git Perspective, History View
+

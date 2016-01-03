@@ -1,0 +1,56 @@
+==== \de{Autonomie des eigenen Repositories}{Autonomy of Repositories} ====
+
+<[columns]
+[[[3cm]]]
+<<<bilder/distributed-microcosmos.pdf, scale=0.2>>>
+[[[7cm]]]
+* \de{''Remote'' und lokales Repository sind gleichberechtigt} \
+     {''Remote'' and local repository have equal rights}
+
+* \de{Austausch zwischen Repositories via Push/Pull} \
+     {Synchronisation between repositories via pull/push}
+** ''Push'': \de{Eigene Änderungen hochladen} \
+                {Upload own changes}
+** ''Pull'': \de{Änderungen herunterladen} \
+                {Download others’ changes}
+
+* \de{Alle anderen Aktionen passieren zunächst ''nur'' lokal} \
+     {Everything else happens locally}
+[columns]>
+
+==== \de{Vor- und Nachteile verteilter Versionskontrollsysteme}\
+        {Advantages and Disadvantages of Distributed Version Control Systems (DVCS)} ====
+
+\de{'''Vorteile:'''}{'''Advantages:'''}
+* \de{Jeder Entwickler besitzt eine ''komplette'' Kopie der Versionsgeschichte}\
+     {Every developer has a complete copy of the public history}
+** \de{Kommandos laufen sehr schnell} \
+      {Commands are executed quickly}
+** \de{Offline-Arbeit möglich} \
+      {Enables working offline}
+** \de{Impliziter Schutz vor Manipulation} \
+      {Implicit protection against manipulation}
+* \de{Es gibt keinen »single point of failure«} \
+     {No «single point of failure»}
+** \de{Serverausfall, Hack, wütender Entwickler, \ldots}\
+      {Server offline, disgruntled developer, security breach \ldots}
+
+==== \de{Vor- und Nachteile verteilter Versionskontrollsysteme}\
+        {Advantages and Disadvantages of Distributed Version Control Systems (DVCS)} ====
+
+\de{'''Vorteile:'''}{'''Advantages:'''}
+* \de{Kein Streit um Commit-Rechte} \
+     {No conflicts regarding commit-access}
+* \de{Delegation von Aufgaben ist leichter} \
+     {Delegation of tasks becomes easier}
+* \de{Beliebige Workflows} \
+     {Flexible workflows}
+
+==== \de{Vor- und Nachteile verteilter Versionskontrollsysteme}\
+        {Advantages and Disadvantages of Distributed Version Control Systems (DVCS)} ====
+
+\de{'''Nachteile:'''}{'''Disadvantages:'''}
+* \de{Viel Freiheit: Policies müssen geschaffen werden} \
+     {Lots of freedom, appropriate policies must be established}
+* \de{Komplexeres Setup als zentralisierte Systeme} \
+     {Slightly more complex setup}

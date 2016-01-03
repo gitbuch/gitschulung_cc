@@ -1,0 +1,7 @@
+==== \de{'''Übung:''' Repository aufsetzen}{'''Exercise:''' Initialize a Repository} ====
+
+# \de{Verwenden Sie @git init@, um ein leeres Repository aufzusetzten}{Use @git init@ to create an empty repository}
+# \de{Erstellen Sie zwei Dateien inklusive Inhalt, und betrachten Sie die Ausgabe von @git status@}{Create two files with content, and observe the output of @git status@}
+# \de{Fügen Sie per @git add@ diese Dateien dem Index hinzu}{Add them to the index using @git add@}
+# \de{Benutzen Sie @git commit@, um Ihren ersten Commit zu erstellen}{Use @git commit@ to create you first commit}
+# \de{Betrachten Sie erneut die Ausgabe von @git status@}{Observe again the output of @git status@}

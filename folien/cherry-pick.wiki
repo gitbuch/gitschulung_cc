@@ -1,0 +1,43 @@
+==== Cherry-Pick ====
+
+* \de{«Die Rosinen finden»: Einzelne Commits aus anderen Branches übernehmen}\
+     {«Picking cherries»: pick individual commits from other branches}
+** \de{Nicht der ganze Branch soll integriert werden (@merge@), \
+       sondern vorerst nur Teile, z.\,B.\ Bugfixes} \
+      {Do not integrate the entire branch (@merge@), just parts, e.g. bugfixes}
+* @rebase@ \de{erkennt solche Commits und überspringt sie} \
+              {will recognize those commits and skip them}
+** \de{Wird ein Commit aus @feature@ in @master@ übernommen (Cherry-Pick),\
+       dann ignoriert @git rebase master feature@ diesen Commit -- \
+       er erscheint danach nicht mehr in @feature@} \
+      {Once a commit from @feature@ has been cherry-picked to @master@ \
+       a @ git rebase master feature@ will filter this commit -- it will no \
+       longer appear in @feature@.}
+
+<[block]{\de{Commits aus @''upstream''@ anzeigen}\
+            {Show Commits from @''upstream''@}}
+@git cherry -v -{}-abbrev ''upstream''@
+[block]>
+
+<[block]{\de{Commit übernehmen}{Take Commit}}
+@git cherry-pick c1de5ac@
+[block]>
+
+==== \de{Ausgangslage}{Initial Position} ====
+
+<[center]
+<<<bilder/cherry-pick-vorher.pdf,scale=0.12>>>
+[center]>
+
+--.09cm--
+
+* \de{Commit @''E''@ soll in @master@ übernommen werden}\
+     { Commit @''E''@ to be transferred to @master@}
+
+==== \de{Nach dem Cherry-Pick}{After the Cherry-Pick} ====
+
+<[center]
+<<<bilder/cherry-pick-nachher.pdf,scale=0.12>>>
+[center]>
+
+* @git cherry-pick ''E''@

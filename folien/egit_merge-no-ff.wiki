@@ -1,0 +1,4 @@
+==== EGit: \de{Merge Forcieren}{Forcing a Merge-Commit} ====
+
+* ''Repository-View'' --> ''Merge...''
+* ''If a fast-forward, create a merge commit''

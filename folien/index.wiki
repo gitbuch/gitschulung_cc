@@ -1,0 +1,92 @@
+==== Index / Staging Area ====
+
+* \de{Im ''Index''/''Staging-Area'' werden Veränderungen für den nächsten Commit vorgemerkt}{The ''index''/''staging area'' is used to «stage» changes for the next commit}
+* \de{So kann der Inhalt von einem Commit schrittweise aus einzelnen Veränderungen zusammengestellt werden}{Hence the commit can be assembled piece by piece from single changes}
+* \de{Nach einem Commit enthält der Index genau die Versionen der Dateien wie in dem Commit}{After a commit, the index contains exactly the changes of the last commit}
+
+%% TODO der letzte Punkt kling irgendwie holprig
+
+==== \de{Ausgangsstellung}{Initial State} ====
+
+* \de{Alle auf dem gleichen Stand}{All have the same state}
+
+<[center]
+<<<bilder/index-stage1.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Veränderungen machen}{Making Changes} ====
+
+* \de{Veränderungen werden im Working-Tree gemacht}{Changes are made to the working-tree}
+
+<[center]
+<<<bilder/index-stage2.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Dem Index hinzufügen -- @git add@}{Adding to the Index -- @git add@} ====
+
+* \de{Die Veränderungen im Working-Tree --> Index}{Changes to the working-tree --> index}
+
+<[center]
+<<<bilder/index-stage3.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Einen Commit erzeugen -- @git commit@}{Creating a Commit -- @git commit@} ====
+
+* \de{Alle Veränderungen im Index --> Commit}{All changes in the index --> commit}
+
+<[center]
+<<<bilder/index-stage4.pdf, scale=0.25>>>
+[center]>
+
+==== \de{Resultat}{Result} ====
+
+* \de{Alle wieder auf dem gleichen Stand}{All have the same state again}
+
+<[center]
+<<<bilder/index-stage5.pdf, scale=0.25>>>
+[center]>
+
+==== @HEAD@ ====
+
+<[block]{@HEAD@ (\de{mehr oder weniger}{more or less})}
+\de{Der neuste Commit in der Versionsgeschichte wird als @HEAD@ bezeichnet.}{The most recent commit in the history is the @HEAD@}
+[block]>
+
+==== \de{@git status@ -- Wie ist der Zustand?}{@git status@ -- What is the Status?} ====
+
+<[block]{\de{Status abfragen}{Query Status}}
+@git status@
+[block]>
+
+* \de{Welche Dateien wurden modifiziert?}{Which files were modified?}
+* \de{Welche Veränderungen sind schon im Index?}{Which changes are in the index?}
+* \de{Gibt es Git nicht bekannte Dateien? (''untracked files'')}{Are there untracked files?}
+
+==== \de{Dateien dem Index hinzufügen}{Adding Files to the Index} ====
+
+<[block]{\de{Alle Veränderungen in einer Datei hinzufügen}{Adding all changes in a file}}
+@git add ''\de{datei}{file}''@
+[block]>
+
+<[block]{\de{Interaktives Hinzufügen}{Interactive adding}}
+@git add -p@
+[block]>
+
+<[block]{\de{Interaktives Hinzufügen nur für eine Datei}{Interactive adding, just for a single file}}
+@git add -p ''\de{datei}{file}''@
+[block]>
+
+==== \de{Index: Unterschiede und Zurücksetzen}{Index: Differences and Resetting} ====
+
+<[block]{\de{Unterschiede zwischen Working-Tree und Index}{Changes between working-tree and index}}
+@git diff@
+[block]>
+
+<[block]{\de{Unterschiede zwischen Index und @HEAD@}{Changes between index and @HEAD@}}
+@git diff -{}-staged@\\
+@git diff -{}-cached@
+[block]>
+
+<[block]{\de{Index zurücksetzen}{Reset the Index}}
+@git reset@
+[block]>

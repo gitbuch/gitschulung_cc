@@ -1,0 +1,35 @@
+==== \de{@git commit@ -- Commits erzeugen}{@git commit@ -- Creating commits} ====
+
+* \de{Das meistgebrauchte Kommando!}{The most often used command}
+* \de{Veränderungen im Index werden zu einem ''Commit'' zusammengefasst}{Changes in the index are «bundled» together into a ''commit''}
+
+<[block]{\de{Commit erzeugen}{Create a commit}}
+@git commit@
+[block]>
+
+<[block]{\de{Commit-Nachricht direkt angeben}{A commit message on the command line}}
+@git commit -m "''message''"@
+[block]>
+
+<[block]{\de{Alle Veränderungen im Working-Tree}{All changes in the working-tree}}
+@git commit -a@
+[block]>
+
+==== \de{Fortgeschrittene Nutzung}{Advanced Usage} ====
+
+<[block]{\de{Den jüngsten Commit verbessern}{Amend the most recent a commit}}
+@git commit -{}-amend@
+[block]>
+
+<[block]{\de{Leeren Commit erzeugen}{Create an empty commit}}
+@git commit -{}-allow-empty@
+[block]>
+
+<[block]{\de{Autor anpassen}{Committing with different Author information}}
+@git commit -{}-author="Maxine Mustermann \textbackslash{}@\\
+\qquad{}@maxine\@mustermann.de"@
+[block]>
+
+<[block]{\de{Mit der Zeile}{Including the line} @Signed-off-by:@}
+@git commit -s@
+[block]>

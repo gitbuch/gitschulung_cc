@@ -1,0 +1,5 @@
+==== EGit: Tags ====
+
+* ''History-View'' --> ''Create Tag''
+
+* \de{EGit kann nur ''Annotated Tags''}{EGit only creates ''annotated tags''}

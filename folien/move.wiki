@@ -1,0 +1,22 @@
+==== \de{Dateien verschieben und umbenennen}{Move or rename files} ====
+
+\de{Dateien innerhalb eines Git-Repositories immer mit Git-Befehlen \
+    verschieben/umbenennen.} \
+   {Always move files within a Git repository using Git-commands.}
+
+<[block]{\de{Verschieben}{Move}}
+@git mv ''\de{datei}{file}'' ''\de{verzeichnis}{directory}''@
+[block]>
+
+<[block]{\de{Umbenennen}{Rename}}
+@git mv ''\de{datei-alt}{file-old}'' ''\de{datei-neu}{file-new}''@
+[block]>
+
+<[block]{\de{Erzwingen, auch wenn das Ziel bereits existiert}\
+            {Force, even if the target exists}}
+@git mv -f ''\de{datei-alt}{file-old}'' ''\de{datei-neu}{file-new}''@
+[block]>
+
+<[block]{\de{So tun als ob: »dry run«}{Pretend to: »dry run«}}
+@git mv -n@
+[block]>

@@ -1,0 +1,44 @@
+>>>deckblatt.wiki<<<
+
+== Session 3: Rebase \& Remotes ==
+
+>>>ablauf.wiki<<<
+
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection]
+
+===  Rebase ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>rebase.wiki<<<
+
+>>>uebung_rebase.wiki<<<
+
+>>>rebase-interaktiv.wiki<<<
+
+>>>uebung_rebase-i.wiki<<<
+
+=== Workflows ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>verteilte-workflows.wiki<<<
+
+=== \de{Remotes verwalten}{Managing Remotes} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>remotes-simple.wiki<<<
+
+>>>pushnpull.wiki<<<
+
+>>>uebung_remotes.wiki<<<
+
+>>>remotes-advanced.wiki<<<
+
+=== \de{Übung: Gemeinsam ein Projekt erstellen}{Practice: Working together on a Project} ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>remote-uebung.wiki<<<

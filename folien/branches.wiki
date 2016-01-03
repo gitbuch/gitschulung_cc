@@ -1,0 +1,59 @@
+==== \de{Branching einfach gemacht}{Branching -- A Piece of Cake} ====
+
+* \de{Branches funktionieren in Git schnell und intuitiv}{Branches in Git are fast and intuitive}
+** \de{Revolutioniert die Arbeitsweise (Workflow)}{Revolutionizes your workflow}
+* \de{Ein Branch ist ''keine'' komplette Kopie des Projektes}{A branch is ''not'' a complete copy of the project}
+** \de{»Branching is cheap«}{«Branches are cheap»}
+* \de{Vorstellung eher: Ein »Label«, das man an einen Commit heftet}{More like: a «label» that is attached to a commit}
+
+<[block]{\de{Branches auflisten}{Listing branches}}
+@git branch [-v]@
+[block]>
+
+* \de{Wir arbeiten die ganze Zeit schon im Branch @master@}{We’ve been working on the @master@ branch all the time}
+
+==== \de{Branches erstellen}{Creating Branches} ====
+
+* \de{Keine Dateien werden kopiert}{No data is copied}
+** \de{Erstellung dauert wenige Millisekunden}{Creation takes only a few milliseconds}
+
+<[block]{\de{Einen Branch erstellen}{Creating a branch}}
+@git branch ''name''@
+[block]>
+
+<[block]{\de{Ausgangscommit des Branches explizit angeben}{Explicitly name the starting commit}}
+@git branch ''name'' ''start''@
+[block]>
+
+==== \de{Branches wechseln}{Switching Branches} ====
+
+* \de{Um auf einem Branch zu arbeiten, wird er »ausgecheckt«}{To switch to a branch, it must be «checked-out»}
+
+<[block]{\de{Branch auschecken}{Checking out a branch}}
+@git checkout ''branch''@
+[block]>
+
+* \de{Für SVN-Umsteiger}{For people coming from Subversion}
+** \de{Das aktuelle Verzeichnis wird ''nicht'' gewechselt}{The current directory is ''not'' changed}
+** \de{Stattdessen: Inhalt des Branches --> Working-Tree}{Instead: content of the branch --> working-tree}
+
+--.5cm--
+
+<[block]{\de{Branch erstellen und auschecken}{Create a branch and switch to it}}
+@git checkout -b ''name''@
+[block]>
+
+==== \de{Branches manipulieren}{Manipulating Branches} ====
+
+<[block]{\de{Branch umbenennen}{Renaming branches}}
+@git branch -m \de{''alt'' ''neu''}{''old'' ''new''}@\\
+@git branch -M \de{''alt'' ''neu''}{''old'' ''new''}@ (\de{forciert}{force})
+[block]>
+
+<[block]{\de{Branch löschen}{Deleting Branches}}
+@git branch -d ''name''@\\
+@git branch -D ''name''@ (\de{forciert}{force})
+[block]>
+
+* \de{Die forcierte Version (@-M@ bzw. @-D@) ist dann notwendig, wenn Commits oder Branches überschrieben werden} \
+     {Forcing (using @-M@ or @-D@) is required if branches are to be over-written or commits potentially lost}

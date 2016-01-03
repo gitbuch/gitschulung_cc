@@ -1,0 +1,62 @@
+==== Patches per Mail versenden ====
+
+* Je nach Projektgröße und Workflow werden Commits per Email verschickt
+
+<[block]{Commits als Patches formatieren}
+@git format-patch ''basis''@
+[block]>
+
+* Eine Datei pro Commit
+* Dateiname: @''patch-nummer''\,-\,''erste-zeile''.patch@
+* Dateiformat: UNIX-Mailbox-Format
+* Subject-Line: @[PATCH n/m] ''Erste Zeile''@
+
+<[block]{Nur einen einzigen Commit formatieren}
+@git format-patch -1 ''ref''@
+[block]>
+
+* Vorteil:
+** Autor und Commit-Message gehen nicht verloren
+** Patches können mit Git-Kommandos eingepflegt werden
+
+==== Patches verschicken ====
+
+Patches mit dem Mailclient Ihrer Wahl verschicken.
+
+--1em--
+
+'''oder:'''
+
+--.5em--
+
+<[block]{Patches direkt via Git verschicken}
+@git send-email ''patch-name''@
+[block]>
+
+* Erfordert einen MTA oder SMTP-Konfiguration
+* Git fragt interaktiv nach dem »To:«
+* Benutzerinformationen werden ins »From:« übernommen
+
+--1em--
+
+'''oder:'''
+
+--.5em--
+
+Patches via »Medium X« verschicken:\\
+IRC, Jabber, SAFT, Pastebin, Skype, Facebook, etc\ldots{}
+
+==== Patches einpflegen ====
+
+Patches, die mit @format-patch@ formatiert wurden, sind leicht einzupflegen.
+
+--1em--
+
+<[block]{Patches aus einer Mailbox einpflegen}
+@git am ''mailbox''@
+[block]>
+
+<[block]{Patch-Dateien einpflegen}
+@git am ''datei1'' ''datei2''@
+[block]>
+

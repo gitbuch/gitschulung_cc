@@ -1,0 +1,28 @@
+==== \de{Dateien entfernen}{Removing files} ====
+
+* \de{Dateien und Verzeichnisse wenn möglich immer mit Git-Befehlen entfernen} \
+     {If possible, always remove files and directories with Git commands}
+* \de{Dateien können nur entfernt werden, wenn sie keine aktuellen Veränderungen enthalten} \
+     {You can only remove files if they have no pending changes}
+
+<[block]{\de{Entfernen}{Removing a file}}
+@git rm ''\de{datei}{file}''@
+[block]>
+
+<[block]{\de{Rekursiv entfernen}{Recursively removing a directory}}
+@git rm -r ''\de{verzeichnis}{directory}''@
+[block]>
+
+==== \de{Nur aus dem Index löschen}{Deleting files from the Index only} ====
+
+<[block]{\de{Aus dem Index entfernen, aber Working-Tree nicht verändern} \
+  {Remove from the index; don’t change the working tree}}
+@git rm -{}-cached ''\de{datei}{file}''@
+[block]>
+
+--1em--
+
+* \de{Wenn die Datei schon regulär per @rm@ gelöscht wurde} \
+     {If the file was already removed by a regular @rm@}
+* \de{Wenn die Working-Tree-Kopie erhalten bleiben soll} \
+     {If the working-tree copy should be left intact}

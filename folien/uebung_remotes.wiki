@@ -1,0 +1,28 @@
+==== \de {'''Übung:''' Remotes}{'''Exercise:''' Remotes} ====
+
+# \de{Klonen Sie das @git-test@ Repository: \
+      \\@git clone ''user''\@gitschulung.de:/repos/git-test@} \
+     {Clone the @git-test@ repository: \
+      \\@git clone ''user''\@gitschulung.de:/repos/git-test@ }
+# \de{Erstellen Sie einen Commit in @master@ und laden Sie diesen hoch \
+      (@git push origin master@)} \
+     {Create a comit in @master@ and upload it to (@git push origin master@)}
+## \de{Es kann sein, das dies fehlschlägt -- warum?} \
+      {it may fail -- why?}
+## \de{Was können Sie tun, um die Situation zu beheben? \
+       (Mehrere Möglichkeiten)} \
+      {What can you do to solve this situation? (multiple options)}
+# \de{Erstellen Sie auf einem neuen lokalen Branch mit beliebigem \
+      Namen neue Commits und laden Sie den Branch dann in das Remote hoch} \
+     {Create new commits on a new local branch with a random name and \
+      upload it into the remote}
+# \de{Warten Sie, bis Ihr Nachbar einen Branch hochgeladen hat -- \
+      führen Sie dann @git fetch origin@ aus, um Ihre \
+      Remote-Tracking-Branches zu aktualisieren} \
+     {Wait until your neighbour uploaded a branch -- \
+      then execute @git fetch origin@ in order to update your \
+      remote tracking branches}
+# \de{Betrachten Sie alle Remote-Tracking-Branches mit\
+      \\@git branch -r@ und @gitk -{}-all@} \
+     {Look at all remote tracking branches with \
+      \\@git branch -r@ and @gitk -{}-all@}

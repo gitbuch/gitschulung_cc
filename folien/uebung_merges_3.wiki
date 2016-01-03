@@ -1,0 +1,5 @@
+==== '''Übung:''' Rerere und Cherry-Pick ====
+
+# Erstellen Sie einen Throw-Away-Integration-Branch und probieren Sie, mehrere Branches gleichzeitig zu integrieren
+# Schalten Sie @rerere.enabled@ auf @true@. Lösen Sie dann einen Konflikt, um den entstandenen Merge-Commit anschließend mit @reset -{}-hard@ wieder zu löschen. Führen Sie dann den Merge noch einmal aus. (Rerere sollte Ihre vorige Konfliktlösung gespeichert haben.)
+# Übernehmen Sie einzelne Commits aus einem Branch nach @master@ (@cherry-pick@)

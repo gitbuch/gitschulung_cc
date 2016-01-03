@@ -1,0 +1,31 @@
+==== Tags ====
+
+* \de{Tags markieren wichtige Commits in der Entwicklungsgeschichte von einem Projekt, z.\,B.\ Releases.}{Tags are used to mark important commits in the development history, e.\,g. releases}
+
+--.5cm--
+
+<[block]{Lightweight Tags}
+\de{''Nur'' eine Referenz auf einen Commit}{''Just'' a reference to a commit}
+[block]>
+
+<[block]{Annotated Tags}
+\de{Enthalten zusätzliche Informationen (Autor, Datum) eine Message, und können digital signiert werden. (Diese Tags sind der bevorzugte Weg)}{Contain additional information (author, date) a message, and can be digitally signed. (This is the preferred way)}
+[block]>
+
+==== \de{Tag-Befehle}{Tag Commands} ====
+
+<[block]{\de{Anzeigen aller Tags}{Show all tags}}
+@git tag@
+[block]>
+
+<[block]{\de{Lightweight Tag erzeugen}{Create a lightweight tag}}
+@git tag v1.0@
+[block]>
+
+<[block]{\de{Annotated Tag erzeugen}{Create an annotated tag}}
+@git tag -a v1.0 -m "tag message"@
+[block]>
+
+<[block]{\de{Tag löschen}{Delete tag}}
+@git tag -d v1.0@
+[block]>

@@ -1,0 +1,4 @@
+==== EGit: Reset ====
+
+* ''History-View'' --> ''Reset''
+* ''Repository-View'' --> ''Reset...''

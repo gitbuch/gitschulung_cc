@@ -1,0 +1,20 @@
+==== GUI vs. Shell ====
+
+<<<bilder/gui-vs-shell.jpg,scale=.33>>>
+
+==== GUI vs. Shell ====
+
+* '''Pro:''' \de{GUI ist besser als die Shell}{GUI is better than the Shell}
+** \de{Zunächst steile Lernkurve}{Initially steep learning curve}
+** \de{Intuitives Interface}{Intuitive interface}
+** \de{Integration in den Windows Exporer}{Good integration into the Windows Explorer}
+** \de{Gewisse Sachverhalte einfacher darstellbar}{Certain aspects easier to visualize}
+** \de{Wenig Tipparbeit nötig}{Less typing}
+
+* '''Contra:''' \de{GUI ist schlechter als die Shell}{GUI is worse than the Shell}
+** \de{GUIs sind meist nur ein Überbau des Kommandos @git@} \
+      {Mostly just a wrapper around the @git@ command line tool}
+** \de{Viele Feinheiten sind via GUI nicht zu bewerkstelligen} \
+      {Many subtleties cannot be properly expressed in a GUI}
+** \de{Erschwerte Nachvollziehbarkeit von Tutorials, Doku, Expertenmeinung} \
+      {Difficult to follow most if not all tutorials, documentation and technical advice}

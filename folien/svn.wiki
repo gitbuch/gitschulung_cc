@@ -1,0 +1,42 @@
+==== SVN und Git ====
+
+* Git kann direkt mit SVN-Repositories umgehen
+** Import der SVN-Einträge
+** Export von Git-Commits
+
+* Konzepte von Git und SVN sind allerdings unterschiedlich
+** SVN bevorzugt eine komplett lineare Entwicklungsgeschichte
+** Git ermuntert zur Entwicklung in vielen Branches
+
+* Importierte SVN-Geschichte ist linear
+* Zu exportierende Git-Commits müssen linearisiert werden
+
+==== @git svn@ -- Der SVN-Layer ====
+
+<[block]{Ein SVN-Repository importieren}
+@git svn clone svn://''hostname''/svn/trunk@
+[block]>
+
+<[block]{Auf neue SVN-Änderungen überprüfen}
+@git svn fetch@
+[block]>
+
+<[block]{Einen Branch @''feature''@ nach SVN hochladen}
+@git checkout ''feature''@\\
+@git svn rebase~~\# "fetch" passiert automatisch@\\
+@git svn dcommit@
+[block]>
+
+==== Vorteile von @git svn@ ====
+
+* Flexibles Branching von Git
+** Erlaubt aufgabenorientierte Entwicklung
+
+* Ein Branch kann lange Zeit entwickelt werden
+** Änderungen müssen ''nicht'' direkt ins SVN-Repo einfließen
+** Branch basiert jeweils auf dem neusten SVN-Status
+** Patch der Änderungen in einem Branch können vorerst per Patch verteilt werden
+
+* Internet-Verbindung nur notwendig bei @git svn dcommit@!
+** @git svn log@ etc. funktionieren auch offline (und sind schneller)
+

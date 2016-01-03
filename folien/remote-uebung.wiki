@@ -1,0 +1,56 @@
+==== \de{Iterationen}{Iterations} ====
+
+# Push \& Pull
+# Fetch \& Rebase
+# \de{Eigene Branches hochladen}{Upload branches}
+# \de{Eigene Branches lokal, selbständiges Mergen} \
+     {Merge local branches}
+
+==== Iteration 1: Push \& Pull ====
+
+# \de{Commits direkt auf @master@ machen} \
+     {Commit directly onto @master@}
+# \de{Fertig:}{Done:} @git push@
+# \de{Schlug fehl?}{In case it fails:}
+## @git pull@
+## @git push@
+
+==== Iteration 2: Fetch \& Rebase ====
+
+# \de{Commits direkt auf @master@ machen} \
+     {Commit directly on @master@}
+# \de{Fertig:}{Done:} @git push@
+# \de{Schlug fehl?}{In case it fails:}
+## @git pull -{}-rebase@
+## @git push@
+
+==== Iteration 3: \de{Eigene Branches hochladen}{Uploading branches} ====
+
+# \de{Eigenen Branch erstellen, z.\,B.} \
+     {Create a branch in your private namespace, e.\,g.} @jp/feature@
+# \de{Dort Commits machen, periodisch hochladen, Bescheid sagen} \
+     {Commit, push; when done, tell the integration manager}
+# \de{Integration Manager kümmert sich um @master@} \
+     {Integration manager is responsible for @master@}
+# \de{Eigenen Branch löschen} \
+     {Delete branch (also in the remote repo\!)}
+# Remote-Pruning (@git remote prune origin@)
+
+==== Iteration 4: Eigene Branches lokal, selbständiges Mergen ====
+
+# \de{Eigenen Branch erstellen, z.\,B.} \
+     {Create a branch in your private namespace, e.\,g.} @jp/feature@
+# \de{Dort Commits machen, ''nicht'' hochladen} \
+     {Commit, do ''not'' upload your branch}
+# \de{Gerne mit interaktivem Rebase aufräumen} \
+     {Try interactive rebase a few times}
+# \de{Wenn fertig:}{Done:}
+## \de{@master@ auschecken, Pullen}{Check out @master@, pull}
+## @git merge ''feature-branch''@
+## @git push@
+
+==== \de{Referenz: Workflow-Diagramm}{As a reference: the workflow diagram} ====
+
+<[center]
+<<<bilder/branch-model.pdf,scale=0.17>>>
+[center]>

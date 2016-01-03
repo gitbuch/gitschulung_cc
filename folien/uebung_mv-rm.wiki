@@ -1,0 +1,8 @@
+==== \de{'''Übung:''' Umbenennen und löschen}{'''Exercise:''' Renaming and Deleting} ====
+
+# \de{Verschieben Sie eine Datei mit @git mv@ und schauen Sie die Veränderung per @git status@ an} \
+     {Move a file using @git mv@ and observe what happens with @git status@}
+# \de{Verschieben Sie die Datei mit @mv@, und führen Sie anschließend ein @git add@ mit dem alten und neuen Dateinamen aus} \
+     {Move a file using a regular @mv@; then use @git rm@ on the old and a @git add@ on the new file name}
+# \de{Fügen Sie ''dem Index'' eine neue Datei hinzu, und löschen Sie sie dann wieder (aber nur aus dem Index\!)} \
+     {Add a new file ''to the index'', and delete it again (but just from the index\!)}

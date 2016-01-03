@@ -1,0 +1,13 @@
+==== @rerere@: reuse recorded resolution ====
+
+* Es tritt ein Merge-Konflikt auf
+** Trat genau dieser Konflikt schon einmal auf, so wird die damals gefundene Lösung als »Voreinstellung« bereitgestellt
+** Sonst  muss der Konflikt manuell behoben werden, die Lösung wird automatisch abgespeichert
+
+--.5cm--
+* In Kombination mit Throw-Away-Integration sehr praktisch für Topic-Branches, die lange Zeit entwickelt werden
+
+--.5cm--
+<[block]{@rerere@-Funktionalität global aktivieren}
+@git config -{}-global rerere.enabled true@
+[block]>

@@ -1,0 +1,14 @@
+==== \de{Einen Commit rückgängig machen: @revert@}{Reverting changes from a commit} ====
+
+* \de{@revert@ macht einen Commit rückgängig}{@git revert@ reverts changes introduced by a commit}
+** \de{Das Gegenteil des Commits wird als neuer Commit erstellt} \
+      {The opposite changeset will be created ''as a new commit''}
+** \de{Ähnlich wie @patch -r@}{Similar to @patch -r@ (reverse patching)}
+
+--2em--
+
+<[block]{\de{Gegenteil des jünsten Commits}{Applying the reverse of the most recent commit}}
+@git revert HEAD@
+[block]>
+
+%%% TODO Wollen wir "git revert -m 1 ..." erklären?

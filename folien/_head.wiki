@@ -1,0 +1,3 @@
+>>>autotemplate.wiki<<<
+
+\toggletrue{de}

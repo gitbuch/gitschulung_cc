@@ -1,0 +1,6 @@
+==== \de{'''Übung:'''  Git konfigurieren}{'''Exercise:''' Configure Git} ====
+
+# \de{Setzen Sie mit @git config@ Benutzernamen und E-Mail-Adresse}{Use @git config@ to set username and e-mail address}
+# \de{Fragen Sie die Einstellungen auf der Kommandozeile ab}{Query the settings from the command line}
+# \de{Schauen Sie in @\~{}/.gitconfig@ nach, welche Auswirkungen Ihre Kommandos hatten} \
+     {Check the contents of @\~{}/.gitconfig@ to see the effects of your commands}
