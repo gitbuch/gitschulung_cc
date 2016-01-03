@@ -8,4 +8,7 @@
     \author{Valentin Hänel, Julius Plenz}
     \date{--Datum--}
     \titlepage
+    \begin{center}
+        \includegraphics[width=3em]{bilder/cc.png}
+    \end{center}
 \end{frame}
