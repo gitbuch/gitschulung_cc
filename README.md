@@ -10,10 +10,15 @@ Die Materialien sind komplett zweisprachig deutsch/englisch.
 Durch `mv deckblatt-en.wiki deckblatt.wiki && make` wird die englische Version
 produziert.
 
+Die Folien wurden mit dem GPL lizensierten
+[wiki2beamer](http://wiki2beamer.sourceforge.net/) realisiert. Das Programm ist
+als Abhängigkeit unter `folien/wiki2beamer` inkludiert.
+
 Diverse Teile der Schulung sind per Default nicht eingebunden (z.B.
 Gerrit, Gitolite). Am schnellsten findet man diese per
 `./find-unused.sh` im Verzeichnis `folien/`; eine entsprechende
 Include-Zeile in einer der Session-Datein aktiviert sie.
+
 
 Lizenz
 ======
