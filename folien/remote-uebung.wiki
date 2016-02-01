@@ -51,6 +51,7 @@
 
 ==== \de{Referenz: Workflow-Diagramm}{As a reference: the workflow diagram} ====
 
+
 <[center]
-<<<bilder/branch-model.pdf,scale=0.17>>>
+<<<bilder/gitflow-annotated.pdf,scale=0.10>>>
 [center]>

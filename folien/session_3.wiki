@@ -31,8 +31,6 @@
 
 >>>remotes-simple.wiki<<<
 
->>>pushnpull.wiki<<<
-
 >>>uebung_remotes.wiki<<<
 
 >>>remotes-advanced.wiki<<<
@@ -40,5 +38,11 @@
 === \de{Übung: Gemeinsam ein Projekt erstellen}{Practice: Working together on a Project} ===
 ==== \de{Übersicht}{Overview} ====
 \tableofcontents[currentsection,currentsubsection]
+
+>>>pushnpull.wiki<<<
+
+>>>rebaseforce.wiki<<<
+
+>>>gitflow.wiki<<<
 
 >>>remote-uebung.wiki<<<
