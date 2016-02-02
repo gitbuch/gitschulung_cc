@@ -1,0 +1,78 @@
+>>>deckblatt.wiki<<<
+
+== Git Workshop ==
+
+=== Intro ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+==== Vorläufiges Programm: ====
+
+* Begriffsbildung
+* Staging-Area/Index
+* Objektmodell und gerichtete azyklishe Graphen
+* Der Push'n'Pull Workflow
+* Branches, Tags, Merges und Rebase
+* Remote-Repositories
+
+--2cm--
+
+Folien: siehe ****(?)
+
+==== Ziele: ====
+
+* Git Basiswissen erarbeiten
+* Durch Verständnis der Interna, Git besser verstehen
+* Einen einfachen Workflow lernen
+
+=== Begriffsbildung ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>distributed-vs-centralized.wiki<<<
+
+>>>begriffe.wiki<<<
+
+=== Staging-Area/Index Objektmodell, Graphen ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>index.wiki<<<
+
+>>>reset.wiki<<<
+
+=== Objektmodell und Graphen ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+Jetzt geht es an die Interna
+
+>>>interna.wiki<<<
+
+=== Push-n-pull Workflow ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>pushnpull.wiki<<<
+
+=== Branches, Merges und Rebase ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>branches.wiki<<<
+
+>>>merge.wiki<<<
+
+>>>merge_conflict.wiki<<<
+
+>>>merge-no-ff.wiki<<<
+
+>>>rebase.wiki<<<
+
+=== Remotes und Forks ===
+==== \de{Übersicht}{Overview} ====
+\tableofcontents[currentsection,currentsubsection]
+
+>>>remotes-simple.wiki<<<
+
+>>>remotes-advanced.wiki<<<
