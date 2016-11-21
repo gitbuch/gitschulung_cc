@@ -133,7 +133,7 @@
 [block]>
 
 <[block]{\de{Remote umbenennen}{Renaming a remote}}
-@git remote rename ''alt'' ''neu''@
+@git remote rename \de{''alt'' ''neu''}{''old'' ''new''}@
 [block]>
 
 <[block]{\de{Remote löschen}{Delete a remote}}
