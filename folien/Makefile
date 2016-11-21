@@ -39,6 +39,6 @@ clean:
 		done; \
 	fi
 
-workshop.wiki%:
-	[ -s workshop.wiki ] && ./wiki2beamer < workshop.wiki > workshop.tex
-	[ -s workshop.tex  ] && pdflatex workshop && pdflatex workshop
+workshop:
+	[ -s workshop.wiki ] && ./wiki2beamer workshop.wiki > workshop.tex
+	[ -s workshop.tex  ] && pdflatex workshop.tex && pdflatex workshop.tex
