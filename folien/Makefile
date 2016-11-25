@@ -38,3 +38,7 @@ clean:
 			[ -e $${pdf%.pdf}.wiki ] && rm -v $${pdf} || true; \
 		done; \
 	fi
+
+workshop:
+	[ -s workshop.wiki ] && ./wiki2beamer workshop.wiki > workshop.tex
+	[ -s workshop.tex  ] && pdflatex workshop.tex && pdflatex workshop.tex
