@@ -1,0 +1,107 @@
+==== Floating the Patch-Stack====
+
+* Originally from OSS development
+* Maintaining a "patch-stack" of changes
+* Useful in our context
+* Allows us to move code more freely
+
+==== Floating the Patch-Stack====
+
+* Combines @rebase@ and @cherry-pick@
+* Make it easier to isolate changes
+* Move them from experimental branches to master or anywhere else
+
+==== Initial State ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-initial.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* One @master@
+* Two experimental branches:
+** @spam@
+** @ham@
+[columns]>
+
+==== Cherry-Pick to Include ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-cherry-pick-include.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* The commit @k@ is cherry-picked from @spam@ onto @ham@
+* Useful for immediate inclusion of an important feature
+* No need to wait until it hit's master
+[columns]>
+
+
+==== Cherry-Pick to Pull-Request ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-cherry-pick-pr.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* Commit @t@ is cherry-picked to master
+* A pull-request is submitted and merged
+* @master@ now includes @t@
+[columns]>
+
+==== Rebase to Filter ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-rebase-to-filter.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* @ham@ is rebased onto master
+* @t@ is filtered from the branch
+* ... because it exists already in @master@
+[columns]>
+
+==== Rebase to Update ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-rebase-to-update.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* @spam@ is rebased onto master
+* @t@ is now included in @spam@
+* ... because it exists already in @master@
+[columns]>
+
+==== Cherry-Pick, Pull-Request and Rebase ====
+
+<[columns]
+[[[ 3cm ]]]
+<[center]
+<<<bilder/ftps-final.pdf, scale=0.2>>>
+[center]>
+[[[ 7cm ]]]
+* After more cherry-pick, rebase and pull-request action
+* @k@ is now included in @master@
+* And was filtered from @spam@ and @ham@
+[columns]>
+
+
+==== Conclusions ====
+
+* Might seem complex
+* However: better than copying code or files
+* Requires some initial practice
+
+==== Conclusions ====
+
+* Conflicts are always possible
+* Make it easy for everyone:
+** Keep the code modularized
+** Keep the patch-stack small
+** Keep the commits small (and clean)
