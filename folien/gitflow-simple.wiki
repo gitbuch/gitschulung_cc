@@ -1,0 +1,20 @@
+==== Branch-Modell: GitFlow====
+
+<[columns]
+[[[ 5cm ]]]
+<[center]
+<<<bilder/gitflow.pdf, scale=0.1>>>
+[center]>
+[[[ 5.5cm ]]]
+* Angelehnt an \href{http://nvie.com/posts/a-successful-git-branching-model/}{gitflow}
+
+--1cm--
+
+* Branches
+** @master@ --> Stabil
+** @next@ --> Vorbereitung
+** @feature@ --> Feature-Entwicklung
+** @release@ --> Letzte Releasearbeiten
+** @hotfix@ --> Hotfixes
+[columns]>
+
