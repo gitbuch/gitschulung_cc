@@ -13,12 +13,12 @@
 @git log -{}-stat -3@
 [block]>
 
-<[block]{\de{Liste aller Commits in Kurzform anzeigen} \
-            {A brief list of all commits}}
-@git log -{}-oneline@
+<[block]{\de{Nur merge commits anzeigen} \
+            {Show only merge commits}}
+@git log -{}-merges@
 [block]>
 
-<[block]{\de{Den aktuellsten Commit im @master@ anzeigen} \
+<[block]{\de{Den aktuellen Commit im @master@ anzeigen} \
             {Show the most recent commit on @master@}}
 @git show master@
 [block]>
