@@ -91,5 +91,5 @@
 * \de{Erst dann sollten die Commits veröffentlicht werden}{Only after cleaning up you should publish your commits}
 
 --.5cm--
-\de{!'''Achtung\!'''! Auch hier gilt wieder: Nur unveröffentlichte Commits verändern!} \
+\de{!'''Achtung\!'''! Auch hier gilt wieder: Nur unveröffentlichte Commits verändern\!} \
    {!'''Warning\!'''! Note again: Only rebase not-yet-published commits\!}
