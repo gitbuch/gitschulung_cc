@@ -4,9 +4,6 @@
      {Create two branches from the same commit}
 # \de{Erstellen Sie Commits auf beiden Branches}\
      {Create commits on each of those branches}
-# \de{Schauen Sie sich das Ergebnis mit folgendem Kommando an: \
-      \qquad{}@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}\
-      {View the result using \\\qquad{}@git log -{}-oneline -{}-graph -{}-decorate -{}-all@}
 # \de{Rufen Sie @gitk -{}-all@ auf}\
      {Call @gitk -{}-all@}
 # \de{Listen Sie alle vorhandenen Branches mit @git branch -av@ auf}\
