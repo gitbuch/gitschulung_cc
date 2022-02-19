@@ -5,11 +5,11 @@
 ==== GUI vs. Shell ====
 
 * '''Pro:''' \de{GUI ist besser als die Shell}{GUI is better than the Shell}
-** \de{Zunächst steile Lernkurve}{Initially steep learning curve}
+** \de{Zunächst flache Lernkurve}{Initially shallow learning curve}
 ** \de{Intuitives Interface}{Intuitive interface}
-** \de{Integration in den Windows Exporer}{Good integration into the Windows Explorer}
 ** \de{Gewisse Sachverhalte einfacher darstellbar}{Certain aspects easier to visualize}
 ** \de{Wenig Tipparbeit nötig}{Less typing}
+** \de{Integration in den Windows Exporer}{Good integration into the Windows Explorer}
 
 * '''Contra:''' \de{GUI ist schlechter als die Shell}{GUI is worse than the Shell}
 ** \de{GUIs sind meist nur ein Überbau des Kommandos @git@} \
@@ -18,3 +18,6 @@
       {Many subtleties cannot be properly expressed in a GUI}
 ** \de{Erschwerte Nachvollziehbarkeit von Tutorials, Doku, Expertenmeinung} \
       {Difficult to follow most if not all tutorials, documentation and technical advice}
+
+* \de{Es ist nützlich die Shell mal gesehen zu haben, aber für den Alltag ist eine GUI für viele User sinnvoller}\
+     {It is useful to have seen the shell, but for many users a GUI will be easier for every-day work}
