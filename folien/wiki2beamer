@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+# -*- coding: utf8 -*-
 
 # wiki2beamer
 #
 # (c) 2007-2008 Michael Rentzsch (http://www.repc.de)
 # (c) 2009-2011 Michael Rentzsch (http://www.repc.de)
 #               Kai Dietrich (mail@cleeus.de)
+# (c) 2018      Valentin Haenel (valentin@haenel.co)
 #
 # Create latex beamer sources for multiple frames from a wiki-like code.
 #
@@ -33,9 +35,10 @@ import os
 import re
 import random
 import optparse
+import codecs
 
 
-VERSIONTAG = "0.9.5"
+VERSIONTAG = "0.10.0"
 __version__= VERSIONTAG
 __author__= "Michael Rentzsch, Kai Dietrich and others"
 
@@ -47,7 +50,11 @@ else:
 #python 2.4 compatability
 def md5hex(string):
     if sys.version_info >= (2, 5):
-        return hashlib.md5(string).hexdigest()
+        # presume that this is valid for all pythin versions after 3
+        if sys.version_info >= (3, 0):
+            return hashlib.md5(string.encode('utf-8')).hexdigest()
+        else:
+            return hashlib.md5(string).hexdigest()
     else:
         dg = md5.md5()
         dg.update(string)
@@ -62,7 +69,11 @@ def pprint(string, file=sys.stdout, eol=True):
     if file == sys.stderr and _redirected_stderr is not None:
         file = _redirected_stderr
 
-    file.write(string)
+    if file == sys.stderr or file == sys.stdout:
+        file.write(string)
+    else:
+        file.write(string.encode('utf-8'))
+    
     if eol:
         file.write(os.linesep)
     file.flush()
@@ -198,8 +209,8 @@ def transform_itemenums(string, state):
     state.enum_item_level = my_enum_item_level
 
     # now, substitute item markers
-    p = re.compile("^([\*\#]+)\s*(.*)$")
-    _string = p.sub(r"  \\item \2", string)
+    p = re.compile("^([\*\#]+)((?:\[[^\]*]\])?)\s*(.*)$")
+    _string = p.sub(r"  \\item\2 \3", string)
     string = preamble + _string
 
     return string
@@ -228,6 +239,25 @@ def transform_detect_manual_frameclose(string, state):
 
 def get_frame_closing(state):
     return " %s \n\\end{frame}\n" % state.frame_footer
+
+def transform_spec_to_title_slide(string, state):
+
+    frame_opening = r"\n\\begin{frame}\n\\frametitle{}\n\\begin{center}\n{\\Huge \1}\n\\end{center}\n"
+    frame_closing = escape_resub(get_frame_closing(state))
+
+    p = re.compile("^=!\s*(.*?)\s*!=(.*)", re.VERBOSE)
+
+    if not state.frame_opened:
+        _string = p.sub(frame_opening, string)
+    else:
+        _string = p.sub(frame_closing + frame_opening, string)
+
+    if (string != _string):
+        state.frame_opened = True
+        state.switch_to_next_frame()
+
+
+    return _string
 
 def transform_h4_to_frame(string, state):
     """headings (3) to frames"""
@@ -418,13 +448,13 @@ def transform_vspacestar(string):
 def transform_uncover(string):
     """uncover"""
     p = re.compile("\+<(.*)>\s*{(.*)") # +<1-2>{.... -> \uncover<1-2>{....
-    string = p.sub(r"\uncover<\1>{\2", string)
+    string = p.sub(r"\\uncover<\1>{\2", string)
     return string
 
 def transform_only(string):
     """only"""
     p = re.compile("-<(.*)>\s*{(.*)") # -<1-2>{.... -> \only<1-2>{....
-    string = p.sub(r"\only<\1>{\2", string)
+    string = p.sub(r"\\only<\1>{\2", string)
     return string
 
 def transform(string, state):
@@ -433,6 +463,7 @@ def transform(string, state):
     #string = transform_itemenums(string, state)
     string = transform_define_foothead(string, state)
     string = transform_detect_manual_frameclose(string, state)
+    string = transform_spec_to_title_slide(string,state)
     string = transform_h4_to_frame(string, state)
     string = transform_h3_to_subsec(string, state)
     string = transform_h2_to_sec(string, state)
@@ -464,13 +495,13 @@ def expand_code_make_lstlisting(content, options):
     return "\\begin{lstlisting}%s%s\\end{lstlisting}" % (options, content)
 
 def expand_code_search_escape_sequences(code):
-    open = '1'
-    close = '2'
-    while code.find(open) != -1 or code.find(close) != -1:
-        open = open + chr(random.randint(48,57))
-        close = close + chr(random.randint(48,57))
+    esc_open = '1'
+    esc_close = '2'
+    while code.find(esc_open) != -1 or code.find(esc_close) != -1:
+        esc_open = esc_open + chr(random.randint(48,57))
+        esc_close = esc_close + chr(random.randint(48,57))
 
-    return (open,close)
+    return (esc_open,esc_close)
 
 def expand_code_tokenize_anims(code):
     #escape
@@ -607,7 +638,7 @@ def expand_code_getname(code):
         '4':'e', '5':'f', '6':'g', '7':'h', '8':'i', '9':'j', \
         'a':'k', 'b':'l', 'c':'m', 'd':'n', 'e':'o', 'f':'p' \
     }
-    hexhash = md5hex(code.encode('utf8'))
+    hexhash = md5hex(code)
     alphahash = ''.join(hex2alpha_table[x] for x in hexhash)
     return alphahash
 
@@ -791,16 +822,19 @@ def expand_autotemplate_gen_opening(autotemplate):
         the string the with generated latex code
     """
     titleframe = False
+    titleframeopts = ''
     out = []
     for item in autotemplate:
-        if item[0]!='titleframe':
-            out.append('\\%s%s' % item)
-        else:
+        if item[0] == 'titleframe':
             titleframe = parse_bool(item[1])
+        elif item[0] == 'titleframeopts':
+            titleframeopts = item[1]
+        else:
+            out.append('\\%s%s' % item)
 
     out.append('\n\\begin{document}\n')
     if titleframe:
-        out.append('\n\\frame{\\titlepage}\n')
+        out.append('\n\\frame%s{\\titlepage}\n' % titleframeopts)
 
     return '\n'.join(out)
 
@@ -880,7 +914,7 @@ def joinLines(lines):
 def read_file_to_lines(filename):
     """ read file """
     try:
-        f = open(filename, "r")
+        f = codecs.open(filename, "r", encoding='UTF-8')
         lines = joinLines(f.readlines())
         f.close()
     except:
@@ -1047,10 +1081,10 @@ def convert2beamer_full(lines):
                 codebuffer = []
             elif not _codemode and codemode: #code mode was turned off
                 expand_code_segment(result, codebuffer, state)
-            codemode = _codemode
 
-            if codemode:
+            if codemode or _codemode:
                 codebuffer.append(line)
+                codemode = _codemode
             else:
                 (line, _autotemplatemode) = get_autotemplatemode(line, autotemplatemode)
                 if _autotemplatemode and not autotemplatemode: #autotemplate mode was turned on
